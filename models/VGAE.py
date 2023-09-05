@@ -2,7 +2,8 @@ import torch
 import dgl
 from torch import nn
 from dgl.nn import GraphConv
-
+from torch.nn import parameter
+import torch.nn.functional as F
 TODO = """
 Features of the nodes: Relative Position [x, y]
 Input = Perturbed dgl.graph with missing edges.
@@ -24,6 +25,8 @@ The idea of the Encoder in the VGAE is:
 class VGAE(nn.module):
 
     def __init__(self, in_feats, out_feats):
+        super(VGAE, self).__init__()
+
         self.GCN        = GraphConv(in_feats,  out_feats, allow_zero_in_degree = True)
         self.mean_GCN   = GraphConv(out_feats, out_feats, allow_zero_in_degree = True)
         self.std_GCN    = GraphConv(out_feats, out_feats, allow_zero_in_degree = True)
@@ -32,11 +35,7 @@ class VGAE(nn.module):
         h1 = self.GCN(graph, feat)
         return self.mean_GCN(graph, h1), self.std_GCN(graph, h1)
     
-    def decode(self, z):
-        out_matrix = torch.matmul(z, z.T) #The only possitions that matters are either the ones in the upper or lower triangular
-        return nn.Sigmoid(out_matrix) #Probabilities
-    
-    def rpm_trick(self, mean, std):
+    def reparametrize(self, mu, logvar):
         """
         Decoder return the a matrix with the scores of the dot product between all the vectors
         
@@ -44,12 +43,16 @@ class VGAE(nn.module):
         We should sample some edges that contains erase and non erase edges and then observe the score.
 
         """
-        normal = torch.randn(size = mean.shape) #torch.randn generates numbers based on a normal distribution
-        z = mean + std * normal
-        return z
-
+        std = logvar.mul(0.5).exp_()
+        eps = torch.cuda.FloatTensor(std.size()).normal_()
+        eps = parameter(eps)
+        return eps.mul(std).add_(mu) # Scale-location transformation of N(0, 1)
+    
+    def decode(self, z):
+        out_matrix = torch.matmul(z, z.T) #The only possitions that matters are either the ones in the upper or lower triangular
+        return F.sigmoid(out_matrix) #Probabilities
+    
     def forward(self, graph, feat, edges):
-        mean, log_var = self.encode(graph, feat) #Returns two torch.tensors representing the mean and the log variance
-        std = log_var.mul(0.5).exp_()
-        z = self.rpm_trick(mean, std)  #Z is a matrix (numb_nodes x hidden_dim)
-        return self.decode(z)
+        mu, logvar = self.encode(graph, feat) #Returns two torch.tensors representing the mean and the log variance
+        z = self.reparametrize(mu, logvar)
+        return self.decode(z), mu, logvar
