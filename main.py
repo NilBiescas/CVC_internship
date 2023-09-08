@@ -4,7 +4,7 @@ from torch.utils.data import DataLoader
 import dgl
 from pathlib import Path
 
-BASE_DIR = Path("/home/nbiescas/Desktop/CVC/CVC_internship")
+BASE_DIR = Path("/home/nbiescas/Desktop/CVC/CVC_internship") #or Path().absolute()
 DATA_PATH = BASE_DIR / "omniglot.npz"
 
 def collate(graphs):
