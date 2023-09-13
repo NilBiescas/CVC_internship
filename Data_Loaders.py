@@ -17,9 +17,9 @@ def collate(graphs):
 def loaders(DATA_PATH):
     trainset, validset, testset = load_npz_file(DATA_PATH)
 
-    Train_Graphs = [read_letter(graph) for graph in trainset[:10]]
-    Valid_Graphs = [read_letter(graph) for graph in validset[:10]]
-    Test_Graphs  = [read_letter(graph) for graph in testset[:10]]
+    Train_Graphs = [dgl.to_double(read_letter(graph)) for graph in trainset[:10]]
+    Valid_Graphs = [dgl.to_double(read_letter(graph)) for graph in validset[:10]]
+    Test_Graphs  = [dgl.to_double(read_letter(graph)) for graph in testset[:10]]
 
     train_loader    = DataLoader(Train_Graphs, batch_size=1, shuffle = True, collate_fn=collate)
     val_loader      = DataLoader(Valid_Graphs, batch_size=1, collate_fn=collate)

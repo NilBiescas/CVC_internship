@@ -42,7 +42,8 @@ def read_letter(data, self_loops = True):
 
     src, dst = np.nonzero(adj_matrix)
     g = dgl.graph((src, dst))
-    g.ndata['feat'] = torch.from_numpy(node_feat)
+    g.ndata['feat'] = torch.from_numpy(node_feat).type(torch.DoubleTensor)
+
 
     #G = nx.from_numpy_array(am) # Createa a graph from an adjacency matrix
     #nx.set_node_attributes(G, node_label, 'position')

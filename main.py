@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     train_loader, val_loader, test_loader = loaders(DATA_PATH)
    
-    model = VGAEModel(2, 10, 15)
+    model = VGAEModel(2, 10, 15).double()
     if torch.cuda.is_available():
         model = model.to(device)
 
