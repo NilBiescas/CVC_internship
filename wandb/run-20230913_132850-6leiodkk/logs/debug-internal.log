@@ -1,0 +1,188 @@
+2023-09-13 13:28:50,112 INFO    StreamThr :312897 [internal.py:wandb_internal():86] W&B internal server running at pid: 312897, started at: 2023-09-13 13:28:50.111891
+2023-09-13 13:28:50,116 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: status
+2023-09-13 13:28:50,117 INFO    WriterThread:312897 [datastore.py:open_for_write():85] open: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/run-6leiodkk.wandb
+2023-09-13 13:28:50,118 DEBUG   SenderThread:312897 [sender.py:send():379] send: header
+2023-09-13 13:28:50,120 DEBUG   SenderThread:312897 [sender.py:send():379] send: run
+2023-09-13 13:28:50,537 INFO    SenderThread:312897 [dir_watcher.py:__init__():211] watching files in: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files
+2023-09-13 13:28:50,537 INFO    SenderThread:312897 [sender.py:_start_run_threads():1121] run started: 6leiodkk with start time 1694604530.111858
+2023-09-13 13:28:50,546 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: check_version
+2023-09-13 13:28:50,547 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: check_version
+2023-09-13 13:28:50,679 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: run_start
+2023-09-13 13:28:50,707 DEBUG   HandlerThread:312897 [system_info.py:__init__():32] System info init
+2023-09-13 13:28:50,708 DEBUG   HandlerThread:312897 [system_info.py:__init__():47] System info init done
+2023-09-13 13:28:50,708 INFO    HandlerThread:312897 [system_monitor.py:start():181] Starting system monitor
+2023-09-13 13:28:50,708 INFO    SystemMonitor:312897 [system_monitor.py:_start():145] Starting system asset monitoring threads
+2023-09-13 13:28:50,708 INFO    HandlerThread:312897 [system_monitor.py:probe():201] Collecting system info
+2023-09-13 13:28:50,709 INFO    SystemMonitor:312897 [interfaces.py:start():190] Started cpu monitoring
+2023-09-13 13:28:50,709 INFO    SystemMonitor:312897 [interfaces.py:start():190] Started disk monitoring
+2023-09-13 13:28:50,710 INFO    SystemMonitor:312897 [interfaces.py:start():190] Started gpu monitoring
+2023-09-13 13:28:50,710 INFO    SystemMonitor:312897 [interfaces.py:start():190] Started memory monitoring
+2023-09-13 13:28:50,711 INFO    SystemMonitor:312897 [interfaces.py:start():190] Started network monitoring
+2023-09-13 13:28:50,740 DEBUG   HandlerThread:312897 [system_info.py:probe():196] Probing system
+2023-09-13 13:28:50,742 DEBUG   HandlerThread:312897 [system_info.py:_probe_git():181] Probing git
+2023-09-13 13:28:50,748 DEBUG   HandlerThread:312897 [system_info.py:_probe_git():189] Probing git done
+2023-09-13 13:28:50,748 DEBUG   HandlerThread:312897 [system_info.py:probe():244] Probing system done
+2023-09-13 13:28:50,748 DEBUG   HandlerThread:312897 [system_monitor.py:probe():210] {'os': 'Linux-5.15.0-78-generic-x86_64-with-glibc2.31', 'python': '3.11.4', 'heartbeatAt': '2023-09-13T11:28:50.740322', 'startedAt': '2023-09-13T11:28:50.107319', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '/home/nbiescas/Desktop/CVC/CVC_internship/main.py', 'codePathLocal': 'main.py', 'codePath': 'main.py', 'git': {'remote': 'https://github.com/NilBiescas/CVC_internship.git', 'commit': '58f0ee22b487048e68f65fbfc991dbdaa0e4c450'}, 'email': 'nilbiescas3@gmail.com', 'root': '/home/nbiescas/Desktop/CVC/CVC_internship', 'host': 'cvc135', 'username': 'nbiescas', 'executable': '/home/nbiescas/miniconda3/envs/CVC/bin/python', 'cpu_count': 4, 'cpu_count_logical': 8, 'cpu_freq': {'current': 1.287, 'min': 1200.0, 'max': 3900.0}, 'cpu_freq_per_core': [{'current': 1.3, 'min': 1200.0, 'max': 3900.0}, {'current': 1.3, 'min': 1200.0, 'max': 3900.0}, {'current': 1.2, 'min': 1200.0, 'max': 3900.0}, {'current': 1.2, 'min': 1200.0, 'max': 3900.0}, {'current': 1.596, 'min': 1200.0, 'max': 3900.0}, {'current': 1.4, 'min': 1200.0, 'max': 3900.0}, {'current': 1.2, 'min': 1200.0, 'max': 3900.0}, {'current': 1.2, 'min': 1200.0, 'max': 3900.0}], 'disk': {'/': {'total': 213.53580856323242, 'used': 32.34619903564453}}, 'gpu': 'NVIDIA GeForce RTX 2080 Ti', 'gpu_count': 1, 'gpu_devices': [{'name': 'NVIDIA GeForce RTX 2080 Ti', 'memory_total': 11811160064}], 'memory': {'total': 15.530113220214844}}
+2023-09-13 13:28:50,748 INFO    HandlerThread:312897 [system_monitor.py:probe():211] Finished collecting system info
+2023-09-13 13:28:50,748 INFO    HandlerThread:312897 [system_monitor.py:probe():214] Publishing system info
+2023-09-13 13:28:50,748 DEBUG   HandlerThread:312897 [system_info.py:_save_pip():52] Saving list of pip packages installed into the current environment
+2023-09-13 13:28:50,748 DEBUG   HandlerThread:312897 [system_info.py:_save_pip():68] Saving pip packages done
+2023-09-13 13:28:50,748 DEBUG   HandlerThread:312897 [system_info.py:_save_conda():75] Saving list of conda packages installed into the current environment
+2023-09-13 13:28:51,539 INFO    Thread-12 :312897 [dir_watcher.py:_on_file_created():271] file/dir created: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/conda-environment.yaml
+2023-09-13 13:28:51,539 INFO    Thread-12 :312897 [dir_watcher.py:_on_file_created():271] file/dir created: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/requirements.txt
+2023-09-13 13:28:53,406 DEBUG   HandlerThread:312897 [system_info.py:_save_conda():87] Saving conda packages done
+2023-09-13 13:28:53,407 INFO    HandlerThread:312897 [system_monitor.py:probe():216] Finished publishing system info
+2023-09-13 13:28:53,410 DEBUG   SenderThread:312897 [sender.py:send():379] send: files
+2023-09-13 13:28:53,410 INFO    SenderThread:312897 [sender.py:_save_file():1375] saving file wandb-metadata.json with policy now
+2023-09-13 13:28:53,415 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: stop_status
+2023-09-13 13:28:53,415 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: stop_status
+2023-09-13 13:28:53,418 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: internal_messages
+2023-09-13 13:28:53,538 INFO    Thread-12 :312897 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/conda-environment.yaml
+2023-09-13 13:28:53,538 INFO    Thread-12 :312897 [dir_watcher.py:_on_file_created():271] file/dir created: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/wandb-metadata.json
+2023-09-13 13:28:54,032 INFO    wandb-upload_0:312897 [upload_job.py:push():131] Uploaded file /tmp/tmpcbu06tzewandb/zaklvo44-wandb-metadata.json
+2023-09-13 13:28:54,301 DEBUG   SenderThread:312897 [sender.py:send():379] send: telemetry
+2023-09-13 13:28:54,302 DEBUG   SenderThread:312897 [sender.py:send():379] send: telemetry
+2023-09-13 13:28:54,302 DEBUG   SenderThread:312897 [sender.py:send():379] send: run
+2023-09-13 13:28:54,538 INFO    Thread-12 :312897 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/config.yaml
+2023-09-13 13:28:54,543 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: poll_exit
+2023-09-13 13:28:54,717 INFO    SenderThread:312897 [sender.py:send_run():999] updated run: 6leiodkk
+2023-09-13 13:28:54,718 DEBUG   SenderThread:312897 [sender.py:send():379] send: telemetry
+2023-09-13 13:28:54,721 DEBUG   SenderThread:312897 [sender.py:send():379] send: telemetry
+2023-09-13 13:28:54,721 DEBUG   SenderThread:312897 [sender.py:send():379] send: exit
+2023-09-13 13:28:54,721 INFO    SenderThread:312897 [sender.py:send_exit():584] handling exit code: 1
+2023-09-13 13:28:54,721 INFO    SenderThread:312897 [sender.py:send_exit():586] handling runtime: 2
+2023-09-13 13:28:54,724 INFO    SenderThread:312897 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:28:54,724 INFO    SenderThread:312897 [sender.py:send_exit():592] send defer
+2023-09-13 13:28:54,725 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: poll_exit
+2023-09-13 13:28:54,725 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:28:54,725 INFO    HandlerThread:312897 [handler.py:handle_request_defer():170] handle defer: 0
+2023-09-13 13:28:54,726 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:28:54,726 INFO    SenderThread:312897 [sender.py:send_request_defer():608] handle sender defer: 0
+2023-09-13 13:28:54,726 INFO    SenderThread:312897 [sender.py:transition_state():612] send defer: 1
+2023-09-13 13:28:54,726 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:28:54,726 INFO    HandlerThread:312897 [handler.py:handle_request_defer():170] handle defer: 1
+2023-09-13 13:28:54,727 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:28:54,727 INFO    SenderThread:312897 [sender.py:send_request_defer():608] handle sender defer: 1
+2023-09-13 13:28:54,727 INFO    SenderThread:312897 [sender.py:transition_state():612] send defer: 2
+2023-09-13 13:28:54,727 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:28:54,727 INFO    HandlerThread:312897 [handler.py:handle_request_defer():170] handle defer: 2
+2023-09-13 13:28:54,727 INFO    HandlerThread:312897 [system_monitor.py:finish():190] Stopping system monitor
+2023-09-13 13:28:54,727 DEBUG   SystemMonitor:312897 [system_monitor.py:_start():159] Starting system metrics aggregation loop
+2023-09-13 13:28:54,727 DEBUG   SystemMonitor:312897 [system_monitor.py:_start():166] Finished system metrics aggregation loop
+2023-09-13 13:28:54,728 INFO    HandlerThread:312897 [interfaces.py:finish():202] Joined cpu monitor
+2023-09-13 13:28:54,728 DEBUG   SystemMonitor:312897 [system_monitor.py:_start():170] Publishing last batch of metrics
+2023-09-13 13:28:54,729 INFO    HandlerThread:312897 [interfaces.py:finish():202] Joined disk monitor
+2023-09-13 13:28:54,794 INFO    HandlerThread:312897 [interfaces.py:finish():202] Joined gpu monitor
+2023-09-13 13:28:54,794 INFO    HandlerThread:312897 [interfaces.py:finish():202] Joined memory monitor
+2023-09-13 13:28:54,794 INFO    HandlerThread:312897 [interfaces.py:finish():202] Joined network monitor
+2023-09-13 13:28:54,795 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:28:54,795 INFO    SenderThread:312897 [sender.py:send_request_defer():608] handle sender defer: 2
+2023-09-13 13:28:54,795 INFO    SenderThread:312897 [sender.py:transition_state():612] send defer: 3
+2023-09-13 13:28:54,795 DEBUG   SenderThread:312897 [sender.py:send():379] send: stats
+2023-09-13 13:28:54,795 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:28:54,795 INFO    HandlerThread:312897 [handler.py:handle_request_defer():170] handle defer: 3
+2023-09-13 13:28:54,795 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:28:54,795 INFO    SenderThread:312897 [sender.py:send_request_defer():608] handle sender defer: 3
+2023-09-13 13:28:54,795 INFO    SenderThread:312897 [sender.py:transition_state():612] send defer: 4
+2023-09-13 13:28:54,795 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:28:54,796 INFO    HandlerThread:312897 [handler.py:handle_request_defer():170] handle defer: 4
+2023-09-13 13:28:54,796 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:28:54,796 INFO    SenderThread:312897 [sender.py:send_request_defer():608] handle sender defer: 4
+2023-09-13 13:28:54,796 INFO    SenderThread:312897 [sender.py:transition_state():612] send defer: 5
+2023-09-13 13:28:54,796 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:28:54,796 INFO    HandlerThread:312897 [handler.py:handle_request_defer():170] handle defer: 5
+2023-09-13 13:28:54,796 DEBUG   SenderThread:312897 [sender.py:send():379] send: summary
+2023-09-13 13:28:54,797 INFO    SenderThread:312897 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:28:54,797 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:28:54,797 INFO    SenderThread:312897 [sender.py:send_request_defer():608] handle sender defer: 5
+2023-09-13 13:28:54,797 INFO    SenderThread:312897 [sender.py:transition_state():612] send defer: 6
+2023-09-13 13:28:54,797 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:28:54,797 INFO    HandlerThread:312897 [handler.py:handle_request_defer():170] handle defer: 6
+2023-09-13 13:28:54,797 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:28:54,798 INFO    SenderThread:312897 [sender.py:send_request_defer():608] handle sender defer: 6
+2023-09-13 13:28:54,802 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: status_report
+2023-09-13 13:28:54,998 INFO    SenderThread:312897 [sender.py:transition_state():612] send defer: 7
+2023-09-13 13:28:54,999 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:28:54,999 INFO    HandlerThread:312897 [handler.py:handle_request_defer():170] handle defer: 7
+2023-09-13 13:28:54,999 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:28:54,999 INFO    SenderThread:312897 [sender.py:send_request_defer():608] handle sender defer: 7
+2023-09-13 13:28:55,539 INFO    Thread-12 :312897 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/config.yaml
+2023-09-13 13:28:55,539 INFO    Thread-12 :312897 [dir_watcher.py:_on_file_created():271] file/dir created: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/wandb-summary.json
+2023-09-13 13:28:55,539 INFO    Thread-12 :312897 [dir_watcher.py:_on_file_created():271] file/dir created: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/output.log
+2023-09-13 13:28:55,543 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: poll_exit
+2023-09-13 13:28:56,733 INFO    SenderThread:312897 [sender.py:transition_state():612] send defer: 8
+2023-09-13 13:28:56,733 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: poll_exit
+2023-09-13 13:28:56,733 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:28:56,734 INFO    HandlerThread:312897 [handler.py:handle_request_defer():170] handle defer: 8
+2023-09-13 13:28:56,734 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:28:56,734 INFO    SenderThread:312897 [sender.py:send_request_defer():608] handle sender defer: 8
+2023-09-13 13:28:56,734 INFO    SenderThread:312897 [job_builder.py:build():281] Attempting to build job artifact
+2023-09-13 13:28:56,735 INFO    SenderThread:312897 [job_builder.py:_get_source_type():393] is repo sourced job
+2023-09-13 13:28:56,736 INFO    SenderThread:312897 [job_builder.py:build():369] adding wandb-job metadata file
+2023-09-13 13:28:56,740 INFO    SenderThread:312897 [sender.py:transition_state():612] send defer: 9
+2023-09-13 13:28:56,740 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:28:56,741 DEBUG   SenderThread:312897 [sender.py:send():379] send: artifact
+2023-09-13 13:28:56,741 INFO    HandlerThread:312897 [handler.py:handle_request_defer():170] handle defer: 9
+2023-09-13 13:28:57,539 INFO    Thread-12 :312897 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/output.log
+2023-09-13 13:28:57,549 INFO    SenderThread:312897 [sender.py:send_artifact():1453] sent artifact job-https___github.com_NilBiescas_CVC_internship.git_main.py - {'id': 'QXJ0aWZhY3Q6NTY2OTIwOTY1', 'state': 'COMMITTED', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjk3MTY4NjQ3', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6NTY2OTIwOTY1', 'versionIndex': 0}}}
+2023-09-13 13:28:57,549 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:28:57,549 INFO    SenderThread:312897 [sender.py:send_request_defer():608] handle sender defer: 9
+2023-09-13 13:28:57,550 INFO    SenderThread:312897 [dir_watcher.py:finish():358] shutting down directory watcher
+2023-09-13 13:28:58,540 INFO    SenderThread:312897 [dir_watcher.py:finish():388] scan: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files
+2023-09-13 13:28:58,540 INFO    SenderThread:312897 [dir_watcher.py:finish():402] scan save: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/config.yaml config.yaml
+2023-09-13 13:28:58,541 INFO    SenderThread:312897 [dir_watcher.py:finish():402] scan save: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/conda-environment.yaml conda-environment.yaml
+2023-09-13 13:28:58,541 INFO    SenderThread:312897 [dir_watcher.py:finish():402] scan save: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/requirements.txt requirements.txt
+2023-09-13 13:28:58,543 INFO    SenderThread:312897 [dir_watcher.py:finish():402] scan save: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/output.log output.log
+2023-09-13 13:28:58,546 INFO    SenderThread:312897 [dir_watcher.py:finish():402] scan save: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/wandb-metadata.json wandb-metadata.json
+2023-09-13 13:28:58,546 INFO    SenderThread:312897 [dir_watcher.py:finish():402] scan save: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/wandb-summary.json wandb-summary.json
+2023-09-13 13:28:58,548 INFO    SenderThread:312897 [sender.py:transition_state():612] send defer: 10
+2023-09-13 13:28:58,550 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:28:58,552 INFO    HandlerThread:312897 [handler.py:handle_request_defer():170] handle defer: 10
+2023-09-13 13:28:58,552 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:28:58,552 INFO    SenderThread:312897 [sender.py:send_request_defer():608] handle sender defer: 10
+2023-09-13 13:28:58,552 INFO    SenderThread:312897 [file_pusher.py:finish():175] shutting down file pusher
+2023-09-13 13:28:58,907 INFO    wandb-upload_0:312897 [upload_job.py:push():131] Uploaded file /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/config.yaml
+2023-09-13 13:28:59,004 INFO    wandb-upload_1:312897 [upload_job.py:push():131] Uploaded file /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/conda-environment.yaml
+2023-09-13 13:28:59,118 INFO    wandb-upload_2:312897 [upload_job.py:push():131] Uploaded file /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/requirements.txt
+2023-09-13 13:28:59,146 INFO    wandb-upload_4:312897 [upload_job.py:push():131] Uploaded file /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/wandb-summary.json
+2023-09-13 13:28:59,495 INFO    wandb-upload_3:312897 [upload_job.py:push():131] Uploaded file /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/files/output.log
+2023-09-13 13:28:59,695 INFO    Thread-11 (_thread_body):312897 [sender.py:transition_state():612] send defer: 11
+2023-09-13 13:28:59,696 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:28:59,696 INFO    HandlerThread:312897 [handler.py:handle_request_defer():170] handle defer: 11
+2023-09-13 13:28:59,696 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:28:59,697 INFO    SenderThread:312897 [sender.py:send_request_defer():608] handle sender defer: 11
+2023-09-13 13:28:59,697 INFO    SenderThread:312897 [file_pusher.py:join():181] waiting for file pusher
+2023-09-13 13:28:59,697 INFO    SenderThread:312897 [sender.py:transition_state():612] send defer: 12
+2023-09-13 13:28:59,697 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:28:59,697 INFO    HandlerThread:312897 [handler.py:handle_request_defer():170] handle defer: 12
+2023-09-13 13:28:59,698 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:28:59,698 INFO    SenderThread:312897 [sender.py:send_request_defer():608] handle sender defer: 12
+2023-09-13 13:28:59,698 INFO    SenderThread:312897 [file_stream.py:finish():594] file stream finish called
+2023-09-13 13:28:59,856 INFO    SenderThread:312897 [file_stream.py:finish():598] file stream finish is done
+2023-09-13 13:28:59,856 INFO    SenderThread:312897 [sender.py:transition_state():612] send defer: 13
+2023-09-13 13:28:59,856 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:28:59,856 INFO    HandlerThread:312897 [handler.py:handle_request_defer():170] handle defer: 13
+2023-09-13 13:28:59,857 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:28:59,857 INFO    SenderThread:312897 [sender.py:send_request_defer():608] handle sender defer: 13
+2023-09-13 13:28:59,857 INFO    SenderThread:312897 [sender.py:transition_state():612] send defer: 14
+2023-09-13 13:28:59,858 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:28:59,858 DEBUG   SenderThread:312897 [sender.py:send():379] send: final
+2023-09-13 13:28:59,858 INFO    HandlerThread:312897 [handler.py:handle_request_defer():170] handle defer: 14
+2023-09-13 13:28:59,858 DEBUG   SenderThread:312897 [sender.py:send():379] send: footer
+2023-09-13 13:28:59,858 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:28:59,859 INFO    SenderThread:312897 [sender.py:send_request_defer():608] handle sender defer: 14
+2023-09-13 13:28:59,860 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: internal_messages
+2023-09-13 13:28:59,860 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: poll_exit
+2023-09-13 13:28:59,861 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: poll_exit
+2023-09-13 13:28:59,862 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: server_info
+2023-09-13 13:28:59,862 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: get_summary
+2023-09-13 13:28:59,862 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: sampled_history
+2023-09-13 13:28:59,862 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: job_info
+2023-09-13 13:28:59,863 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: server_info
+2023-09-13 13:28:59,995 DEBUG   SenderThread:312897 [sender.py:send_request():406] send_request: job_info
+2023-09-13 13:28:59,996 DEBUG   HandlerThread:312897 [handler.py:handle_request():144] handle_request: shutdown
+2023-09-13 13:28:59,996 INFO    HandlerThread:312897 [handler.py:finish():840] shutting down handler
+2023-09-13 13:29:00,863 INFO    WriterThread:312897 [datastore.py:close():294] close: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_132850-6leiodkk/run-6leiodkk.wandb
+2023-09-13 13:29:00,996 INFO    SenderThread:312897 [sender.py:finish():1531] shutting down sender
+2023-09-13 13:29:00,996 INFO    SenderThread:312897 [file_pusher.py:finish():175] shutting down file pusher
+2023-09-13 13:29:00,996 INFO    SenderThread:312897 [file_pusher.py:join():181] waiting for file pusher

@@ -3,6 +3,9 @@ import torch
 import dgl
 import random
 
+random.seed(hash("setting random seeds") % 2**32 - 1)
+np.random.seed(hash("improves reproducibility") % 2**32 - 1)
+
 def random_remove_edges(dgl_graph, prob = 0.2):
     num_edges = dgl_graph.num_edges()
     edge_ids = list(range(num_edges))
