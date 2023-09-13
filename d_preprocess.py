@@ -1,9 +1,18 @@
 import numpy as np
 import torch
 import dgl
+import random
+
+def random_remove_edges(dgl_graph, prob = 0.2):
+    num_edges = dgl_graph.num_edges()
+    edge_ids = list(range(num_edges))
+    random.shuffle(edge_ids)
+    num_remove = int(num_edges * prob)
+    edges_to_remove = edge_ids[:num_remove]
+    return dgl.remove_edges(dgl_graph, edges_to_remove)
 
 def load_npz_file(filename):
-    if (filename.split('.')[-1] != 'npz'):
+    if (filename.suffix != '.npz'):
         raise ValueError("Invalid file format")
     load_data = np.load(filename, allow_pickle=True, encoding='latin1')
     return load_data['train'], load_data['valid'], load_data['test']
