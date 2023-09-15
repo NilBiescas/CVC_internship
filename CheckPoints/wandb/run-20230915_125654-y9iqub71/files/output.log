@@ -1,0 +1,62 @@
+
+Train Epoch: 0 	Graphs_seen: 0.0% 	Loss: 2.072128
+Train Epoch: 0 	Graphs_seen: 0.43% 	Loss: 1.858455
+Train Epoch: 0 	Graphs_seen: 0.85% 	Loss: 1.782188
+Test set: Average loss: 0.0277, Accuracy: 7489.5/31769227.0 (0%)
+Train Epoch: 1 	Graphs_seen: 0.0% 	Loss: 1.727634
+Train Epoch: 1 	Graphs_seen: 0.43% 	Loss: 1.676253
+Train Epoch: 1 	Graphs_seen: 0.85% 	Loss: 1.607384
+Test set: Average loss: 0.0254, Accuracy: 5803.0/31769227.0 (0%)
+Traceback (most recent call last):
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/main.py", line 29, in <module>
+    model_pipeline(model, train_loader, val_loader, test_loader)
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 92, in model_pipeline
+    train_loss = train(epoch, criterion, model, optimizer, train_loader)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 68, in train
+    output = model(graph, features)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/VGAE.py", line 57, in forward
+    z = self.encoder(g, features)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/VGAE.py", line 45, in encoder
+    h = layer(g, features)
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/nn/pytorch/conv/graphconv.py", line 457, in forward
+    graph.update_all(aggregate_fn, fn.sum(msg="m", out="h"))
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/heterograph.py", line 5110, in update_all
+    ndata = core.message_passing(
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/core.py", line 388, in message_passing
+    ndata = invoke_gspmm(g, mfunc, rfunc)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/core.py", line 358, in invoke_gspmm
+    z = op(graph, x)
+        ^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/ops/spmm.py", line 215, in func
+    return gspmm(g, "copy_lhs", reduce_op, x, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/ops/spmm.py", line 79, in gspmm
+    ret = gspmm_internal(
+          ^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/backend/pytorch/sparse.py", line 1032, in gspmm
+    return GSpMM.apply(*args)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/torch/autograd/function.py", line 506, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/backend/pytorch/sparse.py", line 165, in forward
+    out, (argX, argY) = _gspmm(gidx, op, reduce_op, X, Y)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/_sparse_ops.py", line 224, in _gspmm
+    v_shp = (gidx.num_nodes(dsttype),) + infer_broadcast_shape(
+                                         ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/_sparse_ops.py", line 10, in infer_broadcast_shape
+    def infer_broadcast_shape(op, shp1, shp2):
+KeyboardInterrupt

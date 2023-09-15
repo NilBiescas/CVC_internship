@@ -1,0 +1,197 @@
+2023-09-15 12:56:54,564 INFO    StreamThr :393065 [internal.py:wandb_internal():86] W&B internal server running at pid: 393065, started at: 2023-09-15 12:56:54.564079
+2023-09-15 12:56:54,565 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status
+2023-09-15 12:56:54,566 INFO    WriterThread:393065 [datastore.py:open_for_write():85] open: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/run-y9iqub71.wandb
+2023-09-15 12:56:54,568 DEBUG   SenderThread:393065 [sender.py:send():379] send: header
+2023-09-15 12:56:54,570 DEBUG   SenderThread:393065 [sender.py:send():379] send: run
+2023-09-15 12:56:55,284 INFO    SenderThread:393065 [dir_watcher.py:__init__():211] watching files in: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files
+2023-09-15 12:56:55,284 INFO    SenderThread:393065 [sender.py:_start_run_threads():1121] run started: y9iqub71 with start time 1694775414.563859
+2023-09-15 12:56:55,293 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: check_version
+2023-09-15 12:56:55,293 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: check_version
+2023-09-15 12:56:55,424 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: run_start
+2023-09-15 12:56:55,460 DEBUG   HandlerThread:393065 [system_info.py:__init__():32] System info init
+2023-09-15 12:56:55,460 DEBUG   HandlerThread:393065 [system_info.py:__init__():47] System info init done
+2023-09-15 12:56:55,460 INFO    HandlerThread:393065 [system_monitor.py:start():181] Starting system monitor
+2023-09-15 12:56:55,460 INFO    SystemMonitor:393065 [system_monitor.py:_start():145] Starting system asset monitoring threads
+2023-09-15 12:56:55,461 INFO    HandlerThread:393065 [system_monitor.py:probe():201] Collecting system info
+2023-09-15 12:56:55,461 INFO    SystemMonitor:393065 [interfaces.py:start():190] Started cpu monitoring
+2023-09-15 12:56:55,462 INFO    SystemMonitor:393065 [interfaces.py:start():190] Started disk monitoring
+2023-09-15 12:56:55,463 INFO    SystemMonitor:393065 [interfaces.py:start():190] Started gpu monitoring
+2023-09-15 12:56:55,463 INFO    SystemMonitor:393065 [interfaces.py:start():190] Started memory monitoring
+2023-09-15 12:56:55,464 INFO    SystemMonitor:393065 [interfaces.py:start():190] Started network monitoring
+2023-09-15 12:56:55,490 DEBUG   HandlerThread:393065 [system_info.py:probe():196] Probing system
+2023-09-15 12:56:55,492 DEBUG   HandlerThread:393065 [system_info.py:_probe_git():181] Probing git
+2023-09-15 12:56:55,500 DEBUG   HandlerThread:393065 [system_info.py:_probe_git():189] Probing git done
+2023-09-15 12:56:55,500 DEBUG   HandlerThread:393065 [system_info.py:probe():244] Probing system done
+2023-09-15 12:56:55,500 DEBUG   HandlerThread:393065 [system_monitor.py:probe():210] {'os': 'Linux-5.15.0-78-generic-x86_64-with-glibc2.31', 'python': '3.11.4', 'heartbeatAt': '2023-09-15T10:56:55.490784', 'startedAt': '2023-09-15T10:56:54.559683', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '/home/nbiescas/Desktop/CVC/CVC_internship/main.py', 'codePathLocal': None, 'codePath': 'main.py', 'git': {'remote': 'https://github.com/NilBiescas/CVC_internship.git', 'commit': '3ebe0da54248d27e3f48b161980f5dc62548e45d'}, 'email': 'nilbiescas3@gmail.com', 'root': '/home/nbiescas/Desktop/CVC/CVC_internship', 'host': 'cvc135', 'username': 'nbiescas', 'executable': '/home/nbiescas/miniconda3/envs/CVC/bin/python', 'cpu_count': 4, 'cpu_count_logical': 8, 'cpu_freq': {'current': 1.5751249999999999, 'min': 1200.0, 'max': 3900.0}, 'cpu_freq_per_core': [{'current': 1.2, 'min': 1200.0, 'max': 3900.0}, {'current': 2.0, 'min': 1200.0, 'max': 3900.0}, {'current': 1.2, 'min': 1200.0, 'max': 3900.0}, {'current': 1.3, 'min': 1200.0, 'max': 3900.0}, {'current': 1.3, 'min': 1200.0, 'max': 3900.0}, {'current': 1.3, 'min': 1200.0, 'max': 3900.0}, {'current': 1.516, 'min': 1200.0, 'max': 3900.0}, {'current': 1.2, 'min': 1200.0, 'max': 3900.0}], 'disk': {'/': {'total': 213.53580856323242, 'used': 32.66629409790039}}, 'gpu': 'NVIDIA GeForce RTX 2080 Ti', 'gpu_count': 1, 'gpu_devices': [{'name': 'NVIDIA GeForce RTX 2080 Ti', 'memory_total': 11811160064}], 'memory': {'total': 15.530113220214844}}
+2023-09-15 12:56:55,500 INFO    HandlerThread:393065 [system_monitor.py:probe():211] Finished collecting system info
+2023-09-15 12:56:55,500 INFO    HandlerThread:393065 [system_monitor.py:probe():214] Publishing system info
+2023-09-15 12:56:55,500 DEBUG   HandlerThread:393065 [system_info.py:_save_pip():52] Saving list of pip packages installed into the current environment
+2023-09-15 12:56:55,500 DEBUG   HandlerThread:393065 [system_info.py:_save_pip():68] Saving pip packages done
+2023-09-15 12:56:55,500 DEBUG   HandlerThread:393065 [system_info.py:_save_conda():75] Saving list of conda packages installed into the current environment
+2023-09-15 12:56:56,285 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_created():271] file/dir created: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/requirements.txt
+2023-09-15 12:56:56,286 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_created():271] file/dir created: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/conda-environment.yaml
+2023-09-15 12:56:58,116 DEBUG   HandlerThread:393065 [system_info.py:_save_conda():87] Saving conda packages done
+2023-09-15 12:56:58,117 INFO    HandlerThread:393065 [system_monitor.py:probe():216] Finished publishing system info
+2023-09-15 12:56:58,120 DEBUG   SenderThread:393065 [sender.py:send():379] send: files
+2023-09-15 12:56:58,120 INFO    SenderThread:393065 [sender.py:_save_file():1375] saving file wandb-metadata.json with policy now
+2023-09-15 12:56:58,126 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: stop_status
+2023-09-15 12:56:58,126 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: stop_status
+2023-09-15 12:56:58,130 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: internal_messages
+2023-09-15 12:56:58,285 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/conda-environment.yaml
+2023-09-15 12:56:58,285 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_created():271] file/dir created: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/wandb-metadata.json
+2023-09-15 12:56:58,485 DEBUG   SenderThread:393065 [sender.py:send():379] send: telemetry
+2023-09-15 12:56:58,486 DEBUG   SenderThread:393065 [sender.py:send():379] send: telemetry
+2023-09-15 12:56:58,486 DEBUG   SenderThread:393065 [sender.py:send():379] send: run
+2023-09-15 12:56:58,758 INFO    SenderThread:393065 [sender.py:send_run():999] updated run: y9iqub71
+2023-09-15 12:56:58,758 DEBUG   SenderThread:393065 [sender.py:send():379] send: telemetry
+2023-09-15 12:56:58,907 INFO    wandb-upload_0:393065 [upload_job.py:push():131] Uploaded file /tmp/tmpylrcuhowwandb/pgjdrzrl-wandb-metadata.json
+2023-09-15 12:56:59,285 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/config.yaml
+2023-09-15 12:56:59,286 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_created():271] file/dir created: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/output.log
+2023-09-15 12:56:59,759 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:57:01,286 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/output.log
+2023-09-15 12:57:04,760 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:57:09,761 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:57:13,125 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: stop_status
+2023-09-15 12:57:13,126 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: internal_messages
+2023-09-15 12:57:13,126 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: stop_status
+2023-09-15 12:57:15,421 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:57:20,421 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:57:25,426 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:57:26,293 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/config.yaml
+2023-09-15 12:57:28,126 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: stop_status
+2023-09-15 12:57:28,126 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: stop_status
+2023-09-15 12:57:28,169 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: internal_messages
+2023-09-15 12:57:31,369 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:57:35,296 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/output.log
+2023-09-15 12:57:36,925 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:57:41,926 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:57:43,126 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: stop_status
+2023-09-15 12:57:43,126 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: internal_messages
+2023-09-15 12:57:43,126 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: stop_status
+2023-09-15 12:57:47,402 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:57:52,403 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:57:55,464 DEBUG   SystemMonitor:393065 [system_monitor.py:_start():159] Starting system metrics aggregation loop
+2023-09-15 12:57:55,465 DEBUG   SenderThread:393065 [sender.py:send():379] send: stats
+2023-09-15 12:57:57,466 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:57:58,126 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: stop_status
+2023-09-15 12:57:58,126 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: stop_status
+2023-09-15 12:57:58,169 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: internal_messages
+2023-09-15 12:58:03,300 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:58:09,289 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:58:09,306 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/output.log
+2023-09-15 12:58:13,126 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: stop_status
+2023-09-15 12:58:13,126 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: stop_status
+2023-09-15 12:58:13,127 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: internal_messages
+2023-09-15 12:58:14,334 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:58:19,335 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:58:21,284 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-15 12:58:23,310 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/output.log
+2023-09-15 12:58:24,575 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:58:25,466 DEBUG   SenderThread:393065 [sender.py:send():379] send: stats
+2023-09-15 12:58:28,126 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: stop_status
+2023-09-15 12:58:28,127 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: internal_messages
+2023-09-15 12:58:28,127 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: stop_status
+2023-09-15 12:58:30,401 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:58:35,401 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:58:40,402 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:58:43,126 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: stop_status
+2023-09-15 12:58:43,127 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: stop_status
+2023-09-15 12:58:43,168 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: internal_messages
+2023-09-15 12:58:46,388 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:58:51,389 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:58:55,467 DEBUG   SenderThread:393065 [sender.py:send():379] send: stats
+2023-09-15 12:58:56,468 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:58:57,320 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/output.log
+2023-09-15 12:58:58,126 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: stop_status
+2023-09-15 12:58:58,127 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: stop_status
+2023-09-15 12:58:58,127 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: internal_messages
+2023-09-15 12:59:02,353 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:59:07,353 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:59:12,354 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:59:13,126 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: stop_status
+2023-09-15 12:59:13,127 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: stop_status
+2023-09-15 12:59:13,169 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: internal_messages
+2023-09-15 12:59:17,422 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:59:22,423 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:59:25,467 DEBUG   SenderThread:393065 [sender.py:send():379] send: stats
+2023-09-15 12:59:27,468 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:59:28,127 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: stop_status
+2023-09-15 12:59:28,127 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: stop_status
+2023-09-15 12:59:28,169 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: internal_messages
+2023-09-15 12:59:31,330 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/output.log
+2023-09-15 12:59:33,057 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:59:38,058 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:59:42,269 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-15 12:59:42,270 DEBUG   SenderThread:393065 [sender.py:send():379] send: history
+2023-09-15 12:59:42,270 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: summary_record
+2023-09-15 12:59:42,270 INFO    SenderThread:393065 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-15 12:59:42,333 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_created():271] file/dir created: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/wandb-summary.json
+2023-09-15 12:59:42,738 DEBUG   SenderThread:393065 [sender.py:send():379] send: telemetry
+2023-09-15 12:59:42,738 DEBUG   SenderThread:393065 [sender.py:send():379] send: exit
+2023-09-15 12:59:42,738 INFO    SenderThread:393065 [sender.py:send_exit():584] handling exit code: 1
+2023-09-15 12:59:42,738 INFO    SenderThread:393065 [sender.py:send_exit():586] handling runtime: 167
+2023-09-15 12:59:42,738 INFO    SenderThread:393065 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-15 12:59:42,739 INFO    SenderThread:393065 [sender.py:send_exit():592] send defer
+2023-09-15 12:59:42,739 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: defer
+2023-09-15 12:59:42,739 INFO    HandlerThread:393065 [handler.py:handle_request_defer():170] handle defer: 0
+2023-09-15 12:59:42,739 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: defer
+2023-09-15 12:59:42,739 INFO    SenderThread:393065 [sender.py:send_request_defer():608] handle sender defer: 0
+2023-09-15 12:59:42,739 INFO    SenderThread:393065 [sender.py:transition_state():612] send defer: 1
+2023-09-15 12:59:42,739 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: defer
+2023-09-15 12:59:42,739 INFO    HandlerThread:393065 [handler.py:handle_request_defer():170] handle defer: 1
+2023-09-15 12:59:42,740 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: defer
+2023-09-15 12:59:42,740 INFO    SenderThread:393065 [sender.py:send_request_defer():608] handle sender defer: 1
+2023-09-15 12:59:42,740 INFO    SenderThread:393065 [sender.py:transition_state():612] send defer: 2
+2023-09-15 12:59:42,740 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: defer
+2023-09-15 12:59:42,740 INFO    HandlerThread:393065 [handler.py:handle_request_defer():170] handle defer: 2
+2023-09-15 12:59:42,740 INFO    HandlerThread:393065 [system_monitor.py:finish():190] Stopping system monitor
+2023-09-15 12:59:42,740 DEBUG   SystemMonitor:393065 [system_monitor.py:_start():166] Finished system metrics aggregation loop
+2023-09-15 12:59:42,741 DEBUG   SystemMonitor:393065 [system_monitor.py:_start():170] Publishing last batch of metrics
+2023-09-15 12:59:42,741 INFO    HandlerThread:393065 [interfaces.py:finish():202] Joined cpu monitor
+2023-09-15 12:59:42,742 INFO    HandlerThread:393065 [interfaces.py:finish():202] Joined disk monitor
+2023-09-15 12:59:42,836 INFO    HandlerThread:393065 [interfaces.py:finish():202] Joined gpu monitor
+2023-09-15 12:59:42,836 INFO    HandlerThread:393065 [interfaces.py:finish():202] Joined memory monitor
+2023-09-15 12:59:42,836 INFO    HandlerThread:393065 [interfaces.py:finish():202] Joined network monitor
+2023-09-15 12:59:42,836 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: defer
+2023-09-15 12:59:42,836 INFO    SenderThread:393065 [sender.py:send_request_defer():608] handle sender defer: 2
+2023-09-15 12:59:42,836 INFO    SenderThread:393065 [sender.py:transition_state():612] send defer: 3
+2023-09-15 12:59:42,836 DEBUG   SenderThread:393065 [sender.py:send():379] send: stats
+2023-09-15 12:59:42,837 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: defer
+2023-09-15 12:59:42,837 INFO    HandlerThread:393065 [handler.py:handle_request_defer():170] handle defer: 3
+2023-09-15 12:59:42,837 DEBUG   SenderThread:393065 [sender.py:send():379] send: history
+2023-09-15 12:59:42,838 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: summary_record
+2023-09-15 12:59:42,838 INFO    SenderThread:393065 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-15 12:59:42,838 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: defer
+2023-09-15 12:59:42,838 INFO    SenderThread:393065 [sender.py:send_request_defer():608] handle sender defer: 3
+2023-09-15 12:59:42,838 INFO    SenderThread:393065 [sender.py:transition_state():612] send defer: 4
+2023-09-15 12:59:42,838 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: defer
+2023-09-15 12:59:42,838 INFO    HandlerThread:393065 [handler.py:handle_request_defer():170] handle defer: 4
+2023-09-15 12:59:42,839 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: defer
+2023-09-15 12:59:42,839 INFO    SenderThread:393065 [sender.py:send_request_defer():608] handle sender defer: 4
+2023-09-15 12:59:42,839 INFO    SenderThread:393065 [sender.py:transition_state():612] send defer: 5
+2023-09-15 12:59:42,839 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: defer
+2023-09-15 12:59:42,839 INFO    HandlerThread:393065 [handler.py:handle_request_defer():170] handle defer: 5
+2023-09-15 12:59:42,839 DEBUG   SenderThread:393065 [sender.py:send():379] send: summary
+2023-09-15 12:59:42,839 INFO    SenderThread:393065 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-15 12:59:42,840 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: defer
+2023-09-15 12:59:42,840 INFO    SenderThread:393065 [sender.py:send_request_defer():608] handle sender defer: 5
+2023-09-15 12:59:42,840 INFO    SenderThread:393065 [sender.py:transition_state():612] send defer: 6
+2023-09-15 12:59:42,840 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: defer
+2023-09-15 12:59:42,840 INFO    HandlerThread:393065 [handler.py:handle_request_defer():170] handle defer: 6
+2023-09-15 12:59:42,840 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: defer
+2023-09-15 12:59:42,840 INFO    SenderThread:393065 [sender.py:send_request_defer():608] handle sender defer: 6
+2023-09-15 12:59:42,844 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: status_report
+2023-09-15 12:59:43,083 INFO    SenderThread:393065 [sender.py:transition_state():612] send defer: 7
+2023-09-15 12:59:43,084 DEBUG   HandlerThread:393065 [handler.py:handle_request():144] handle_request: defer
+2023-09-15 12:59:43,084 INFO    HandlerThread:393065 [handler.py:handle_request_defer():170] handle defer: 7
+2023-09-15 12:59:43,084 DEBUG   SenderThread:393065 [sender.py:send_request():406] send_request: defer
+2023-09-15 12:59:43,084 INFO    SenderThread:393065 [sender.py:send_request_defer():608] handle sender defer: 7
+2023-09-15 12:59:43,334 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/config.yaml
+2023-09-15 12:59:43,334 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/output.log
+2023-09-15 12:59:43,335 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/wandb-summary.json
+2023-09-15 12:59:43,582 WARNING StreamThr :393065 [internal.py:is_dead():414] Internal process exiting, parent pid 393021 disappeared
+2023-09-15 12:59:43,582 ERROR   StreamThr :393065 [internal.py:wandb_internal():152] Internal process shutdown.
+2023-09-15 12:59:44,084 INFO    HandlerThread:393065 [handler.py:finish():840] shutting down handler
+2023-09-15 12:59:44,084 INFO    WriterThread:393065 [datastore.py:close():294] close: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/run-y9iqub71.wandb
+2023-09-15 12:59:45,335 INFO    Thread-12 :393065 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/wandb/run-20230915_125654-y9iqub71/files/output.log
+2023-09-15 12:59:45,456 INFO    MainThread:393065 [internal.py:handle_exit():76] Internal process exited

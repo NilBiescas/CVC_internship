@@ -1,0 +1,91 @@
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.699701
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.471770
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.470018
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.494691
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.494119
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.671667
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.756695
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 0.932614
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.663948
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.549970
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.945800
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.637502
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.687669
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.613978
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.744549
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.578417
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.570280
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.696213
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.724736
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.532650
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.781265
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.342807
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.534238
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.634508
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.421341
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.612335
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.594901
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.712487
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.483484
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.574921
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.530415
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.573075
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.562737
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.470736
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.623264
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.630989
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.547134
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.681382
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.787714
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.517049
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.572253
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.453875
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.518215
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.256528
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.679964
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.645989
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.637021
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.720965
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.648956
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.516723
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.688491
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 0.750610
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.571830
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.432946
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.859904
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.344238
+Train Epoch: 0 	Graphs_seen: 0% 	Loss: 1.549607
+Traceback (most recent call last):
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/main.py", line 29, in <module>
+    model_pipeline(model, train_loader, val_loader, test_loader)
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 99, in model_pipeline
+    train_loss = train(epoch, criterion, model, optimizer, train_loader)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 74, in train
+    output = model(graph, features)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/VGAE.py", line 60, in forward
+    z = self.encoder(g, features)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/VGAE.py", line 47, in encoder
+    h = layer(g, features)
+        ^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/nn/pytorch/conv/graphconv.py", line 428, in forward
+    degs = graph.out_degrees().to(feat_src).clamp(min=1)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/heterograph.py", line 3748, in out_degrees
+    F.sum(self.has_nodes(u_tensor, ntype=srctype), dim=0)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/heterograph.py", line 2932, in has_nodes
+    return F.astype(ret, F.bool)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/backend/pytorch/tensor.py", line 125, in astype
+    return input.type(ty)
+           ^^^^^^^^^^^^^^
+KeyboardInterrupt

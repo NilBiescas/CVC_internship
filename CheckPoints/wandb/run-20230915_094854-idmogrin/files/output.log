@@ -1,0 +1,833 @@
+HELLO
+Train Epoch: 0 	Loss: 1.948387
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.7567, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 1 	Loss: 1.613184
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.6562, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 2 	Loss: 1.611341
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.6170, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 3 	Loss: 1.601944
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.6410, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 4 	Loss: 1.450713
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.5938, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 5 	Loss: 1.659871
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.5442, Accuracy: 1.0/4703.0 (0%)
+HELLO
+Train Epoch: 6 	Loss: 1.667391
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.6015, Accuracy: 1.0/4703.0 (0%)
+HELLO
+Train Epoch: 7 	Loss: 2.052064
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.5181, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 8 	Loss: 1.289967
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.6486, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 9 	Loss: 1.554868
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.6105, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 10 	Loss: 0.974970
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.5757, Accuracy: 1.0/4703.0 (0%)
+HELLO
+Train Epoch: 11 	Loss: 1.411529
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.6313, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 12 	Loss: 1.640360
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.5778, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 13 	Loss: 2.103122
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.5594, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 14 	Loss: 1.638234
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.5575, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 15 	Loss: 1.675115
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.5340, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 16 	Loss: 1.728758
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.5919, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 17 	Loss: 1.030915
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.5896, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 18 	Loss: 1.587312
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.5509, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 19 	Loss: 1.439799
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.6570, Accuracy: 2.0/4703.0 (0%)
+HELLO
+Train Epoch: 20 	Loss: 1.698303
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.6165, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 21 	Loss: 1.775469
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.5609, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 22 	Loss: 1.561142
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.5767, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 23 	Loss: 1.834331
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Test set: Average loss: 1.5634, Accuracy: 0.0/4703.0 (0%)
+HELLO
+Train Epoch: 24 	Loss: 1.638332
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+HELLO
+Traceback (most recent call last):
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/main.py", line 29, in <module>
+    model_pipeline(model, train_loader, val_loader, test_loader)
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 100, in model_pipeline
+    val_loss = validate(criterion, model, val_loader)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 41, in validate
+    output = model(graph, features)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/VGAE.py", line 53, in forward
+    z = self.encoder(g, features)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/VGAE.py", line 42, in encoder
+    self.mean = self.layers[1](g, h)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/nn/pytorch/conv/graphconv.py", line 457, in forward
+    graph.update_all(aggregate_fn, fn.sum(msg="m", out="h"))
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/heterograph.py", line 5110, in update_all
+    ndata = core.message_passing(
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/core.py", line 388, in message_passing
+    ndata = invoke_gspmm(g, mfunc, rfunc)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/core.py", line 358, in invoke_gspmm
+    z = op(graph, x)
+        ^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/ops/spmm.py", line 215, in func
+    return gspmm(g, "copy_lhs", reduce_op, x, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/ops/spmm.py", line 79, in gspmm
+    ret = gspmm_internal(
+          ^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/backend/pytorch/sparse.py", line 1032, in gspmm
+    return GSpMM.apply(*args)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/torch/autograd/function.py", line 506, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/backend/pytorch/sparse.py", line 166, in forward
+    reduce_last = _need_reduce_last_dim(X, Y)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/backend/pytorch/sparse.py", line 77, in _need_reduce_last_dim
+    def _need_reduce_last_dim(ufeat, efeat):
+KeyboardInterrupt

@@ -1,0 +1,84 @@
+
+Train Epoch: 0 	Graphs_seen: 0.0% 	Loss: 1.967218
+Train Epoch: 0 	Graphs_seen: 0.0% 	Loss: 1.834158
+Train Epoch: 0 	Graphs_seen: 0.0% 	Loss: 1.768790
+Test set: Average loss: 0.0279, Accuracy: 7184.5/31769227.0 (0%)
+Train Epoch: 1 	Graphs_seen: 0.0% 	Loss: 1.771463
+Train Epoch: 1 	Graphs_seen: 0.43% 	Loss: 1.689537
+Train Epoch: 1 	Graphs_seen: 0.85% 	Loss: 1.635633
+Test set: Average loss: 0.0260, Accuracy: 6030.0/31769227.0 (0%)
+Train Epoch: 2 	Graphs_seen: 0.0% 	Loss: 1.626667
+Train Epoch: 2 	Graphs_seen: 0.85% 	Loss: 1.589605
+Train Epoch: 2 	Graphs_seen: 1.7% 	Loss: 1.559046
+Test set: Average loss: 0.0247, Accuracy: 4950.0/31769227.0 (0%)
+Train Epoch: 3 	Graphs_seen: 0.0% 	Loss: 1.544505
+Train Epoch: 3 	Graphs_seen: 1.28% 	Loss: 1.493683
+Train Epoch: 3 	Graphs_seen: 2.55% 	Loss: 1.475503
+Test set: Average loss: 0.0234, Accuracy: 3875.0/31769227.0 (0%)
+Train Epoch: 4 	Graphs_seen: 0.0% 	Loss: 1.489736
+Train Epoch: 4 	Graphs_seen: 1.7% 	Loss: 1.444620
+Train Epoch: 4 	Graphs_seen: 3.4% 	Loss: 1.407295
+Test set: Average loss: 0.0223, Accuracy: 2831.0/31769227.0 (0%)
+Train Epoch: 5 	Graphs_seen: 0.0% 	Loss: 1.391696
+Train Epoch: 5 	Graphs_seen: 2.13% 	Loss: 1.367719
+Train Epoch: 5 	Graphs_seen: 4.26% 	Loss: 1.327414
+Test set: Average loss: 0.0210, Accuracy: 1825.0/31769227.0 (0%)
+Train Epoch: 6 	Graphs_seen: 0.0% 	Loss: 1.300683
+Train Epoch: 6 	Graphs_seen: 2.55% 	Loss: 1.283679
+Train Epoch: 6 	Graphs_seen: 5.11% 	Loss: 1.240696
+Test set: Average loss: 0.0197, Accuracy: 956.0/31769227.0 (0%)
+Train Epoch: 7 	Graphs_seen: 0.0% 	Loss: 1.241576
+Train Epoch: 7 	Graphs_seen: 2.98% 	Loss: 1.198808
+Train Epoch: 7 	Graphs_seen: 5.96% 	Loss: 1.162957
+Test set: Average loss: 0.0184, Accuracy: 465.0/31769227.0 (0%)
+Train Epoch: 8 	Graphs_seen: 0.0% 	Loss: 1.146385
+Train Epoch: 8 	Graphs_seen: 3.4% 	Loss: 1.111286
+Train Epoch: 8 	Graphs_seen: 6.81% 	Loss: 1.088100
+Test set: Average loss: 0.0171, Accuracy: 154.0/31769227.0 (0%)
+Train Epoch: 9 	Graphs_seen: 0.0% 	Loss: 1.067938
+Train Epoch: 9 	Graphs_seen: 3.83% 	Loss: 1.031779
+Train Epoch: 9 	Graphs_seen: 7.66% 	Loss: 1.008909
+Test set: Average loss: 0.0160, Accuracy: 48.0/31769227.0 (0%)
+Train Epoch: 10 	Graphs_seen: 0.0% 	Loss: 1.000143
+Train Epoch: 10 	Graphs_seen: 4.26% 	Loss: 0.974532
+Train Epoch: 10 	Graphs_seen: 8.51% 	Loss: 0.949824
+Test set: Average loss: 0.0151, Accuracy: 19.0/31769227.0 (0%)
+Train Epoch: 11 	Graphs_seen: 0.0% 	Loss: 0.946703
+Train Epoch: 11 	Graphs_seen: 4.68% 	Loss: 0.918356
+Train Epoch: 11 	Graphs_seen: 9.36% 	Loss: 0.905758
+Test set: Average loss: 0.0144, Accuracy: 8.0/31769227.0 (0%)
+Train Epoch: 12 	Graphs_seen: 0.0% 	Loss: 0.898015
+Train Epoch: 12 	Graphs_seen: 5.11% 	Loss: 0.882621
+Train Epoch: 12 	Graphs_seen: 10.21% 	Loss: 0.866684
+Test set: Average loss: 0.0138, Accuracy: 1.0/31769227.0 (0%)
+Train Epoch: 13 	Graphs_seen: 0.0% 	Loss: 0.863104
+Train Epoch: 13 	Graphs_seen: 5.53% 	Loss: 0.849721
+Train Epoch: 13 	Graphs_seen: 11.06% 	Loss: 0.836717
+Test set: Average loss: 0.0133, Accuracy: 1.0/31769227.0 (0%)
+Train Epoch: 14 	Graphs_seen: 0.0% 	Loss: 0.833853
+Train Epoch: 14 	Graphs_seen: 5.96% 	Loss: 0.820188
+Train Epoch: 14 	Graphs_seen: 11.91% 	Loss: 0.812586
+Test set: Average loss: 0.0130, Accuracy: 1.0/31769227.0 (0%)
+Train Epoch: 15 	Graphs_seen: 0.0% 	Loss: 0.806981
+Train Epoch: 15 	Graphs_seen: 6.38% 	Loss: 0.797037
+Train Epoch: 15 	Graphs_seen: 12.77% 	Loss: 0.788885
+Test set: Average loss: 0.0127, Accuracy: 0.0/31769227.0 (0%)
+Train Epoch: 16 	Graphs_seen: 0.0% 	Loss: 0.789887
+Train Epoch: 16 	Graphs_seen: 6.81% 	Loss: 0.780447
+Train Epoch: 16 	Graphs_seen: 13.62% 	Loss: 0.773895
+Test set: Average loss: 0.0124, Accuracy: 0.0/31769227.0 (0%)
+Train Epoch: 17 	Graphs_seen: 0.0% 	Loss: 0.772628
+Train Epoch: 17 	Graphs_seen: 7.23% 	Loss: 0.766888
+Train Epoch: 17 	Graphs_seen: 14.47% 	Loss: 0.762489
+Test set: Average loss: 0.0123, Accuracy: 0.0/31769227.0 (0%)
+Train Epoch: 18 	Graphs_seen: 0.0% 	Loss: 0.759894
+Traceback (most recent call last):
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/main.py", line 29, in <module>
+    model_pipeline(model, train_loader, val_loader, test_loader)
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 92, in model_pipeline
+    train_loss = train(epoch, criterion, model, optimizer, train_loader)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 64, in train
+    graph, adj_matrix = graph.to(device), adj_matrix.to(device)
+                                          ^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
