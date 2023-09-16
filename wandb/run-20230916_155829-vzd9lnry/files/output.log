@@ -1,0 +1,26 @@
+  0%|                                                                                                         | 0/15 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/main.py", line 29, in <module>
+    model_pipeline(model, train_loader, val_loader, test_loader)
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 99, in model_pipeline
+    train_loss = train(epoch, criterion, model, optimizer, train_loader)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 74, in train
+    output, means_list, log_std_list = model(graph, features)  #The output is a list containing the different predictions for the graphs
+                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/VGAE.py", line 65, in forward
+    z = self.encoder(g, features) # z = number_nodes x dimensions
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/VGAE.py", line 45, in encoder
+    h = layer(g, h)
+        ^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/dgl/nn/pytorch/conv/graphconv.py", line 460, in forward
+    rst = th.matmul(rst, weight)
+          ^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (2225x10 and 2x10)

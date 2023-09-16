@@ -1,0 +1,19 @@
+Train Epoch: 0 	Loss: 172033027650238434891396502990119427553888462753798973891625355626065959531627780294932249268191232.000000
+Test set: Average loss: 60849216277581109769376877864115688322040070099394348938313612334757791697553066287439780997296071130784850713051402046164876334001630640670747367668810323920558614104058439113055177742113064590973184307233244360628831530283372428212694665833898179482927650965523701537648796329925080800442150027264.0000, Accuracy: 2514.0/4703.0 (53%)
+Train Epoch: 1 	Loss: 1356529902189634687527167130975102868860723789824.000000
+Traceback (most recent call last):
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/main.py", line 29, in <module>
+    model_pipeline(model, train_loader, val_loader, test_loader)
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 100, in model_pipeline
+    val_loss = validate(criterion, model, val_loader)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 43, in validate
+    val_loss += loss.item()
+                ^^^^^^^^^^^
+RuntimeError: CUDA error: device-side assert triggered
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.

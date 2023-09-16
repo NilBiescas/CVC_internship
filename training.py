@@ -5,6 +5,7 @@ import torch.nn.functional as F
 from IPython import display
 import matplotlib.pyplot as plt
 import wandb
+from tqdm.auto import tqdm
 
 #Implementation of the loss: https://github.com/JuliaSun623/VGAE_dgl/blob/main/train.py. Later on implement the norm parameter
 
@@ -12,42 +13,42 @@ import wandb
 # Device configuration
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-def loss_VGAE(output, adj, mean, log_std):
-    adj = adj.type(torch.cuda.DoubleTensor)
-    loss =  F.binary_cross_entropy(output.view(-1), adj.view(-1))
-    kl_divergence = 0.5 / output.size(0) * (
+def loss_VGAE(output, adjacency_matrices_target, means_list, log_std_list):
+    total_loss = 0
+    for pred, adj_matrix, mean, log_std in zip(output, adjacency_matrices_target, means_list, log_std_list):
+        loss = F.binary_cross_entropy(pred.view(-1), adj_matrix.view(-1))
+        total_loss += loss.item()
+
+        kl_divergence = 0.5 / pred.size(0) * (
                 1 + 2 * log_std - mean ** 2 - torch.exp(log_std) ** 2).sum(
             1).mean()
-    loss -= kl_divergence
-    return loss
+        total_loss -= kl_divergence
+        
+    return total_loss
 
 @torch.no_grad()  # prevent this function from computing gradients see https://pytorch.org/docs/stable/generated/torch.no_grad.html
 def validate(criterion, model, loader):
 
     val_loss = 0
     correct = 0
+    total_nodes = 0
 
     model.eval()
 
-    for graph, sparse_adj in loader:
-        sparse_adj = sparse_adj[0]
-        if (torch.cuda.is_available()):
-            graph, sparse_adj = graph.to(device), sparse_adj.to(device)
-            features = graph.ndata.pop('feat').to(device)
-        else:
-            features = graph.ndata.pop('feat')
+    for graph, adjacency_matrices_target in loader:
+        #sparse_adj = sparse_adj[0]
 
-        adjacency_matrix = sparse_adj.to_dense()
-        output = model(graph, features)
-        loss = criterion(output, adjacency_matrix, model.mean, model.log_std)
+        graph = graph.to(device)
+        features = graph.ndata.pop('feat').to(device)
+
+        output, means_list, log_std_list = model(graph, features)
+        loss = criterion(output, adjacency_matrices_target, means_list, log_std_list)
         val_loss += loss.item()
-
-        A = output == adjacency_matrix
-        correct += torch.sum(A)/2 + torch.diag(A).sum() * 0.5                                                    
-
-    total_nodes = 0
-    for graph, _ in loader:
-        total_nodes += (graph.num_nodes() ** 2 + graph.num_nodes())/2
+        
+        for pred, adj_matrix in zip(output, adjacency_matrices_target):
+            A = pred == adj_matrix
+            correct += torch.sum(A)/2 + torch.diag(A).sum() * 0.5                                                    
+            total_nodes += (graph.num_nodes() ** 2 + graph.num_nodes())/2
 
     val_loss /= len(loader.dataset)
     accuracy = 100. * correct / total_nodes
@@ -63,23 +64,23 @@ def train(epoch, criterion, model, optimizer, loader):
 
     model.train()
 
-    for batch_idx, (graph, sparse_adj) in enumerate(loader):
-        sparse_adj = sparse_adj[0]
-        optimizer.zero_grad()
+    for batch_idx, (graph, adjacency_matrices_target) in enumerate(loader): 
 
-        graph, sparse_adj = graph.to(device), sparse_adj.to(device)
+        optimizer.zero_grad()
+        #Adjacency_matrices is a list of tensors. I move the tensors to the device in the collate function of the dataloader
+        graph = graph.to(device)
         features = graph.ndata.pop('feat').to(device)
 
-        adjacency_matrix = sparse_adj.to_dense().type(torch.cuda.DoubleTensor)
-        output = model(graph, features)
-        loss = criterion(output, adjacency_matrix, model.mean, model.log_std)
+        output, means_list, log_std_list = model(graph, features)  #The output is a list containing the different predictions for the graphs
+        loss = criterion(output, adjacency_matrices_target, means_list, log_std_list)
+
         loss.backward()
         optimizer.step()
         
         # print loss every N iterations
-        if batch_idx % 100 == 0:
-            print('Train Epoch: {} \tLoss: {:.6f}'.format(
-                epoch, loss.item()))
+        if batch_idx % 50 == 0:
+            print('Train Epoch: {} \tGraphs_seen: {}% \tLoss: {:.6f}'.format(
+                epoch, round(batch_idx * loader.batch_size / len(loader), 2), loss.item()))
 
 
         total_loss += loss.item()  #.item() is very important here? Why? To sum up the indivuals losses of each of the samples seen in an epoch. Necessary 
@@ -89,16 +90,15 @@ def train(epoch, criterion, model, optimizer, loader):
 
 
 def model_pipeline(model, train_loader, val_loader, test_loader):
-    criterion = loss_VGAE
     wandb.watch(model)
-    model.to(device)
-    optimizer = optim.Adam(model.parameters(), lr=0.00001)
+    criterion = loss_VGAE
+    optimizer = optim.SGD(model.parameters(), lr=0.001, weight_decay=1e-4)
     losses = {"train": [], "val": []}
 
-    for epoch in range(80):
+    for epoch in tqdm(range(15)):
         train_loss = train(epoch, criterion, model, optimizer, train_loader)
         val_loss = validate(criterion, model, val_loader)
-        wandb.log({"train_loss": train_loss, 
+        wandb.log({"train_loss": train_loss,
                    "val_loss": val_loss}, step = epoch)
         
         losses["train"].append(train_loss)

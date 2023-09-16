@@ -1,0 +1,9 @@
+
+Train Epoch: 0 	Graphs_seen: 0.0% 	Loss: 237.680115
+  0%|                                                                                                         | 0/80 [00:00<?, ?it/s]
+Train Epoch: 0 	Graphs_seen: 27.23% 	Loss: 236.206192
+Train Epoch: 0 	Graphs_seen: 54.47% 	Loss: 236.536255
+Train Epoch: 0 	Graphs_seen: 81.7% 	Loss: 229.667648
+Train Epoch: 0 	Graphs_seen: 108.94% 	Loss: 222.645584
+Test set: Average loss: 1.7571, Accuracy: 12220.0/2012400856.0 (0%)
+

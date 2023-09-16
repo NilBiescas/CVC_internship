@@ -19,13 +19,14 @@ if __name__ == '__main__':
     wandb.login()
     train_loader, val_loader, test_loader = loaders(DATA_PATH)
     
-    model = VGAEModel(2, 10, 15).double()
+    model = VGAEModel(2, 10, 15)
     if torch.cuda.is_available():
         model = model.to(device)
 
     print("Starting Training")
     with wandb.init(project="VGAE"):
-        wandb.run.name = 'VAGE RUN-1'
+        wandb.run.name = 'VAGE RUN-4'
         model_pipeline(model, train_loader, val_loader, test_loader)
     
+    torch.save(model.state_dict(),'/home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/check_point_4.pth')
     print("Done")

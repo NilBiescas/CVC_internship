@@ -1,0 +1,18 @@
+  0%|                                                                                                         | 0/15 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/main.py", line 29, in <module>
+    model_pipeline(model, train_loader, val_loader, test_loader)
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 99, in model_pipeline
+    train_loss = train(epoch, criterion, model, optimizer, train_loader)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 75, in train
+    loss = criterion(output, adjacency_matrices_target, means_list, log_std_list)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 20, in loss_VGAE
+    total_loss += loss.item()
+                  ^^^^^^^^^^^
+RuntimeError: CUDA error: device-side assert triggered
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+Train Epoch: 0 	Graphs_seen: 0.0% 	Loss: 25326157431262150656.000000

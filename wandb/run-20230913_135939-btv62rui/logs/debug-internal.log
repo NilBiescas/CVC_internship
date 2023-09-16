@@ -1,0 +1,530 @@
+2023-09-13 13:59:39,779 INFO    StreamThr :315251 [internal.py:wandb_internal():86] W&B internal server running at pid: 315251, started at: 2023-09-13 13:59:39.779059
+2023-09-13 13:59:39,780 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: status
+2023-09-13 13:59:39,780 INFO    WriterThread:315251 [datastore.py:open_for_write():85] open: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/run-btv62rui.wandb
+2023-09-13 13:59:39,782 DEBUG   SenderThread:315251 [sender.py:send():379] send: header
+2023-09-13 13:59:39,784 DEBUG   SenderThread:315251 [sender.py:send():379] send: run
+2023-09-13 13:59:40,192 INFO    SenderThread:315251 [dir_watcher.py:__init__():211] watching files in: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files
+2023-09-13 13:59:40,192 INFO    SenderThread:315251 [sender.py:_start_run_threads():1121] run started: btv62rui with start time 1694606379.77903
+2023-09-13 13:59:40,202 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: check_version
+2023-09-13 13:59:40,202 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: check_version
+2023-09-13 13:59:40,334 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: run_start
+2023-09-13 13:59:40,364 DEBUG   HandlerThread:315251 [system_info.py:__init__():32] System info init
+2023-09-13 13:59:40,364 DEBUG   HandlerThread:315251 [system_info.py:__init__():47] System info init done
+2023-09-13 13:59:40,364 INFO    HandlerThread:315251 [system_monitor.py:start():181] Starting system monitor
+2023-09-13 13:59:40,364 INFO    SystemMonitor:315251 [system_monitor.py:_start():145] Starting system asset monitoring threads
+2023-09-13 13:59:40,365 INFO    HandlerThread:315251 [system_monitor.py:probe():201] Collecting system info
+2023-09-13 13:59:40,365 INFO    SystemMonitor:315251 [interfaces.py:start():190] Started cpu monitoring
+2023-09-13 13:59:40,366 INFO    SystemMonitor:315251 [interfaces.py:start():190] Started disk monitoring
+2023-09-13 13:59:40,367 INFO    SystemMonitor:315251 [interfaces.py:start():190] Started gpu monitoring
+2023-09-13 13:59:40,367 INFO    SystemMonitor:315251 [interfaces.py:start():190] Started memory monitoring
+2023-09-13 13:59:40,368 INFO    SystemMonitor:315251 [interfaces.py:start():190] Started network monitoring
+2023-09-13 13:59:40,413 DEBUG   HandlerThread:315251 [system_info.py:probe():196] Probing system
+2023-09-13 13:59:40,415 DEBUG   HandlerThread:315251 [system_info.py:_probe_git():181] Probing git
+2023-09-13 13:59:40,423 DEBUG   HandlerThread:315251 [system_info.py:_probe_git():189] Probing git done
+2023-09-13 13:59:40,423 DEBUG   HandlerThread:315251 [system_info.py:probe():244] Probing system done
+2023-09-13 13:59:40,423 DEBUG   HandlerThread:315251 [system_monitor.py:probe():210] {'os': 'Linux-5.15.0-78-generic-x86_64-with-glibc2.31', 'python': '3.11.4', 'heartbeatAt': '2023-09-13T11:59:40.413180', 'startedAt': '2023-09-13T11:59:39.774971', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '/home/nbiescas/Desktop/CVC/CVC_internship/main.py', 'codePathLocal': 'main.py', 'codePath': 'main.py', 'git': {'remote': 'https://github.com/NilBiescas/CVC_internship.git', 'commit': '3ebe0da54248d27e3f48b161980f5dc62548e45d'}, 'email': 'nilbiescas3@gmail.com', 'root': '/home/nbiescas/Desktop/CVC/CVC_internship', 'host': 'cvc135', 'username': 'nbiescas', 'executable': '/home/nbiescas/miniconda3/envs/CVC/bin/python', 'cpu_count': 4, 'cpu_count_logical': 8, 'cpu_freq': {'current': 1.2877500000000002, 'min': 1200.0, 'max': 3900.0}, 'cpu_freq_per_core': [{'current': 1.2, 'min': 1200.0, 'max': 3900.0}, {'current': 1.314, 'min': 1200.0, 'max': 3900.0}, {'current': 1.2, 'min': 1200.0, 'max': 3900.0}, {'current': 1.2, 'min': 1200.0, 'max': 3900.0}, {'current': 1.2, 'min': 1200.0, 'max': 3900.0}, {'current': 1.4, 'min': 1200.0, 'max': 3900.0}, {'current': 1.2, 'min': 1200.0, 'max': 3900.0}, {'current': 1.3, 'min': 1200.0, 'max': 3900.0}], 'disk': {'/': {'total': 213.53580856323242, 'used': 32.351470947265625}}, 'gpu': 'NVIDIA GeForce RTX 2080 Ti', 'gpu_count': 1, 'gpu_devices': [{'name': 'NVIDIA GeForce RTX 2080 Ti', 'memory_total': 11811160064}], 'memory': {'total': 15.530113220214844}}
+2023-09-13 13:59:40,423 INFO    HandlerThread:315251 [system_monitor.py:probe():211] Finished collecting system info
+2023-09-13 13:59:40,423 INFO    HandlerThread:315251 [system_monitor.py:probe():214] Publishing system info
+2023-09-13 13:59:40,423 DEBUG   HandlerThread:315251 [system_info.py:_save_pip():52] Saving list of pip packages installed into the current environment
+2023-09-13 13:59:40,424 DEBUG   HandlerThread:315251 [system_info.py:_save_pip():68] Saving pip packages done
+2023-09-13 13:59:40,424 DEBUG   HandlerThread:315251 [system_info.py:_save_conda():75] Saving list of conda packages installed into the current environment
+2023-09-13 13:59:41,193 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_created():271] file/dir created: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/requirements.txt
+2023-09-13 13:59:41,194 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_created():271] file/dir created: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/conda-environment.yaml
+2023-09-13 13:59:43,017 DEBUG   HandlerThread:315251 [system_info.py:_save_conda():87] Saving conda packages done
+2023-09-13 13:59:43,018 INFO    HandlerThread:315251 [system_monitor.py:probe():216] Finished publishing system info
+2023-09-13 13:59:43,022 DEBUG   SenderThread:315251 [sender.py:send():379] send: files
+2023-09-13 13:59:43,022 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-metadata.json with policy now
+2023-09-13 13:59:43,028 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: stop_status
+2023-09-13 13:59:43,028 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: stop_status
+2023-09-13 13:59:43,028 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: internal_messages
+2023-09-13 13:59:43,193 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/conda-environment.yaml
+2023-09-13 13:59:43,194 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_created():271] file/dir created: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-metadata.json
+2023-09-13 13:59:43,286 DEBUG   SenderThread:315251 [sender.py:send():379] send: telemetry
+2023-09-13 13:59:43,286 DEBUG   SenderThread:315251 [sender.py:send():379] send: telemetry
+2023-09-13 13:59:43,287 DEBUG   SenderThread:315251 [sender.py:send():379] send: run
+2023-09-13 13:59:43,433 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:43,490 INFO    SenderThread:315251 [sender.py:send_run():999] updated run: btv62rui
+2023-09-13 13:59:43,490 DEBUG   SenderThread:315251 [sender.py:send():379] send: telemetry
+2023-09-13 13:59:43,560 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:43,561 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:43,561 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:43,562 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:43,600 INFO    wandb-upload_0:315251 [upload_job.py:push():131] Uploaded file /tmp/tmp8ihqqnl8wandb/75asgo4p-wandb-metadata.json
+2023-09-13 13:59:43,738 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:43,738 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:43,739 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:43,739 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:43,918 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:43,918 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:43,919 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:43,919 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:44,098 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:44,099 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:44,099 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:44,100 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:44,194 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/config.yaml
+2023-09-13 13:59:44,194 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_created():271] file/dir created: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json
+2023-09-13 13:59:44,194 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_created():271] file/dir created: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/output.log
+2023-09-13 13:59:44,281 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:44,282 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:44,282 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:44,282 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:44,461 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:44,462 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:44,462 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:44,462 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:44,643 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:44,644 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:44,644 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:44,644 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:44,821 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:44,822 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: status_report
+2023-09-13 13:59:44,822 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:44,822 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:44,823 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:45,005 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:45,006 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:45,006 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:45,006 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:45,182 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:45,182 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:45,183 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:45,183 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:45,194 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json
+2023-09-13 13:59:45,360 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:45,360 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:45,360 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:45,361 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:45,544 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:45,545 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:45,545 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:45,545 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:45,724 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:45,725 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:45,725 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:45,727 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:45,903 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:45,903 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:45,903 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:45,904 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:46,081 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:46,081 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:46,081 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:46,082 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:46,195 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json
+2023-09-13 13:59:46,195 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/output.log
+2023-09-13 13:59:46,260 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:46,261 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:46,261 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:46,261 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:46,437 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:46,438 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:46,438 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:46,438 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:46,625 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:46,625 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:46,626 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:46,626 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:46,794 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:46,795 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:46,795 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:46,795 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:46,974 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:46,975 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:46,975 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:46,976 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:47,160 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:47,161 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:47,161 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:47,162 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:47,195 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json
+2023-09-13 13:59:47,337 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:47,337 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:47,337 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:47,338 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:47,515 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:47,516 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:47,516 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:47,516 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:47,697 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:47,698 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:47,698 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:47,699 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:47,871 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:47,872 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:47,872 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:47,874 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:48,049 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:48,049 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:48,049 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:48,050 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:48,195 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json
+2023-09-13 13:59:48,195 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/output.log
+2023-09-13 13:59:48,239 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:48,239 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:48,240 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:48,240 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:48,430 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:48,430 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:48,431 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:48,431 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:48,609 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:48,610 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:48,610 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:48,610 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:48,782 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:48,782 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:48,783 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:48,783 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:48,961 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:48,962 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:48,962 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:48,962 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:49,141 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:49,142 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:49,142 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:49,142 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:49,196 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json
+2023-09-13 13:59:49,320 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:49,321 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:49,321 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:49,322 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:49,506 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:49,507 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:49,507 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:49,507 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:49,692 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:49,692 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:49,692 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:49,693 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:49,870 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:49,870 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: status_report
+2023-09-13 13:59:49,871 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:49,871 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:49,871 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:50,053 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:50,053 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:50,054 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:50,056 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:50,196 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json
+2023-09-13 13:59:50,196 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/output.log
+2023-09-13 13:59:50,231 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:50,234 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:50,234 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:50,234 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:50,394 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:50,395 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:50,395 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:50,395 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:50,556 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:50,556 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:50,556 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:50,557 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:50,715 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:50,716 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:50,716 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:50,716 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:50,890 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:50,890 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:50,890 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:50,891 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:51,069 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:51,070 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:51,070 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:51,070 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:51,196 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json
+2023-09-13 13:59:51,249 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:51,250 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:51,250 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:51,250 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:51,430 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:51,431 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:51,431 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:51,431 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:51,615 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:51,616 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:51,616 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:51,616 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:51,791 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:51,792 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:51,792 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:51,793 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:51,975 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:51,976 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:51,976 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:51,976 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:52,163 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:52,163 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:52,163 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:52,165 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:52,197 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json
+2023-09-13 13:59:52,197 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/output.log
+2023-09-13 13:59:52,345 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:52,345 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:52,345 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:52,346 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:52,525 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:52,526 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:52,526 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:52,526 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:52,688 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:52,689 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:52,689 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:52,689 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:52,863 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:52,864 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:52,864 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:52,864 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:53,039 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:53,040 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:53,040 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:53,040 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:53,197 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json
+2023-09-13 13:59:53,219 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:53,219 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:53,219 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:53,220 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:53,400 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:53,400 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:53,401 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:53,401 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:53,561 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:53,562 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:53,562 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:53,562 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:53,721 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:53,722 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:53,722 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:53,722 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:53,882 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:53,883 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:53,883 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:53,883 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:54,060 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:54,061 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:54,061 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:54,061 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:54,197 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json
+2023-09-13 13:59:54,197 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/output.log
+2023-09-13 13:59:54,237 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:54,238 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:54,238 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:54,239 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:54,420 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:54,421 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:54,421 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:54,422 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:54,613 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:54,614 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:54,614 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:54,614 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:54,812 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:54,812 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:54,812 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:54,813 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:54,985 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:54,986 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:54,987 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: status_report
+2023-09-13 13:59:54,987 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:54,987 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:55,175 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:55,175 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:55,176 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:55,176 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:55,198 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json
+2023-09-13 13:59:55,351 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:55,352 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:55,352 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:55,352 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:55,534 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:55,534 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:55,534 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:55,535 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:55,714 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:55,715 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:55,715 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:55,715 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:55,906 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:55,907 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:55,907 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:55,907 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:56,082 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:56,083 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:56,083 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:56,084 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:56,198 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json
+2023-09-13 13:59:56,198 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/output.log
+2023-09-13 13:59:56,242 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:56,243 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:56,243 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:56,244 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:56,426 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:56,427 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:56,427 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:56,427 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:56,605 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:56,605 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:56,606 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:56,606 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:56,784 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:56,785 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:56,785 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:56,785 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:56,953 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:56,953 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:56,954 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:56,954 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:57,130 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:57,131 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:57,131 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:57,131 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:57,198 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json
+2023-09-13 13:59:57,309 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:57,310 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:57,310 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:57,310 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:57,486 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: partial_history
+2023-09-13 13:59:57,487 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:57,487 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:57,488 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:57,488 DEBUG   SenderThread:315251 [sender.py:send():379] send: telemetry
+2023-09-13 13:59:57,489 DEBUG   SenderThread:315251 [sender.py:send():379] send: exit
+2023-09-13 13:59:57,489 INFO    SenderThread:315251 [sender.py:send_exit():584] handling exit code: 0
+2023-09-13 13:59:57,489 INFO    SenderThread:315251 [sender.py:send_exit():586] handling runtime: 17
+2023-09-13 13:59:57,489 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:57,490 INFO    SenderThread:315251 [sender.py:send_exit():592] send defer
+2023-09-13 13:59:57,490 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:59:57,490 INFO    HandlerThread:315251 [handler.py:handle_request_defer():170] handle defer: 0
+2023-09-13 13:59:57,490 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:59:57,490 INFO    SenderThread:315251 [sender.py:send_request_defer():608] handle sender defer: 0
+2023-09-13 13:59:57,490 INFO    SenderThread:315251 [sender.py:transition_state():612] send defer: 1
+2023-09-13 13:59:57,490 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:59:57,490 INFO    HandlerThread:315251 [handler.py:handle_request_defer():170] handle defer: 1
+2023-09-13 13:59:57,491 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:59:57,491 INFO    SenderThread:315251 [sender.py:send_request_defer():608] handle sender defer: 1
+2023-09-13 13:59:57,491 INFO    SenderThread:315251 [sender.py:transition_state():612] send defer: 2
+2023-09-13 13:59:57,491 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:59:57,491 INFO    HandlerThread:315251 [handler.py:handle_request_defer():170] handle defer: 2
+2023-09-13 13:59:57,491 INFO    HandlerThread:315251 [system_monitor.py:finish():190] Stopping system monitor
+2023-09-13 13:59:57,491 DEBUG   SystemMonitor:315251 [system_monitor.py:_start():159] Starting system metrics aggregation loop
+2023-09-13 13:59:57,492 DEBUG   SystemMonitor:315251 [system_monitor.py:_start():166] Finished system metrics aggregation loop
+2023-09-13 13:59:57,492 INFO    HandlerThread:315251 [interfaces.py:finish():202] Joined cpu monitor
+2023-09-13 13:59:57,492 DEBUG   SystemMonitor:315251 [system_monitor.py:_start():170] Publishing last batch of metrics
+2023-09-13 13:59:57,492 INFO    HandlerThread:315251 [interfaces.py:finish():202] Joined disk monitor
+2023-09-13 13:59:57,580 INFO    HandlerThread:315251 [interfaces.py:finish():202] Joined gpu monitor
+2023-09-13 13:59:57,581 INFO    HandlerThread:315251 [interfaces.py:finish():202] Joined memory monitor
+2023-09-13 13:59:57,581 INFO    HandlerThread:315251 [interfaces.py:finish():202] Joined network monitor
+2023-09-13 13:59:57,582 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:59:57,582 INFO    SenderThread:315251 [sender.py:send_request_defer():608] handle sender defer: 2
+2023-09-13 13:59:57,582 INFO    SenderThread:315251 [sender.py:transition_state():612] send defer: 3
+2023-09-13 13:59:57,582 DEBUG   SenderThread:315251 [sender.py:send():379] send: stats
+2023-09-13 13:59:57,582 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:59:57,583 INFO    HandlerThread:315251 [handler.py:handle_request_defer():170] handle defer: 3
+2023-09-13 13:59:57,584 DEBUG   SenderThread:315251 [sender.py:send():379] send: history
+2023-09-13 13:59:57,584 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: summary_record
+2023-09-13 13:59:57,584 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:57,585 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:59:57,585 INFO    SenderThread:315251 [sender.py:send_request_defer():608] handle sender defer: 3
+2023-09-13 13:59:57,585 INFO    SenderThread:315251 [sender.py:transition_state():612] send defer: 4
+2023-09-13 13:59:57,585 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:59:57,585 INFO    HandlerThread:315251 [handler.py:handle_request_defer():170] handle defer: 4
+2023-09-13 13:59:57,586 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:59:57,586 INFO    SenderThread:315251 [sender.py:send_request_defer():608] handle sender defer: 4
+2023-09-13 13:59:57,586 INFO    SenderThread:315251 [sender.py:transition_state():612] send defer: 5
+2023-09-13 13:59:57,586 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:59:57,586 INFO    HandlerThread:315251 [handler.py:handle_request_defer():170] handle defer: 5
+2023-09-13 13:59:57,587 DEBUG   SenderThread:315251 [sender.py:send():379] send: summary
+2023-09-13 13:59:57,587 INFO    SenderThread:315251 [sender.py:_save_file():1375] saving file wandb-summary.json with policy end
+2023-09-13 13:59:57,587 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:59:57,587 INFO    SenderThread:315251 [sender.py:send_request_defer():608] handle sender defer: 5
+2023-09-13 13:59:57,587 INFO    SenderThread:315251 [sender.py:transition_state():612] send defer: 6
+2023-09-13 13:59:57,588 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:59:57,588 INFO    HandlerThread:315251 [handler.py:handle_request_defer():170] handle defer: 6
+2023-09-13 13:59:57,588 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:59:57,588 INFO    SenderThread:315251 [sender.py:send_request_defer():608] handle sender defer: 6
+2023-09-13 13:59:57,593 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: status_report
+2023-09-13 13:59:57,812 INFO    SenderThread:315251 [sender.py:transition_state():612] send defer: 7
+2023-09-13 13:59:57,812 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:59:57,812 INFO    HandlerThread:315251 [handler.py:handle_request_defer():170] handle defer: 7
+2023-09-13 13:59:57,813 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:59:57,813 INFO    SenderThread:315251 [sender.py:send_request_defer():608] handle sender defer: 7
+2023-09-13 13:59:58,199 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/config.yaml
+2023-09-13 13:59:58,199 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json
+2023-09-13 13:59:58,200 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/output.log
+2023-09-13 13:59:58,487 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: poll_exit
+2023-09-13 13:59:59,542 INFO    SenderThread:315251 [sender.py:transition_state():612] send defer: 8
+2023-09-13 13:59:59,542 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: poll_exit
+2023-09-13 13:59:59,542 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:59:59,543 INFO    HandlerThread:315251 [handler.py:handle_request_defer():170] handle defer: 8
+2023-09-13 13:59:59,543 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: defer
+2023-09-13 13:59:59,543 INFO    SenderThread:315251 [sender.py:send_request_defer():608] handle sender defer: 8
+2023-09-13 13:59:59,543 INFO    SenderThread:315251 [job_builder.py:build():281] Attempting to build job artifact
+2023-09-13 13:59:59,543 INFO    SenderThread:315251 [job_builder.py:_get_source_type():393] is repo sourced job
+2023-09-13 13:59:59,545 INFO    SenderThread:315251 [job_builder.py:build():369] adding wandb-job metadata file
+2023-09-13 13:59:59,548 INFO    SenderThread:315251 [sender.py:transition_state():612] send defer: 9
+2023-09-13 13:59:59,548 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 13:59:59,549 INFO    HandlerThread:315251 [handler.py:handle_request_defer():170] handle defer: 9
+2023-09-13 13:59:59,549 DEBUG   SenderThread:315251 [sender.py:send():379] send: artifact
+2023-09-13 14:00:00,200 INFO    Thread-12 :315251 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/output.log
+2023-09-13 14:00:00,379 INFO    SenderThread:315251 [sender.py:send_artifact():1453] sent artifact job-https___github.com_NilBiescas_CVC_internship.git_main.py - {'id': 'QXJ0aWZhY3Q6NTY2OTQ0Nzk3', 'state': 'COMMITTED', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjk3MTY4NjQ3', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6NTY2OTQ3NzIw', 'versionIndex': 3}}}
+2023-09-13 14:00:00,379 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: defer
+2023-09-13 14:00:00,379 INFO    SenderThread:315251 [sender.py:send_request_defer():608] handle sender defer: 9
+2023-09-13 14:00:00,379 INFO    SenderThread:315251 [dir_watcher.py:finish():358] shutting down directory watcher
+2023-09-13 14:00:01,201 INFO    SenderThread:315251 [dir_watcher.py:finish():388] scan: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files
+2023-09-13 14:00:01,202 INFO    SenderThread:315251 [dir_watcher.py:finish():402] scan save: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/config.yaml config.yaml
+2023-09-13 14:00:01,202 INFO    SenderThread:315251 [dir_watcher.py:finish():402] scan save: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/conda-environment.yaml conda-environment.yaml
+2023-09-13 14:00:01,206 INFO    SenderThread:315251 [dir_watcher.py:finish():402] scan save: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/requirements.txt requirements.txt
+2023-09-13 14:00:01,206 INFO    SenderThread:315251 [dir_watcher.py:finish():402] scan save: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/output.log output.log
+2023-09-13 14:00:01,213 INFO    SenderThread:315251 [dir_watcher.py:finish():402] scan save: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-metadata.json wandb-metadata.json
+2023-09-13 14:00:01,214 INFO    SenderThread:315251 [dir_watcher.py:finish():402] scan save: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json wandb-summary.json
+2023-09-13 14:00:01,214 INFO    SenderThread:315251 [sender.py:transition_state():612] send defer: 10
+2023-09-13 14:00:01,217 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 14:00:01,217 INFO    HandlerThread:315251 [handler.py:handle_request_defer():170] handle defer: 10
+2023-09-13 14:00:01,221 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: defer
+2023-09-13 14:00:01,221 INFO    SenderThread:315251 [sender.py:send_request_defer():608] handle sender defer: 10
+2023-09-13 14:00:01,221 INFO    SenderThread:315251 [file_pusher.py:finish():175] shutting down file pusher
+2023-09-13 14:00:01,614 INFO    wandb-upload_0:315251 [upload_job.py:push():131] Uploaded file /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/config.yaml
+2023-09-13 14:00:01,721 INFO    wandb-upload_1:315251 [upload_job.py:push():131] Uploaded file /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/conda-environment.yaml
+2023-09-13 14:00:01,788 INFO    wandb-upload_4:315251 [upload_job.py:push():131] Uploaded file /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/wandb-summary.json
+2023-09-13 14:00:01,810 INFO    wandb-upload_2:315251 [upload_job.py:push():131] Uploaded file /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/requirements.txt
+2023-09-13 14:00:01,813 INFO    wandb-upload_3:315251 [upload_job.py:push():131] Uploaded file /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/files/output.log
+2023-09-13 14:00:02,013 INFO    Thread-11 (_thread_body):315251 [sender.py:transition_state():612] send defer: 11
+2023-09-13 14:00:02,014 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 14:00:02,014 INFO    HandlerThread:315251 [handler.py:handle_request_defer():170] handle defer: 11
+2023-09-13 14:00:02,015 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: defer
+2023-09-13 14:00:02,015 INFO    SenderThread:315251 [sender.py:send_request_defer():608] handle sender defer: 11
+2023-09-13 14:00:02,015 INFO    SenderThread:315251 [file_pusher.py:join():181] waiting for file pusher
+2023-09-13 14:00:02,015 INFO    SenderThread:315251 [sender.py:transition_state():612] send defer: 12
+2023-09-13 14:00:02,016 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 14:00:02,016 INFO    HandlerThread:315251 [handler.py:handle_request_defer():170] handle defer: 12
+2023-09-13 14:00:02,016 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: defer
+2023-09-13 14:00:02,017 INFO    SenderThread:315251 [sender.py:send_request_defer():608] handle sender defer: 12
+2023-09-13 14:00:02,017 INFO    SenderThread:315251 [file_stream.py:finish():594] file stream finish called
+2023-09-13 14:00:02,188 INFO    SenderThread:315251 [file_stream.py:finish():598] file stream finish is done
+2023-09-13 14:00:02,189 INFO    SenderThread:315251 [sender.py:transition_state():612] send defer: 13
+2023-09-13 14:00:02,189 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 14:00:02,189 INFO    HandlerThread:315251 [handler.py:handle_request_defer():170] handle defer: 13
+2023-09-13 14:00:02,190 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: defer
+2023-09-13 14:00:02,190 INFO    SenderThread:315251 [sender.py:send_request_defer():608] handle sender defer: 13
+2023-09-13 14:00:02,190 INFO    SenderThread:315251 [sender.py:transition_state():612] send defer: 14
+2023-09-13 14:00:02,191 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: defer
+2023-09-13 14:00:02,191 INFO    HandlerThread:315251 [handler.py:handle_request_defer():170] handle defer: 14
+2023-09-13 14:00:02,191 DEBUG   SenderThread:315251 [sender.py:send():379] send: final
+2023-09-13 14:00:02,192 DEBUG   SenderThread:315251 [sender.py:send():379] send: footer
+2023-09-13 14:00:02,192 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: defer
+2023-09-13 14:00:02,192 INFO    SenderThread:315251 [sender.py:send_request_defer():608] handle sender defer: 14
+2023-09-13 14:00:02,193 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: internal_messages
+2023-09-13 14:00:02,195 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: poll_exit
+2023-09-13 14:00:02,195 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: poll_exit
+2023-09-13 14:00:02,196 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: server_info
+2023-09-13 14:00:02,196 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: get_summary
+2023-09-13 14:00:02,197 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: sampled_history
+2023-09-13 14:00:02,198 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: job_info
+2023-09-13 14:00:02,198 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: server_info
+2023-09-13 14:00:02,341 DEBUG   SenderThread:315251 [sender.py:send_request():406] send_request: job_info
+2023-09-13 14:00:02,342 DEBUG   HandlerThread:315251 [handler.py:handle_request():144] handle_request: shutdown
+2023-09-13 14:00:02,342 INFO    HandlerThread:315251 [handler.py:finish():840] shutting down handler
+2023-09-13 14:00:03,198 INFO    WriterThread:315251 [datastore.py:close():294] close: /home/nbiescas/Desktop/CVC/CVC_internship/wandb/run-20230913_135939-btv62rui/run-btv62rui.wandb
+2023-09-13 14:00:03,341 INFO    SenderThread:315251 [sender.py:finish():1531] shutting down sender
+2023-09-13 14:00:03,342 INFO    SenderThread:315251 [file_pusher.py:finish():175] shutting down file pusher
+2023-09-13 14:00:03,342 INFO    SenderThread:315251 [file_pusher.py:join():181] waiting for file pusher

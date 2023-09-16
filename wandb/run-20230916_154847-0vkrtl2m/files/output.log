@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/main.py", line 29, in <module>
+    model_pipeline(model, train_loader, val_loader, test_loader)
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 95, in model_pipeline
+    optimizer = optim.sgd(model.parameters(), lr=0.0001, weight_decay=1e-4)
+                ^^^^^^^^^
+AttributeError: module 'torch.optim' has no attribute 'sgd'

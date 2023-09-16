@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/main.py", line 29, in <module>
+    model_pipeline(model, train_loader, val_loader, test_loader)
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 98, in model_pipeline
+    train_loss = train(epoch, criterion, model, optimizer, train_loader)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 82, in train
+    epoch, round(batch_idx * loader.batch.size / len(loader), 2), loss.item()))
+                             ^^^^^^^^^^^^
+AttributeError: 'DataLoader' object has no attribute 'batch'

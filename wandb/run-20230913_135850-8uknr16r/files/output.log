@@ -1,0 +1,18 @@
+
+Train Epoch: 0 	Loss: 66482452643303769401008266126061548529905449044895964304122847974309566236754103049526420020449427099835283269073261093877546999657859393552445188140218455806106298514903587374315550084592974237374519381809144179316025125692256561038875037714014924014287021146112.000000
+Traceback (most recent call last):
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/main.py", line 29, in <module>
+    model_pipeline(model, train_loader, val_loader, test_loader)
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 99, in model_pipeline
+    train_loss = train(epoch, criterion, model, optimizer, train_loader)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nbiescas/Desktop/CVC/CVC_internship/training.py", line 76, in train
+    loss.backward()
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/torch/_tensor.py", line 487, in backward
+    torch.autograd.backward(
+  File "/home/nbiescas/miniconda3/envs/CVC/lib/python3.11/site-packages/torch/autograd/__init__.py", line 200, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+RuntimeError: CUDA error: device-side assert triggered
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
