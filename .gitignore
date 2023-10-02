@@ -1,3 +1,5 @@
 wandb
 CheckPoints
 doc2_graph
+/__pycache__
+/wandb
