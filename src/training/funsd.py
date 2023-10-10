@@ -7,26 +7,11 @@ import dgl
 
 from ..models.VGAE import device
 from ..models.VGAE import GAE, GSage_AE, GIN_AE, GAT_AE
+from ..models.SELF_AEC import SELF_supervised
+
 import torch
 import wandb
-
-
-def metrics_MSE_mean(train_loss, graph):
-    out_dimensions = graph.ndata['feat'].shape[1]
-    node_reconstruction_loss = train_loss * out_dimensions
-    graph_reconstructin_loss = (node_reconstruction_loss * graph.num_nodes()) / graph.batch_size
-
-    return node_reconstruction_loss, graph_reconstructin_loss, 
-
-# In order to comapre the reduction method used in MSELoss
-def metrics_MSE_sum(loss, graph):
-    out_dimensions = graph.ndata['feat'].shape[1]
-
-    graph_reconstructin_loss = loss / graph.batch_size
-    node_reconstruction_loss = loss / graph.num_nodes()
-    feature_reconstruction_loss = node_reconstruction_loss / out_dimensions
-
-    return node_reconstruction_loss, graph_reconstructin_loss, feature_reconstruction_loss
+from ..evaluation import SVM_classifier, metrics_MSE_mean, metrics_MSE_sum
 
 def validation_funsd(epoch, criterion, model, val_graph, config):
     model.eval()
@@ -74,14 +59,9 @@ def train_funsd(epoch, criterion, model, optimizer, graph, config):
 
     return train_loss
 
-def test_funsd(model, criterion, config):
-    model.eval()
+def test_funsd(model, criterion, test_graph, config):
     with torch.no_grad():
-        data_test = FUNSD_loader(train=False) #Loading test set graphs
-
-        test_graph = dgl.batch(data_test.graphs)
-        test_graph = test_graph.int().to(device)
-
+        model.eval()
         features = test_graph.ndata['feat'].to(device)
         pred = model(test_graph, features)
         test_loss = criterion(pred, features)
@@ -103,19 +83,19 @@ def test_funsd(model, criterion, config):
 
 def _funsd(config):
 
-    data = FUNSD_loader(train=False)
+    data = FUNSD_loader(train=True)
     train_graphs, val_graphs, _, _ = train_test_split(data.graphs, torch.ones(len(data.graphs), 1), test_size=0.20)
 
     #Graph for training
     train_graph = dgl.batch(train_graphs)
     train_graph = train_graph.int().to(device)
 
-    #Graph for testing
+    #Graph for validating
     val_graph = dgl.batch(val_graphs)
     val_graph = val_graph.int().to(device)
 
     #Dimensions of the autencoder
-    layers_dimensions = config.layers_dimensions # Tuple = (100, 25, 10)
+    layers_dimensions = config.layers_dimensions # e.g (100, 25, 10)
 
     if config.model == 'SAGE':
         model = GSage_AE(layers_dimensions).to(device)
@@ -125,8 +105,10 @@ def _funsd(config):
         model = GIN_AE(layers_dimensions).to(device)
     elif config.model == 'GAT':
         model = GAT_AE(layers_dimensions).to(device)
-    
-    #torch.optim.SGD(model.parameters(), lr=config.learning_rate, momentum=0.9)
+    elif config.model == 'SELF':
+        model = SELF_supervised(layers_dimensions).to(device)
+
+    #optimizer = torch.optim.SGD(model.parameters(), lr=config.learning_rate, momentum=0.9)
     optimizer = torch.optim.AdamW(model.parameters(), lr=config.learning_rate)
     criterion = torch.nn.MSELoss(reduction=config.reduce)
     wandb.watch(model)
@@ -137,13 +119,22 @@ def _funsd(config):
         train_loss = train_funsd(epoch, criterion, model, optimizer, train_graph, config)
         validation_loss = validation_funsd(epoch, criterion, model, val_graph, config)
 
-        #scheduler.step(validation_loss)
         total_train_loss += train_loss
         total_validation_loss += validation_loss
 
-    #total_train_loss /= train_graph.batch_size
-    #total_validation_loss /= val_graph.batch_size
-    test_loss = test_funsd(model, criterion, config)
-    print("Average train loss: {}\nAverage validation loss: {}\nTest loss: {}".format(total_train_loss, total_validation_loss, test_loss))
-    wandb.log({"test loss": test_loss})
+    total_train_loss /= config.epochs; total_validation_loss /= config.epochs
+
+    data_test = FUNSD_loader(train=False) #Loading test set graphs
+    test_graph = dgl.batch(data_test.graphs)
+    test_graph = test_graph.int().to(device)
+    accuracy, f1, precision, recall = SVM_classifier(model, train_graph, test_graph)
+
+    accuracy *= 100; f1 *= 100; precision *= 100; recall *= 100 #To percentage
+    accuracy, f1, precision, recall = int(accuracy), int(f1), int(precision), int(recall) #To int
+
+    test_loss = test_funsd(model, criterion, test_graph, config)
+    print("Train Loss: {:.4f} | Validation Loss: {:.4f} | Test Loss: {:.4f}".format(total_train_loss, total_validation_loss, test_loss))
+    print("Accuracy: {:.4f} | F1 Score: {:.4f} | Precision: {:.4f} | Recall: {:.4f}".format(accuracy, f1, precision, recall))
+
+    wandb.log({"train loss": total_train_loss, "validation loss": total_validation_loss, "test loss": test_loss, "Accuracy": accuracy, "F1 Score": f1, "Precision": precision, "Recall": recall})
     return model

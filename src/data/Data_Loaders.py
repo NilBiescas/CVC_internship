@@ -40,7 +40,7 @@ def OMNIGLOT_loader(DATA_PATH):
 
 
 from .doc2_graph.data.dataloader import Document2Graph
-from .doc2_graph.paths import FUNSD_TRAIN, TRAIN_SAMPLES
+from .doc2_graph.paths import FUNSD_TRAIN, FUNSD_TEST, TRAIN_SAMPLES, TEST_SAMPLES
 
 
 def FUNSD_loader(train = True):
@@ -49,6 +49,8 @@ def FUNSD_loader(train = True):
     pprint.pprint(config, indent=4, width=1)
     print("\n")
     if train:
+        print("TRAIN")
         return Document2Graph(name='FUNSD TRAIN', src_path=FUNSD_TRAIN, device = "cuda:0", output_dir=TRAIN_SAMPLES)
     else:
-        return Document2Graph(name='FUNSD TEST', src_path=FUNSD_TRAIN, device = "cuda:0", output_dir=TRAIN_SAMPLES)
+        print("TEST")
+        return Document2Graph(name='FUNSD TEST', src_path=FUNSD_TEST, device = "cuda:0", output_dir=TEST_SAMPLES)

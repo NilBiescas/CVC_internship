@@ -14,7 +14,6 @@ torch.cuda.manual_seed_all(hash("so runs are repeatable") % 2**32 - 1)
 
 
 BASE_DIR = Path("/home/nbiescas/Desktop/CVC/CVC_internship")
-DATA_PATH = BASE_DIR / "src" / "datasets" / "omniglot.npz"
 
 if __name__ == '__main__':
 
@@ -56,12 +55,7 @@ if __name__ == '__main__':
         if (args.src_data == 'FUNSD'):
             print(f"\n{'- '*10}FUNSD{' -'*10}\n")
             model = _funsd(config)
-            #model, mean_loss = train_FUNSD(epochs=60)
-            #print("mean loss Funsd: {}".format(mean_loss))
 
-        #if (args.src_data == 'OMNIGLOT'):
-        #    train_loader, val_loader, test_loader = OMNIGLOT_loader(DATA_PATH)
-            #model_pipeline(model, train_loader, val_loader, test_loader)
 
         torch.save(model.state_dict(),f'/home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints/{args.checkpoint_name}')
         print("Done")
