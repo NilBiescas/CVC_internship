@@ -8,7 +8,7 @@ sys.path.append("..")
 
 from ..data.Data_Loaders import FUNSD_loader
 from ..models.VGAE import device
-from .utils import get_model, compute_crossentropy_loss
+from .utils import get_model, compute_crossentropy_loss, log_wandb
 from ..evaluation import SVM_classifier, metrics_MSE_mean, metrics_MSE_sum, kmeans_classifier
 
 def validation_funsd(model, criterion, val_graph, epoch, config):
@@ -33,10 +33,7 @@ def validation_funsd(model, criterion, val_graph, epoch, config):
             elif config.reduce == "sum":
                 node_reconstruction_loss, graph_reconstructin_loss, recons_loss = metrics_MSE_sum(recons_loss, val_graph)
             
-            print(f"\n{'- '*10}Validation{' -'*10}\n")
-            wandb.log({"epoch": epoch, "val loss": recons_loss, "Val Node reconstruction loss": node_reconstruction_loss, "Val graph reconstructin loss": graph_reconstructin_loss})
-            print('\nepoch: {}\tFeature reconstruction loss validation: {:.6f}'.format(epoch, recons_loss))
-            print('Node reconstruction loss validation:  {}\tGraph reconstruction loss validation: {}'.format(node_reconstruction_loss, graph_reconstructin_loss))
+            log_wandb("Validation", recons_loss, node_reconstruction_loss, graph_reconstructin_loss)
 
     return recons_loss
 
@@ -66,10 +63,7 @@ def train_funsd(model, criterion, optimizer, train_graph, epoch, config):
         elif config.reduce == "sum":
             node_reconstruction_loss, graph_reconstructin_loss, recons_loss = metrics_MSE_sum(recons_loss, train_graph)
         
-        print(f"\n{'- '*10}Training{' -'*10}\n")
-        wandb.log({"epoch": epoch, "train loss": recons_loss, "Train node reconstruction loss": node_reconstruction_loss, "Train graph reconstructin loss": graph_reconstructin_loss})
-        print('\nepoch: {}\tFeature reconstruction loss training: {:.6f}'.format(epoch, recons_loss))
-        print('Node reconstruction loss training:  {}\tGraph reconstruction loss training: {}'.format(node_reconstruction_loss, graph_reconstructin_loss))
+        log_wandb("Training", recons_loss, node_reconstruction_loss, graph_reconstructin_loss)
 
     return recons_loss
 
@@ -92,10 +86,7 @@ def test_funsd(model, test_graph, criterion, config):
         elif config.reduce == "sum":
             node_reconstruction_loss, graph_reconstructin_loss, recons_loss = metrics_MSE_sum(recons_loss, test_graph)
 
-        print(f"\n{'- '*10}TEST{' -'*10}\n")
-        wandb.log({"test loss": recons_loss, "Test node reconstruction loss": node_reconstruction_loss, "Test graph reconstructin loss": graph_reconstructin_loss})
-        print('\nFeature reconstruction loss test: {:.6f}'.format(recons_loss))
-        print('Node reconstruction loss test:  {}\tGraph reconstruction loss test: {}'.format(node_reconstruction_loss, graph_reconstructin_loss))
+        log_wandb("Test", recons_loss, node_reconstruction_loss, graph_reconstructin_loss)
 
     return recons_loss
 

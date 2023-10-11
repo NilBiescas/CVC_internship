@@ -1,8 +1,11 @@
 import torch
+import dgl
+
 from dgl.nn.pytorch import GraphConv, SAGEConv, GINConv, GATConv
 from torch import nn
 from torch.nn.parameter import Parameter
 import torch.nn.functional as F
+import numpy as np
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -93,10 +96,8 @@ class GAT_AE(nn.Module):
             else:
                 self.decoder.insert(0, GINConv(torch.nn.Linear(dimensions_layers[i + 1], dimensions_layers[i]), aggregator_type = 'max', activation=F.relu)) # GAT(in_dim, out_dim) GAT out_dim * 3
 
-        
         print("\nEncoder: {} \tNumb Layers: {}".format(self.encoder.__repr__(), len(dimensions_layers)))
         print("\nDecoder: {} \tNumb Layers: {}".format(self.decoder.__repr__(), len(dimensions_layers)))
-
 
     def forward(self, graph, feat):
         for layer in self.encoder:
@@ -157,20 +158,6 @@ class GAE(nn.Module):
 
         return feat
 
-class GSage_AE(nn.Module):
-
-    def __init__(self, dimensions_layers):
-        super(GSage_AE, self).__init__()
-
-        self.encoder = nn.ModuleList()
-        self.decoder = nn.ModuleList()
-
-        for i in range(len(dimensions_layers) - 1):
-            self.encoder.append(SAGEConv(dimensions_layers[i],  dimensions_layers[i+1], aggregator_type = 'pool', activation=F.relu))
-            self.decoder.insert(0, SAGEConv(dimensions_layers[i+1],  dimensions_layers[i], aggregator_type = 'pool', activation=F.relu))
-
-        print("\nEncoder: {} \tNumb Layers: {}".format(self.encoder.__repr__(), len(dimensions_layers)))
-        print("\nDecoder: {} \tNumb Layers: {}".format(self.decoder.__repr__(), len(dimensions_layers)))
 
 class E2E(nn.Module):
     def __init__(self, node_classes, 
@@ -202,6 +189,13 @@ class E2E(nn.Module):
         node_pred.append(nn.LayerNorm(node_classes))
         self.node_pred = nn.Sequential(*node_pred)
 
+        # Define bounding box predictor
+        bbox_coordinates = 4
+        bounding_box_pred = []
+        bounding_box_pred.append(nn.Linear(m_hidden, bbox_coordinates))
+        bounding_box_pred.append(nn.LayerNorm(bbox_coordinates))
+        self.bbox = nn.Sequential(*bounding_box_pred)
+
     def forward(self, g, h):
         for layer in self.encoder:
             h = layer(g, h)
@@ -209,10 +203,117 @@ class E2E(nn.Module):
         node_pred = self.node_pred(h) # Node prediction, given the features of the latent space, returns a vector with the unbound logits for each class
         edges_pred = self.edge_pred(g, h, node_pred) # Edge prediction
 
+
         for layer in self.decoder:
             h = layer(g, h)
 
         return node_pred, edges_pred, h
+
+
+class autencoder(nn.Module):
+    def __init__(self, encoder_type, decoder_type, dimensions_layers): # encoder_type = GAE, decoder_type = GAE
+        super().__init__()
+        self.encoder = encoder_type
+        self.decoder = decoder_type
+
+        # Perform message passing
+        self.encoder = nn.ModuleList()
+        self.decoder = nn.ModuleList()
+        
+        graph_models    = {'GAE': GAE, 
+                           'GSage_AE': GSage_AE, 
+                           'GIN_AE': GIN_AE,
+                           'GAT_AE': GAT_AE}
+        
+        gnn_encoder     = graph_models[self.encoder]
+        gnn_autencoder  = graph_models[self.decoder]
+
+        for i in range(len(dimensions_layers) - 1):
+            self.encoder.append(SAGEConv(dimensions_layers[i],  dimensions_layers[i+1], aggregator_type = 'pool', activation=F.relu))
+            self.decoder.insert(0, SAGEConv(dimensions_layers[i+1],  dimensions_layers[i], aggregator_type = 'pool', activation=F.relu))
+
+class E2E(nn.Module):
+    def __init__(self, node_classes, 
+                       edge_classes,
+                       dimensions_layers,
+                       dropout,
+                       edge_pred_features,
+                       doProject=True):
+
+        super().__init__()
+
+        # Perform message passing
+        self.encoder = nn.ModuleList()
+        self.decoder = nn.ModuleList()
+
+        for i in range(len(dimensions_layers) - 1):
+            self.encoder.append(SAGEConv(dimensions_layers[i],  dimensions_layers[i+1], aggregator_type = 'pool', activation=F.relu))
+            self.decoder.insert(0, SAGEConv(dimensions_layers[i+1],  dimensions_layers[i], aggregator_type = 'pool', activation=F.relu))
+
+        # Define edge predictor layer
+        m_hidden = dimensions_layers[-1]
+        hidden_dim = dimensions_layers[-1]
+
+        self.edge_pred = MLPPredictor_E2E(m_hidden, hidden_dim, edge_classes, dropout, edge_pred_features)
+
+        # Define node predictor layer
+        node_pred = []
+        node_pred.append(nn.Linear(m_hidden, node_classes))
+        node_pred.append(nn.LayerNorm(node_classes))
+        self.node_pred = nn.Sequential(*node_pred)
+
+        # Define bounding box predictor
+        bbox_coordinates = 4
+        bounding_box_pred = []
+        bounding_box_pred.append(nn.Linear(m_hidden, bbox_coordinates))
+        bounding_box_pred.append(nn.LayerNorm(bbox_coordinates))
+        self.bbox = nn.Sequential(*bounding_box_pred)
+
+    def forward(self, g, h):
+        new_g, delated_edges = drop_edge(g, 0.5)
+        for layer in self.encoder:
+            h = layer(new_g, h) 
+
+        
+        node_pred = self.node_pred(h) # Node prediction, given the features of the latent space, returns a vector with the unbound logits for each class
+        edges_pred = self.edge_pred(new_g, h, node_pred) # Edge prediction
+
+
+        for layer in self.decoder:
+            h = layer(new_g, h)
+
+        return node_pred, edges_pred, h
+    
+def drop_edge(graph, drop_rate):
+    """
+    Returns the graph with the edges dropped and the positions of the edges dropped. 
+    The edges dropped do not belong to the set of added edges (edges that do not exist in the original graph)
+    """
+
+    real_edges = graph.edata['label'].nonzero().squeeze(1)
+    E = len(real_edges)
+
+    mask_rates = torch.FloatTensor(np.ones(E) * drop_rate)
+    masks = torch.bernoulli(mask_rates)
+    mask_idx = masks.nonzero().squeeze(1)
+
+    pos = real_edges[mask_idx]
+
+    return dgl.remove_edges(graph, pos.type(torch.int32)), pos
+        
+    
+class MLPPredictor_erase_edges(nn.Module):
+    def __init__(self, in_features, hidden_dim, out_classes, dropout,  edge_pred_features):
+        super().__init__()
+        self.out = out_classes
+        self.W1 = nn.Linear(in_features * 2 +  edge_pred_features, hidden_dim)
+        self.norm = nn.LayerNorm(hidden_dim)
+        self.W2 = nn.Linear(hidden_dim, out_classes)
+        self.drop = nn.Dropout(dropout)
+        #self.W3 = nn.Linear(hidden_dim, 4)
+    
+    def forward(self, graph, h, cls, pos):
+        pass
 
 class MLPPredictor_E2E(nn.Module):
     def __init__(self, in_features, hidden_dim, out_classes, dropout,  edge_pred_features):
