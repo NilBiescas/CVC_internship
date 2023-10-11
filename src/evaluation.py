@@ -1,18 +1,20 @@
 import torch
-from .models.VGAE import device
-
-from sklearn.metrics import (accuracy_score, f1_score, precision_score, recall_score, confusion_matrix)
+import wandb
 import pandas as pd
 import seaborn as sn
+from sklearn.metrics import (accuracy_score, f1_score, precision_score, recall_score, confusion_matrix)
 import matplotlib.pyplot as plt
 import numpy as np
+
+from .models.VGAE import device
+
 
 def metrics_MSE_mean(train_loss, graph):
     out_dimensions = graph.ndata['feat'].shape[1]
     node_reconstruction_loss = train_loss * out_dimensions
     graph_reconstructin_loss = (node_reconstruction_loss * graph.num_nodes()) / graph.batch_size
 
-    return node_reconstruction_loss, graph_reconstructin_loss, 
+    return node_reconstruction_loss, graph_reconstructin_loss
 
 # In order to comapre the reduction method used in MSELoss
 def metrics_MSE_sum(loss, graph):
@@ -69,7 +71,9 @@ def kmeans_classifier(model, train_graph, test_graph):
 
         group1_labels, group2_labels, group3_labels, group4_labels = np.bincount(group1_labels), np.bincount(group2_labels), np.bincount(group3_labels), np.bincount(group4_labels)
 
-
+        if not all(map(lambda a: len(a) != 0, [group1_labels, group2_labels, group3_labels, group4_labels])):
+            return
+        
         mapping = {'0': np.argmax(group1_labels), '1': np.argmax(group2_labels), '2': np.argmax(group3_labels), '3': np.argmax(group4_labels)}
         print(mapping)
 
@@ -80,9 +84,12 @@ def kmeans_classifier(model, train_graph, test_graph):
         f1 = f1_score(labels_test, pred, average='macro')
         precision = precision_score(labels_test, pred, average='macro')
         recall = recall_score(labels_test, pred, average='macro')
-
+        
+        accuracy *= 100; f1 *= 100; precision *= 100; recall *= 100 #To percentage
+        accuracy, f1, precision, recall = int(accuracy), int(f1), int(precision), int(recall) #To int
+        print("Accuracy kmeans: {:.4f} | F1 Score kmeans: {:.4f} | Precision kmeans: {:.4f} | Recall kmeans: {:.4f}".format(accuracy, f1, precision, recall))
+        wandb.log({"Accuracy kmeans": accuracy, "F1 Score kmeans": f1, "Precision kmeans": precision, "Recall kmeans": recall})
         conf_marix(labels_test, pred)
-        return accuracy, f1, precision, recall
 
 
 
@@ -102,5 +109,9 @@ def SVM_classifier(model, train_graph, test_graph):
         precision = precision_score(labels_test, pred, average='macro')
         recall = recall_score(labels_test, pred, average='macro')
 
+        # Percentatge
+        accuracy *= 100; f1 *= 100; precision *= 100; recall *= 100
+        accuracy, f1, precision, recall = int(accuracy), int(f1), int(precision), int(recall)
+        print("Accuracy SVM: {:.4f} | F1 Score SVM: {:.4f} | Precision SVM: {:.4f} | Recall SVM: {:.4f}".format(accuracy, f1, precision, recall))
+        wandb.log({"Accuracy SVM": accuracy, "F1 Score SVM": f1, "Precision SVM": precision, "Recall SVM": recall})
         conf_marix(labels_test, pred)
-        return accuracy, f1, precision, recall
