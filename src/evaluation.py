@@ -2,12 +2,54 @@ import torch
 import wandb
 import pandas as pd
 import seaborn as sn
+from typing import Tuple
 from sklearn.metrics import (accuracy_score, f1_score, precision_score, recall_score, confusion_matrix)
+from sklearn.metrics import average_precision_score, f1_score, precision_recall_fscore_support
+import torch.nn.functional as F
+
 import matplotlib.pyplot as plt
 import numpy as np
 
 from .models.VGAE import device
 
+
+def compute_auc_mc(scores, labels):
+    scores = scores.detach().cpu().numpy()
+    labels = F.one_hot(labels).cpu().numpy()
+    # return roc_auc_score(labels, scores)
+    return average_precision_score(labels, scores)
+
+def get_binary_accuracy_and_f1(classes, labels : torch.Tensor, per_class = False) -> Tuple[float, list]:
+
+    correct = torch.sum(classes.flatten() == labels)
+    accuracy = correct.item() * 1.0 / len(labels)
+    classes = classes.detach().cpu().numpy()
+    labels = labels.cpu().numpy()
+
+    if not per_class:
+        f1 = f1_score(labels, classes, average='macro'), f1_score(labels, classes, average='micro')
+    else:
+        f1 = precision_recall_fscore_support(labels, classes, average=None)[2].tolist()
+    
+    return accuracy, f1
+
+def get_f1(logits : torch.Tensor, labels : torch.Tensor, per_class = False) -> tuple:
+    """Returns Macro and Micro F1-score for given logits / labels.
+
+    Args:
+        logits (torch.Tensor): model prediction logits
+        labels (torch.Tensor): target labels
+
+    Returns:
+        tuple: macro-f1 and micro-f1
+    """
+    _, indices = torch.max(logits, dim=1)
+    indices = indices.cpu().detach().numpy()
+    labels = labels.cpu().detach().numpy()
+    if not per_class:
+        return f1_score(labels, indices, average='macro'), f1_score(labels, indices, average='micro')
+    else:
+        return precision_recall_fscore_support(labels, indices, average=None)[2].tolist()
 
 def metrics_MSE_mean(train_loss, graph):
     out_dimensions = graph.ndata['feat'].shape[1]

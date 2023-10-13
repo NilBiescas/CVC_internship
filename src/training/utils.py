@@ -1,4 +1,6 @@
-from ..models.VGAE import GAE, GSage_AE, GIN_AE, GAT_AE, E2E
+from ..models.VGAE import GAE, GSage_AE, GIN_AE, GAT_AE
+from ..models.Drop_edge import E2E
+
 from ..models.VGAE import device
 from ..models.SELF_AEC import SELF_supervised
 import math
@@ -7,6 +9,7 @@ from sklearn.utils import class_weight
 import numpy as np
 import torch
 import wandb
+
 
 def log_wandb(mode, recons_loss, node_reconstruction_loss, graph_reconstructin_loss):
 
@@ -39,6 +42,7 @@ def get_model(config, data):
                     edge_classes = data.edge_num_classes, 
                     dimensions_layers = layers_dimensions, 
                     dropout=0.2, 
-                    edge_pred_features=edge_pred_features).to(device)
+                    edge_pred_features=edge_pred_features,
+                    drop_rate = config.drop_rate).to(device)
     
     return model

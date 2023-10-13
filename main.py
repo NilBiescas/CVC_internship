@@ -32,6 +32,9 @@ if __name__ == '__main__':
     parser.add_argument("--epochs", type=int, default = 200)
     parser.add_argument("--lr", type=float, default=0.001)
     parser.add_argument("--layers-dimensions", type=str, default=(1756, 1000, 600))
+    parser.add_argument("--drop-edge", type=float, default=0)
+    parser.add_argument("--weight-decay", type=float, default=0.0005)
+
     args = parser.parse_args()
 
     cfg = dict(
@@ -44,6 +47,8 @@ if __name__ == '__main__':
         layers_dimensions   = eval(args.layers_dimensions),
         input_size          = 1756,
         dropout             = 0.2,
+        drop_rate           = args.drop_edge,
+        weight_decay        = args.weight_decay
     )
 
     print(f"\n{'- '*10}CONFIGURATION{' -'*10}\n")
@@ -52,7 +57,7 @@ if __name__ == '__main__':
     with wandb.init(project="second-version-autencoder", config = cfg):
 
         config = wandb.config
-        wandb.run.name = f"{config.checkpoint}_{config.dataset}_{config.model}_{config.learning_rate}_{config.epochs}_{config.layers_dimensions}_{config.reduce}_{config.dropout}"
+        wandb.run.name = f"{config.checkpoint}_{config.dataset}_{config.model}_{config.learning_rate}_{config.epochs}_{config.layers_dimensions}_{config.reduce}_{config.dropout}_{config.drop_rate}_{config.weight_decay}"
 
         if (args.src_data == 'FUNSD'):
             print(f"\n{'- '*10}FUNSD{' -'*10}\n")
