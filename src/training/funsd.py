@@ -103,8 +103,8 @@ def test_evaluation(model, train_graph, criterion, config):
     test_graph = test_graph.int().to(device)
     
     test_loss = test_funsd(model, test_graph, criterion, config)
-    kmeans_classifier(model, train_graph, test_graph)
-    SVM_classifier(model, train_graph, test_graph)
+    kmeans_classifier(model, train_graph, test_graph, wandb.run.name)
+    SVM_classifier(model, train_graph, test_graph, config, wandb.run.name)
 
     return test_loss.item()
 
@@ -128,7 +128,7 @@ def _funsd(config):
     # Selecting model
     model = get_model(config, data)
     
-    optimizer = torch.optim.AdamW(model.parameters(), lr=config.learning_rate)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=config.learning_rate, weight_decay=config.weight_decay)
     criterion = torch.nn.MSELoss(reduction=config.reduce)
     wandb.watch(model)
 
@@ -143,15 +143,21 @@ def _funsd(config):
         total_train_loss += train_loss.item()
         total_validation_loss += val_tot_loss.item()
 
-        #if val_auc > best_val_auc:
-        #    best_val_auc = val_auc
-        #    best_model = model
+        if val_auc > best_val_auc:
+            best_val_auc = val_auc
+            best_model = model
 
         print("Epoch {:05d} | TrainLoss {:.4f} | TrainF1-MACRO {:.4f} | TrainAUC-PR {:.4f} | ValLoss {:.4f} | ValF1-MACRO {:.4f} | ValAUC-PR {:.4f} |"
                 .format(epoch, train_loss.item(), macro, auc, val_tot_loss.item(), val_macro, val_auc))
+        wandb.log({"Train F1-MACRO": macro, "Train AUC-PR": auc, "Validation F1-MACRO": val_macro, "Validation AUC-PR": val_auc})
+
+        # Step the scheduler
+        if epoch == 700:
+            for param_group in optimizer.param_groups:
+                param_group['lr'] /= 100
 
     total_train_loss /= config.epochs; total_validation_loss /= config.epochs
-    test_loss = test_evaluation(model, train_graph, criterion, config)
+    test_loss = test_evaluation(best_model, train_graph, criterion, config)
 
     print("Train Loss: {:.4f} | Validation Loss: {:.4f} | Test Loss: {:.4f}".format(total_train_loss, total_validation_loss, test_loss))
-    return model
+    return best_model

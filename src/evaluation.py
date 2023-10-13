@@ -81,7 +81,7 @@ def extract_embeddings(graph, model):
         return embeddings, labels
 
 
-def conf_marix(y_true, y_pred):
+def conf_marix(y_true, y_pred, title):
 
     data = confusion_matrix(y_true, y_pred)
     df_cm = pd.DataFrame(data, columns=np.array(['answer', 'header', 'other', 'question']), index = np.array(['answer', 'header', 'other', 'question']))
@@ -90,11 +90,13 @@ def conf_marix(y_true, y_pred):
     df_cm.columns.name = 'Predicted'
     
     plt.figure(figsize = (10,7))
+    plt.title(title)
     sn.set(font_scale=1.4) #for label size
     sn.heatmap(df_cm, cmap="Blues", annot=True, annot_kws={"size": 16}, fmt='d') # font size
     plt.show()
+    plt.savefig(f'/home/nbiescas/Desktop/images/{title}.png')
 
-def kmeans_classifier(model, train_graph, test_graph):
+def kmeans_classifier(model, train_graph, test_graph, title):
     from sklearn.cluster import KMeans
     with torch.no_grad():
 
@@ -131,11 +133,11 @@ def kmeans_classifier(model, train_graph, test_graph):
         accuracy, f1, precision, recall = int(accuracy), int(f1), int(precision), int(recall) #To int
         print("Accuracy kmeans: {:.4f} | F1 Score kmeans: {:.4f} | Precision kmeans: {:.4f} | Recall kmeans: {:.4f}".format(accuracy, f1, precision, recall))
         wandb.log({"Accuracy kmeans": accuracy, "F1 Score kmeans": f1, "Precision kmeans": precision, "Recall kmeans": recall})
-        conf_marix(labels_test, pred)
+        conf_marix(labels_test, pred, title)
 
 
 
-def SVM_classifier(model, train_graph, test_graph):
+def SVM_classifier(model, train_graph, test_graph, title):
     from sklearn.svm import SVC
 
     with torch.no_grad():
@@ -156,4 +158,4 @@ def SVM_classifier(model, train_graph, test_graph):
         accuracy, f1, precision, recall = int(accuracy), int(f1), int(precision), int(recall)
         print("Accuracy SVM: {:.4f} | F1 Score SVM: {:.4f} | Precision SVM: {:.4f} | Recall SVM: {:.4f}".format(accuracy, f1, precision, recall))
         wandb.log({"Accuracy SVM": accuracy, "F1 Score SVM": f1, "Precision SVM": precision, "Recall SVM": recall})
-        conf_marix(labels_test, pred)
+        conf_marix(labels_test, pred, title)
