@@ -41,7 +41,7 @@ if __name__ == '__main__':
         reduce              = args.reduce,
         model               = args.model,
         dataset             = args.src_data,
-        checkpoint         = args.checkpoint_name,
+        checkpoint          = args.checkpoint_name,
         epochs              = args.epochs,
         learning_rate       = args.lr,
         layers_dimensions   = eval(args.layers_dimensions),

@@ -103,8 +103,8 @@ def test_evaluation(model, train_graph, criterion, config):
     test_graph = test_graph.int().to(device)
     
     test_loss = test_funsd(model, test_graph, criterion, config)
-    kmeans_classifier(model, train_graph, test_graph, wandb.run.name)
-    SVM_classifier(model, train_graph, test_graph, config, wandb.run.name)
+    kmeans_classifier(model, train_graph, test_graph, config)
+    SVM_classifier(model, train_graph, test_graph, config)
 
     return test_loss.item()
 
