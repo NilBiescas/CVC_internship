@@ -19,7 +19,8 @@ def validation_funsd(model, criterion, val_graph):
     with torch.no_grad():
         feat = val_graph.ndata['feat'].to(device)
 
-        val_n_scores, val_e_scores, pred_features = model(val_graph, feat)
+        val_n_scores, val_e_scores, pred_features, val_bbox_pred, val_discrete_pos_pred = model(val_graph, feat)
+
         #val_n_scores, val_e_scores, pred_features, bbox_pred = model(val_graph, feat)
         recons_loss = criterion(pred_features.to(device), feat)
         #bbox_loss   = criterion(bbox_pred.to(device), val_graph.ndata['geom'].to(device))
@@ -46,11 +47,11 @@ def train_funsd(model, criterion, optimizer, train_graph):
 
     # Bounding Box loss
     if bbox_pred is not None:
-        bbox_loss   = criterion(bbox_pred.to(device), train_graph.ndata['geom'].to(device))
+        bbox_loss = criterion(bbox_pred.to(device), train_graph.ndata['geom'].to(device))
 
     # Relative position loss
     if discrete_pos is not None:
-        discrete_loss = criterion(discrete_pos.to(device), train_graph.edata['discrete_info'].to(device))
+        discrete_loss = compute_crossentropy_loss(discrete_pos.to(device), train_graph.edata['discrete_info'].to(device))
 
     #Reconstruction loss
     recons_loss = criterion(pred_features.to(device), feat)
@@ -123,17 +124,16 @@ def test_evaluation(model, train_graph, criterion, config):
 
 def _funsd(config):
 
-    data = FUNSD_loader(train=True)
-    data.get_info()
+    #data = FUNSD_loader(train=True)
+    #data.get_info()
 
-    if config.discrete:
+    train_graph, val_graph = load_graphs(load=False)
 
-        data = get_relative_positons(data)
+    train_graph = train_graph.int().to(device)
+    val_graph   = val_graph.int().to(device)
 
-    train_graph, val_graph = load_graphs(data, config)
-    
-    print("-> Number of training graphs: ", len(train_graph))
-    print("-> Number of validation graphs: ", len(val_graph))
+    print("-> Number of training graphs: ", len(train_graph.batch_num_nodes()))
+    print("-> Number of validation graphs: ", len(val_graph.batch_num_nodes()))
 
     #train_graphs, val_graphs, _, _ = train_test_split(data.graphs, torch.ones(len(data.graphs), 1), test_size=0.2, random_state=42)
     #print("-> Number of training graphs: ", len(train_graphs))
@@ -148,7 +148,7 @@ def _funsd(config):
     #val_graph = val_graph.int().to(device)
 
     # Selecting model
-    model = get_model(config, data)
+    model = get_model(config, num_classes = 4, edge_num_classes = 2)
     # Selecting optimizer
     optimizer = get_optimizer(model, config)
 

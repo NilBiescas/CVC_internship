@@ -23,38 +23,36 @@ if __name__ == '__main__':
     wandb.login()
     parser = argparse.ArgumentParser(description='Training')
 
-    parser.add_argument("--reduce", type=str, default="mean")
-    parser.add_argument("--model", type=str, default="GAE")
-    parser.add_argument("--src-data", type=str, default='FUNSD',
-                        help="which data source to use. It can be FUNSD, PAU or CUSTOM")
-    parser.add_argument("--run-name", type=str)
-    parser.add_argument("--checkpoint-name", type=str, default='default.pth')
-    parser.add_argument("--epochs", type=int, default = 200)
-    parser.add_argument("--lr", type=float, default=0.001)
-    parser.add_argument("--layers-dimensions", type=str, default=(1756, 1000, 600))
-    parser.add_argument("--drop-edge", type=float, default=0)
-    parser.add_argument("--weight-decay", type=float, default=0.0005)
-    parser.add_argument("--optim", type=str, default="ADAMW")
     parser.add_argument("--bbox", type=bool, default=False)
+    parser.add_argument("--checkpoint-name", type=str, default='default.pth')
     parser.add_argument("--discrete-pos", type=bool, default=False)
+    parser.add_argument("--dropout", type=float, default=0.2)
+    parser.add_argument("--epochs", type=int, default = 200)
+    parser.add_argument("--layers-dimensions", type=str, default=(1756, 1000, 600))
+    parser.add_argument("--lr", type=float, default=0.001)
+    parser.add_argument("--model", type=str, default="GAE")
+    parser.add_argument("--optim", type=str, default="ADAMW")
+    parser.add_argument("--reduce", type=str, default="mean")
+    parser.add_argument("--run-name", type=str)
+    parser.add_argument("--src-data", type=str, default='FUNSD')
+    parser.add_argument("--weight-decay", type=float, default=0.0005)
 
     args = parser.parse_args()
 
     cfg = dict(
-        reduce              = args.reduce,
-        model               = args.model,
-        dataset             = args.src_data,
-        checkpoint          = args.checkpoint_name,
-        epochs              = args.epochs,
-        learning_rate       = args.lr,
-        layers_dimensions   = eval(args.layers_dimensions),
-        input_size          = 1756,
-        dropout             = 0.2,
-        drop_rate           = args.drop_edge,
-        weight_decay        = args.weight_decay,
-        optim               = args.optim,
         bbox                = args.bbox,
-        discrete            = args.discrete_pos
+        checkpoint          = args.checkpoint_name,
+        discrete            = args.discrete_pos,
+        dropout             = args.dropout,
+        epochs              = args.epochs,
+        input_size          = 1756,
+        layers_dimensions   = eval(args.layers_dimensions),
+        learning_rate       = args.lr,
+        model               = args.model,
+        optim               = args.optim,
+        reduce              = args.reduce,
+        src_data            = args.src_data,
+        weight_decay        = args.weight_decay,
     )
 
     print(f"\n{'- '*10}CONFIGURATION{' -'*10}\n")
@@ -63,7 +61,9 @@ if __name__ == '__main__':
     with wandb.init(project="second-version-autencoder", config = cfg):
 
         config = wandb.config
-        wandb.run.name = f"{config.checkpoint}_{config.dataset}_{config.model}_{config.learning_rate}_{config.epochs}_{config.layers_dimensions}_{config.reduce}_{config.dropout}_{config.drop_rate}_{config.weight_decay}"
+        wandb.run.name = f"{config.checkpoint}_{config.dataset}_{config.model}\
+            _{config.learning_rate}_{config.epochs}_{config.layers_dimensions}\
+                _{config.reduce}_{config.dropout}_{config.drop_rate}_{config.weight_decay}"
 
         if (args.src_data == 'FUNSD'):
             print(f"\n{'- '*10}FUNSD{' -'*10}\n")
