@@ -9,6 +9,7 @@ import numpy as np
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
+
 def drop_edge(graph, drop_rate):
     """
     Returns the graph with the edges dropped and the positions of the edges dropped. 
@@ -26,6 +27,15 @@ def drop_edge(graph, drop_rate):
 
     return dgl.remove_edges(graph, pos.type(torch.int32)), pos
 
+
+class head_bbox(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+
+class head_discrete_info(nn.Module):
+    pass
+
 class E2E(nn.Module):
     def __init__(self, node_classes, 
                        edge_classes,
@@ -33,13 +43,16 @@ class E2E(nn.Module):
                        dropout,
                        edge_pred_features,
                        drop_rate,
-                       doProject=True):
+                       bounding_box=True,
+                       discrete_pos=True):
 
         super().__init__()
         
-        self.drop_rate = drop_rate
-        
-        # Perform message passing
+        # Define parameters
+        self.drop_rate    = drop_rate
+        self.bounding_box = bounding_box
+        self.discrete_pos = discrete_pos
+
         self.encoder = nn.ModuleList()
         self.decoder = nn.ModuleList()
 
@@ -47,10 +60,11 @@ class E2E(nn.Module):
             self.encoder.append(SAGEConv(dimensions_layers[i],  dimensions_layers[i+1], aggregator_type = 'pool', activation=F.relu))
             self.decoder.insert(0, SAGEConv(dimensions_layers[i+1],  dimensions_layers[i], aggregator_type = 'pool', activation=F.relu))
 
-        # Define edge predictor layer
+
         m_hidden = dimensions_layers[-1]
         hidden_dim = dimensions_layers[-1]
 
+        # Define edge predictor layer
         self.edge_pred = MLPPredictor_E2E(m_hidden, hidden_dim, edge_classes, dropout, edge_pred_features)
 
         # Define node predictor layer
@@ -66,7 +80,12 @@ class E2E(nn.Module):
         bounding_box_pred.append(nn.LayerNorm(bbox_coordinates))
         self.bbox = nn.Sequential(*bounding_box_pred)
 
+        # Define discrete position predictor
+        self.relative_positons_pred = MLPPredictor_E2E(m_hidden, hidden_dim, 9, dropout, edge_pred_features)
+
     def forward(self, g, h):
+        bbox_pred, discrete_pos = None, None
+
         if self.drop_rate > 0:
             new_g, _ = drop_edge(g, self.drop_rate)
             for layer in self.encoder:
@@ -76,12 +95,23 @@ class E2E(nn.Module):
                 h = layer(g, h)
 
         node_pred = self.node_pred(h) # Node prediction, given the features of the latent space, returns a vector with the unbound logits for each class
+        
+        # Edge prediction
         edges_pred = self.edge_pred(g, h, node_pred) # Edge prediction
+        
+        # Discrete position prediction
+        if self.discrete_pos:
+            discrete_pos = self.relative_positons_pred(g, h, node_pred)
 
+        # Bounding box prediction
+        if self.bounding_box:
+            bbox_pred = self.bbox(h)
+
+        # Reconstructing the features
         for layer in self.decoder:
             h = layer(g, h)
 
-        return node_pred, edges_pred, h
+        return node_pred, edges_pred, h, bbox_pred, discrete_pos
 
 class MLPPredictor_E2E(nn.Module):
     def __init__(self, in_features, hidden_dim, out_classes, dropout,  edge_pred_features):

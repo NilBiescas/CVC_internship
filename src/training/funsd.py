@@ -11,48 +11,60 @@ sys.path.append("..")
 
 from ..data.Data_Loaders import FUNSD_loader
 from ..models.VGAE import device
-from .utils import get_model, compute_crossentropy_loss, log_wandb
+from .utils import get_model, compute_crossentropy_loss, log_wandb, get_optimizer, get_relative_positons, load_graphs
 from ..evaluation import SVM_classifier, metrics_MSE_mean, metrics_MSE_sum, kmeans_classifier, compute_auc_mc, get_f1, get_binary_accuracy_and_f1
 
-#torch.backends.cudnn.deterministic = True
-#torch.manual_seed(hash("by removing stochasticity") % 2**32 - 1)
-#torch.cuda.manual_seed_all(hash("so runs are repeatable") % 2**32 - 1)
-#np.random.seed(42)
-#random.seed(42)
-
-def validation_funsd(model, criterion, val_graph, epoch, config):
+def validation_funsd(model, criterion, val_graph):
     model.eval()
     with torch.no_grad():
         feat = val_graph.ndata['feat'].to(device)
 
         val_n_scores, val_e_scores, pred_features = model(val_graph, feat)
+        #val_n_scores, val_e_scores, pred_features, bbox_pred = model(val_graph, feat)
         recons_loss = criterion(pred_features.to(device), feat)
+        #bbox_loss   = criterion(bbox_pred.to(device), val_graph.ndata['geom'].to(device))
 
         val_n_loss = compute_crossentropy_loss(val_n_scores.to(device), val_graph.ndata['label'].to(device))
         val_e_loss = compute_crossentropy_loss(val_e_scores.to(device), val_graph.edata['label'].to(device))
         val_loss = val_n_loss + val_e_loss + recons_loss
+        #val_loss = val_n_loss + val_e_loss + recons_loss + bbox_loss
 
         macro, micro = get_f1(val_n_scores, val_graph.ndata['label'].to(device))
         auc = compute_auc_mc(val_e_scores.to(device), val_graph.edata['label'].to(device))
 
         wandb.log({"Validation loss": val_loss.item(), "Validation node classification loss": val_n_loss.item(), "Validation edge classification loss": val_e_loss.item()})
-        #log_wandb("Validation", recons_loss, node_reconstruction_loss, graph_reconstructin_loss)
 
     return val_loss, macro, auc
 
-def train_funsd(model, criterion, optimizer, train_graph, epoch, config):
+def train_funsd(model, criterion, optimizer, train_graph):
     
     model.train()
     
     feat = train_graph.ndata['feat'].to(device)
 
-    n_scores, e_scores, pred_features = model(train_graph, feat)
+    n_scores, e_scores, pred_features, bbox_pred, discrete_pos = model(train_graph, feat)
+
+    # Bounding Box loss
+    if bbox_pred is not None:
+        bbox_loss   = criterion(bbox_pred.to(device), train_graph.ndata['geom'].to(device))
+
+    # Relative position loss
+    if discrete_pos is not None:
+        discrete_loss = criterion(discrete_pos.to(device), train_graph.edata['discrete_info'].to(device))
+
+    #Reconstruction loss
     recons_loss = criterion(pred_features.to(device), feat)
 
+    # Node and edge classificiation loss
     n_loss = compute_crossentropy_loss(n_scores.to(device), train_graph.ndata['label'].to(device))
     e_loss = compute_crossentropy_loss(e_scores.to(device), train_graph.edata['label'].to(device))
-    train_loss = n_loss + e_loss + recons_loss
 
+    train_loss = n_loss + e_loss + recons_loss
+    if bbox_pred is not None:
+        train_loss += bbox_loss
+    if discrete_pos is not None:
+        train_loss += discrete_loss
+    
     optimizer.zero_grad()
     train_loss.backward()
     optimizer.step()
@@ -61,7 +73,6 @@ def train_funsd(model, criterion, optimizer, train_graph, epoch, config):
     auc = compute_auc_mc(e_scores.to(device), train_graph.edata['label'].to(device))
 
     wandb.log({"Train loss": train_loss.item(), "Train node classification loss": n_loss.item(), "Train edge classification loss": e_loss.item()})
-    #log_wandb("Training", recons_loss, node_reconstruction_loss, graph_reconstructin_loss)
 
     return train_loss, macro, auc
 
@@ -85,19 +96,21 @@ def test_funsd(model, test_graph, criterion, config):
 
         ################* STEP 4: RESULTS ################
         print("\n### BEST RESULTS ###")
-        print("AUC {:.4f}".format(auc))
-        print("Accuracy {:.4f}".format(accuracy))
+        print("AUC Edges: {:.4f}".format(auc))
+        print("Accuracy Edges: {:.4f}".format(accuracy))
         print("F1 Edges: Macro {:.4f} - Micro {:.4f}".format(f1[0], f1[1]))
         print("F1 Edges: None {:.4f} - Pairs {:.4f}".format(classes_f1[0], classes_f1[1]))
         print("F1 Nodes: Macro {:.4f} - Micro {:.4f}".format(macro, micro))
 
-        #log_wandb("Test", recons_loss, node_reconstruction_loss, graph_reconstructin_loss)
 
     return test_loss
 
 def test_evaluation(model, train_graph, criterion, config):
     data_test = FUNSD_loader(train=False) #Loading test set graphs
     data_test.get_info()
+
+    if config.discrete:
+        data_test = get_relative_positons(data_test)
 
     test_graph = dgl.batch(data_test.graphs)
     test_graph = test_graph.int().to(device)
@@ -113,22 +126,32 @@ def _funsd(config):
     data = FUNSD_loader(train=True)
     data.get_info()
 
-    train_graphs, val_graphs, _, _ = train_test_split(data.graphs, torch.ones(len(data.graphs), 1), test_size=0.2, random_state=42)
-    print("-> Number of training graphs: ", len(train_graphs))
-    print("-> Number of validation graphs: ", len(val_graphs))
+    if config.discrete:
 
-    #Graph for training
-    train_graph = dgl.batch(train_graphs)
-    train_graph = train_graph.int().to(device)
+        data = get_relative_positons(data)
 
-    #Graph for validating
-    val_graph = dgl.batch(val_graphs)
-    val_graph = val_graph.int().to(device)
+    train_graph, val_graph = load_graphs(data, config)
+    
+    print("-> Number of training graphs: ", len(train_graph))
+    print("-> Number of validation graphs: ", len(val_graph))
+
+    #train_graphs, val_graphs, _, _ = train_test_split(data.graphs, torch.ones(len(data.graphs), 1), test_size=0.2, random_state=42)
+    #print("-> Number of training graphs: ", len(train_graphs))
+    #print("-> Number of validation graphs: ", len(val_graphs))
+
+    ##Graph for training
+    #train_graph = dgl.batch(train_graphs)
+    #train_graph = train_graph.int().to(device)
+
+    ##Graph for validating
+    #val_graph = dgl.batch(val_graphs)
+    #val_graph = val_graph.int().to(device)
 
     # Selecting model
     model = get_model(config, data)
-    
-    optimizer = torch.optim.AdamW(model.parameters(), lr=config.learning_rate, weight_decay=config.weight_decay)
+    # Selecting optimizer
+    optimizer = get_optimizer(model, config)
+
     criterion = torch.nn.MSELoss(reduction=config.reduce)
     wandb.watch(model)
 
@@ -137,8 +160,8 @@ def _funsd(config):
     best_val_auc = 0
     for epoch in range(config.epochs):
 
-        train_loss, macro, auc = train_funsd(model, criterion, optimizer, train_graph, epoch, config)
-        val_tot_loss, val_macro, val_auc = validation_funsd(model, criterion, val_graph, epoch, config)
+        train_loss, macro, auc = train_funsd(model, criterion, optimizer, train_graph)
+        val_tot_loss, val_macro, val_auc = validation_funsd(model, criterion, val_graph)
 
         total_train_loss += train_loss.item()
         total_validation_loss += val_tot_loss.item()

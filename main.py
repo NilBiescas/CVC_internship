@@ -34,6 +34,9 @@ if __name__ == '__main__':
     parser.add_argument("--layers-dimensions", type=str, default=(1756, 1000, 600))
     parser.add_argument("--drop-edge", type=float, default=0)
     parser.add_argument("--weight-decay", type=float, default=0.0005)
+    parser.add_argument("--optim", type=str, default="ADAMW")
+    parser.add_argument("--bbox", type=bool, default=False)
+    parser.add_argument("--discrete-pos", type=bool, default=False)
 
     args = parser.parse_args()
 
@@ -48,7 +51,10 @@ if __name__ == '__main__':
         input_size          = 1756,
         dropout             = 0.2,
         drop_rate           = args.drop_edge,
-        weight_decay        = args.weight_decay
+        weight_decay        = args.weight_decay,
+        optim               = args.optim,
+        bbox                = args.bbox,
+        discrete            = args.discrete_pos
     )
 
     print(f"\n{'- '*10}CONFIGURATION{' -'*10}\n")
