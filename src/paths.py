@@ -11,6 +11,7 @@ CHECKPOINTS = Path('/home/nbiescas/Desktop/CVC/CVC_internship/CheckPoints')
 DATA = ROOT / 'datasets'
 TRAINING = ROOT / 'training'
 
-SRC = ROOT / 'src'
-TRAIN_GRAPH = SRC / 'train_graph.pkl'
-VAL_GRAPH   = SRC / 'val_graph.pkl'
+TRAIN_GRAPH = ROOT / 'train_graph.pkl'
+VAL_GRAPH   = ROOT / 'val_graph.pkl'
+
+TASKS_YAML = ROOT / 'tasks.yaml'

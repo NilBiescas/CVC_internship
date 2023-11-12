@@ -3,3 +3,6 @@ CheckPoints
 doc2_graph
 /__pycache__
 /wandb
+/PKL_Graphs
+/.vscode
+/runs

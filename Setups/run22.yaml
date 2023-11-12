@@ -1,0 +1,48 @@
+## Configuration options to run Autoencoder.py # Changed to weighted loss in the classification task
+epochs: 2000
+batch_size: 40
+loader: True
+
+model_name: "SELF"
+optimizer: "ADAMW"
+lr: 0.001
+val_size: 0.1
+
+momentum: 0.9
+weight_decay: 0.00001
+
+schedule_name: "CosineAnnealingLR"
+milestones: [600, 800]
+gamma: 0.1
+# Values for the CosineAnnealingLR scheduler
+T_max: 300
+eta_min: 0.0001
+
+
+layers_dimensions: [9, 9, 6]
+dropout: 0.2
+dropedge: 0.0
+mask_rate: 0.3
+concat_hidden: False
+
+reduce: "mean"
+train_method: "Sub_Graphs_masking"
+kmeans_partition: True
+
+# Graphs where weights are the distance and angle between nodes multiplied
+pickle_path_train_kmeans: '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/train_graph_distance_and_angle.pkl'
+pickle_path_test_kmeans: '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/test_graph_distance_and_angle.pkl'
+
+Dataset_partitions:
+  n: 5
+  m: 5
+
+network: 
+  checkpoint: ~
+
+node_classes: 4
+edge_classes: 2
+
+images:
+  start: 0
+  end: 10
