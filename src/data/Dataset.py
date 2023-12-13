@@ -1,13 +1,22 @@
+from typing import Any
 from torch.utils.data import Dataset, dataloader
 import dgl
 import torch
 from sklearn.model_selection import train_test_split
 import pickle
 import pprint
+from functools import partial
 
+class Dataset_Kmeans_Graphs(Dataset):
+    def __init__(self, graphs):
+        self.graphs = graphs
+    
+    def __len__(self):
+        return len(self.graphs)
+    
+    def __getitem__(self, idx):
 
-class Random_selection_DatasetGraphsFUNSD(Dataset):
-    pass
+        return self.graphs[idx], self.graphs[idx].ndata['label']
     
 class Partition_DatasetGraphsFUNSD(Dataset):
     def __init__(self, graphs, n, m):
@@ -58,11 +67,36 @@ class Partition_DatasetGraphsFUNSD(Dataset):
     def __getitem__(self, idx):
         return self.new_graphs[idx]
 
-def kmeans_graphs(train, config):
+def vector_func(config, edges):
+
+    node_feat_list = []
+    for node_feat in config['features']['node']:
+        node_feat = edges.src[node_feat]
+        if len(node_feat.size()) == 1:
+            node_feat = node_feat.unsqueeze(1)
+        node_feat_list.append(node_feat)
+
+    for edge_feat in config['features']['edge']:
+        edge_feat = edges.data[edge_feat]
+        if len(edge_feat.size()) == 1:
+            edge_feat = edge_feat.unsqueeze(1)
+        node_feat_list.append(edge_feat)
+    
+    msg = torch.cat(node_feat_list, dim=1)
+    return {'m': msg}
+
+
+def edgesAggregation_kmeans_graphs(train, config):
+    vector_func_partial = partial(vector_func, config)
     if train:
-        print("-> Loading kmeans partitioned graphs for training")
+        print("-> Loading V2 kmeans partitioned graphs for training")
         with open(config['pickle_path_train_kmeans'], 'rb') as kmeans_train:
             train_graphs = pickle.load(kmeans_train)
+        
+        batch = dgl.batch(train_graphs)
+        batch.apply_edges(vector_func_partial)
+        train_graphs = dgl.unbatch(batch)
+
         train_graphs, val_graphs, _, _ = train_test_split(train_graphs, torch.ones(len(train_graphs), 1), test_size=config['val_size'], random_state=42)
         # Datasets
         print("-> Number of training graphs: ", len(train_graphs))
@@ -75,6 +109,48 @@ def kmeans_graphs(train, config):
         
         train_graphs = dgl.batch(train_graphs)
         val_graphs = dgl.batch(val_graphs)
+
+        # Creation of the features vector
+        return train_graphs, val_graphs
+    else:
+        print("-> Loading kmeans partitioned graphs for testing")
+        with open(config['pickle_path_test_kmeans'], 'rb') as kmeans_test:
+            test_graphs = pickle.load(kmeans_test)
+        print("-> Number of test graphs: ", len(test_graphs))
+        
+        batch = dgl.batch(test_graphs)
+        batch.apply_edges(vector_func_partial)
+        test_graphs = dgl.unbatch(batch)
+        
+        if config['loader']:
+            test_loader = torch.utils.data.DataLoader(test_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=False)
+            return test_loader
+        
+        test_graphs = dgl.batch(test_graphs)
+
+        return test_graphs
+
+def kmeans_graphs(train, config):
+    if train:
+        print("-> Loading kmeans partitioned graphs for training")
+        with open(config['pickle_path_train_kmeans'], 'rb') as kmeans_train:
+            train_graphs = pickle.load(kmeans_train)
+        
+        train_graphs, val_graphs, _, _ = train_test_split(train_graphs, torch.ones(len(train_graphs), 1), test_size=config['val_size'], random_state=42)
+        # Datasets
+        print("-> Number of training graphs: ", len(train_graphs))
+        print("-> Number of validation graphs: ", len(val_graphs))
+
+        if config['loader']:
+
+            train_loader = torch.utils.data.DataLoader(train_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=True)
+            validation_loader = torch.utils.data.DataLoader(val_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=False)
+            return train_loader, validation_loader
+        
+        train_graphs = dgl.batch(train_graphs)
+        val_graphs = dgl.batch(val_graphs)
+
+        # Creation of the features vector
         return train_graphs, val_graphs
     else:
         print("-> Loading kmeans partitioned graphs for testing")

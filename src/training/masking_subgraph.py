@@ -8,10 +8,12 @@ import random
 import numpy as np
 
 sys.path.append("..") 
-from ..data.Data_Loaders import FUNSD_loader
-from ..data.Dataset import dataloaders_funsd, kmeans_graphs
+from ..data.Dataset import (FUNSD_loader, 
+                            dataloaders_funsd, 
+                            kmeans_graphs, 
+                            edgesAggregation_kmeans_graphs)
 
-from ..models.VGAE import device
+from ..models.autoencoders import device
 from .utils import (get_model, 
                     compute_crossentropy_loss, 
                     get_optimizer,
@@ -162,7 +164,8 @@ def add_features(graph):
 def Sub_Graphs_masking(config):
     # Loading data
     if config['kmeans_partition']:
-        train_loader, val_loader = kmeans_graphs(train = True, config = config)
+        #train_loader, val_loader = kmeans_graphs(train = True, config = config)
+        train_loader, val_loader = edgesAggregation_kmeans_graphs(train = True, config = config)
     else:
         print("-> Loading random partitioned graphs")
         train_loader, val_loader = dataloaders_funsd(train = True, config = config)

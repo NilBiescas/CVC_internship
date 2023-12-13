@@ -10,7 +10,6 @@ class GcnSAGELayer(nn.Module):
                  out_feats,
                  activation,
                  Tresh_distance,
-                 added_features,
                  bias=True,
                  use_pp=False,
                  use_lynorm=True):
@@ -69,6 +68,8 @@ class GcnSAGELayer(nn.Module):
 
         g.send_and_recv(g.edges(), self.message_func, self.reduce_func)
         ah = g.ndata.pop('h')
+        print("ah: ", ah.shape)
+        print("h: ", h.shape)
         h = self.concat(h, ah, norm)
 
         h = self.linear(h)
@@ -81,10 +82,10 @@ class GcnSAGELayer(nn.Module):
         ah = ah * norm
         h = torch.cat((h, ah), dim=1)
         return h
-
+       
 class AUTOENCODER_MASK_MODF_SAGE(nn.Module):
 
-    def __init__(self, dimensions_layers, dropout, node_classes, added_features, Tresh_distance, concat_hidden=False, mask_rate=0.2):
+    def __init__(self, dimensions_layers, dropout, node_classes, Tresh_distance, concat_hidden=False, mask_rate=0.2):
         
         super().__init__()
         self._concat_hidden = concat_hidden
@@ -99,12 +100,10 @@ class AUTOENCODER_MASK_MODF_SAGE(nn.Module):
             self.encoder.append(GcnSAGELayer(   in_feats           = dimensions_layers[i],  
                                                 out_feats          = dimensions_layers[i+1],
                                                 Tresh_distance     = self.Tresh_distance,
-                                                added_features     = added_features,
                                                 activation         = F.relu))
             # DECODER
             self.decoder.insert(0, GcnSAGELayer(in_feats           = dimensions_layers[i+1],  
                                                 out_feats          = dimensions_layers[i],
-                                                added_features     = added_features,
                                                 Tresh_distance    = self.Tresh_distance, 
                                                 activation=F.relu))
         
@@ -136,6 +135,7 @@ class AUTOENCODER_MASK_MODF_SAGE(nn.Module):
 
             if self._concat_hidden:
                 all_hidden.append(h)
+                
         h = self.dropout(h) 
         return h, all_hidden
 
@@ -152,10 +152,12 @@ class AUTOENCODER_MASK_MODF_SAGE(nn.Module):
 
         return x_pred, x_true, n_scores
     
-    def extract_embeddings(self, graph):
+    def extract_embeddings(self, graph, features = None):
         with torch.no_grad():
             self.eval()
-            h = graph.ndata['Geometric'].to('cuda:0')
+            # Get the features of the nodes
+            h = graph.ndata['Geometric'].to('cuda:0') if features is None else features.to('cuda:0')
+            
             h, _ = self.encoder_(graph, h)
             h = h.view(h.shape[0], -1)
             embeddings = h.cpu().detach().numpy()

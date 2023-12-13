@@ -1,9 +1,13 @@
-from ..models.VGAE import GAE, GSage_AE, GIN_AE, GAT_AE
-from ..models.Modified_SAGE import AUTOENCODER_MASK_MODF_SAGE
-from ..models.Drop_edge import E2E
-from ..models.gat import GAT_masking
-from ..models.VGAE import device
-from ..models.SELF_AEC import SELF_supervised
+from ..models.autoencoders import GAE, GSage_AE, GIN_AE, GAT_AE
+from ..models.mask_autoencoder_modified_sage import AUTOENCODER_MASK_MODF_SAGE
+from ..models.mask_aut_modifed_edges import V2_AUTOENCODER_MASK_MODF_SAGE
+from ..models.autoencoder_drop_edge import E2E
+from ..models.mask_autoencoders import GAT_masking
+from ..models.autoencoders import device
+from ..models.mask_autoencoders import SELF_supervised
+from ..models.contrastive_models import AUTOENCODER_MASK_MODF_SAGE_CONTRASTIVE
+
+
 import math
 from ..data.doc2_graph.utils import get_config
 from sklearn.utils import class_weight
@@ -11,13 +15,14 @@ import numpy as np
 import torch
 import wandb
 
+import torch.nn.functional as F
 from typing import Tuple
 import pickle
 import dgl
 
 from sklearn.model_selection import train_test_split
 from typing import Tuple
-from ..data.Data_Loaders import FUNSD_loader
+from ..data.Dataset import FUNSD_loader
 
 from ..paths import TRAIN_GRAPH, VAL_GRAPH
 
@@ -231,10 +236,23 @@ def get_optimizer(model, config):
     else:
         raise NotImplementedError
 
+def get_activation(activation):
+    if activation == 'relu':
+        return F.relu
+    elif activation == 'leaky_relu':
+        return F.leaky_relu
+    elif activation == 'tanh':
+        return torch.tanh
+    elif activation == 'elu':
+        return F.elu
+    elif activation == 'prelu':
+        return F.prelu
+
 def get_model(config):
     #Dimensions of the autencoder
     config['edge_pred_features'] = int((math.log2(get_config('preprocessing').FEATURES.num_polar_bins) + config['node_classes'])*2)
-    
+    activation = get_activation(config['activation'])
+
     if config['model_name'] == 'SAGE':
         model = GSage_AE(config['layers_dimensions'] ).to(device)
     elif config['model_name'] == 'GAE':
@@ -281,6 +299,18 @@ def get_model(config):
                                             concat_hidden               = config['concat_hidden'],
                                             mask_rate                   = config['mask_rate'],
                                             ).to(device)
+        
+    elif config['model_name'] == 'V2_AUTOENCODER_MASK_MODF_SAGE':
+        model = V2_AUTOENCODER_MASK_MODF_SAGE( dimensions_layers           = config['layers_dimensions'],
+                                               dropout                     = config['dropout'],
+                                               node_classes                = config['node_classes'],
+                                               concat_hidden               = config['concat_hidden'],
+                                               mask_rate                   = config['mask_rate'],
+                                               activation                  = activation
+                                               ).to(device)
+    
+    elif config['model_name'] == 'Contrastive_nodes':
+        model = AUTOENCODER_MASK_MODF_SAGE_CONTRASTIVE(**config).to(device)
     else:
         raise NotImplementedError
     

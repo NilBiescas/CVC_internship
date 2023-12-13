@@ -1,0 +1,59 @@
+# Same configuration that run25 but i have changed how i use the dropout in the architecture
+
+contrastive_learning:
+  margin: 1
+  type_of_triplets: 'all'
+  distance_metric: 'LpDistance' #CosineSimilarity # EuclideanDistance
+
+epochs: 300
+batch_size: 5
+loader: True
+
+added_features: 2 # The added features to the vector of the nodes. # angle and distance
+model_name: "Simple_edge_encoder" 
+optimizer: "ADAMW"
+lr: 0.001
+val_size: 0.1
+
+momentum: 0.9
+weight_decay: 0.0001
+
+schedule_name: "MultiStepLR"
+milestones: [60, 100, 120, 220]
+gamma: 0.1
+# Values for the CosineAnnealingLR scheduler
+T_max: 200
+eta_min: 0.00001
+
+Tresh_distance: False
+layers_dimensions: [29, 40, 50, 55]
+dropout: 0.3
+mask_rate: 0.4
+concat_hidden: False
+
+activation: "tanh"
+reduce: "mean"
+train_method: "Sub_Graphs_masking_edges"
+kmeans_partition: True
+
+pickle_path_train_kmeans: '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/kmeans_contrastive/train_kmeans_contrastive.pkl'
+pickle_path_test_kmeans: '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/kmeans_contrastive/test_kmeans_contrastive.pkl'
+
+Dataset_partitions:
+  n: 5
+  m: 5
+
+network: 
+  checkpoint: ~
+
+node_classes: 4
+edge_classes: 2
+
+images:
+  start: 0
+  end: 10
+
+
+features:
+  node: ['Geometric']
+  edge: ['distance_not_tresh', 'angle', 'F_edge']

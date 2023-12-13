@@ -9,8 +9,8 @@ import numpy as np
 
 sys.path.append("..") 
 
-from ..data.Data_Loaders import FUNSD_loader
-from ..models.VGAE import device
+from src.data.Dataset import FUNSD_loader
+from ..models.autoencoders import device
 from .utils import (get_model, 
                     compute_crossentropy_loss, 
                     get_optimizer, 

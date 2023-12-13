@@ -9,8 +9,8 @@ import numpy as np
 
 sys.path.append("..") 
 
-from ..data.Data_Loaders import FUNSD_loader
-from ..models.VGAE import device
+from ..data.Dataset import FUNSD_loader
+from ..models.autoencoders import device
 from .utils import get_model, compute_crossentropy_loss, get_optimizer, get_relative_positons, load_graphs
 from ..evaluation import SVM_classifier, kmeans_classifier, compute_auc_mc, get_f1, get_binary_accuracy_and_f1, plot_predictions
 

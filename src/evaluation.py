@@ -12,7 +12,7 @@ import torch.nn.functional as F
 import matplotlib.pyplot as plt
 import numpy as np
 
-from .models.VGAE import device
+from .models.autoencoders import device
 
 
 def compute_auc_mc(scores, labels):
@@ -56,7 +56,7 @@ def get_f1(logits : torch.Tensor, labels : torch.Tensor, per_class = False) -> t
     labels = labels.cpu().detach().numpy()
     if not per_class:
         return f1_score(labels, indices, average='macro'), f1_score(labels, indices, average='micro'), precision_score(labels, indices, average='macro', zero_division=0.0), recall_score(labels, indices, average='macro', zero_division=0.0)
-                                                                                                                                                                                          
+                                                                                                                                                                           
     else:
         return precision_recall_fscore_support(labels, indices, average=None)[2].tolist()
 
