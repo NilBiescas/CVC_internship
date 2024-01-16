@@ -1,12 +1,11 @@
 # Same configuration that run25 but i have changed how i use the dropout in the architecture
-
 contrastive_learning:
-  margin: 0
+  margin: 0.4
   type_of_triplets: 'all'
-  distance_metric: 'CosineSimilarity' # EuclideanDistance
-
-epochs: 300
-batch_size: 5
+  distance_metric: 'CosineSimilarity' #CosineSimilarity # EuclideanDistance
+  
+epochs: 200
+batch_size: 4
 loader: True
 
 added_features: 2 # The added features to the vector of the nodes. # angle and distance
@@ -18,20 +17,20 @@ val_size: 0.1
 momentum: 0.9
 weight_decay: 0.0001
 
-schedule_name: "MultiStepLR"
-milestones: [60, 100, 150, 200]
+schedule_name: "CosineAnnealingLR"
+milestones: [600, 800]
 gamma: 0.1
 # Values for the CosineAnnealingLR scheduler
 T_max: 200
 eta_min: 0.00001
 
 Tresh_distance: False
-layers_dimensions: [29, 70, 160, 340]
+layers_dimensions: [29, 40, 50]
 dropout: 0.3
-mask_rate: 0.4
+mask_rate: 0.0
 concat_hidden: False
 
-activation: "tanh"
+activation: "relu"
 reduce: "mean"
 train_method: "Sub_Graphs_masking_edges"
 kmeans_partition: True
@@ -56,4 +55,4 @@ images:
 
 features:
   node: ['Geometric']
-  edge: ['distance_not_tresh', 'angle', 'F_edge']
+  edge: ['weights', 'angle', 'F_edge']

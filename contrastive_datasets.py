@@ -29,15 +29,17 @@ def train(model, loss_func, mining_func, train_loader, optimizer, epoch):
 
         optimizer.zero_grad()
         embeddings = model(graph)
-        indices_tuple = mining_func(embeddings, labels)
-        loss = loss_func(embeddings, labels, indices_tuple)
-        
+        #indices_tuple = mining_func(embeddings, labels)
+        #loss = loss_func(embeddings, labels, indices_tuple)
+        loss = loss_func(embeddings, labels)
+
         total_loss += loss.item()
         loss.backward()
 
         optimizer.step()
         if batch_idx % 20 == 0:
-            print("Epoch {} Iteration {}: Loss = {}, Number of mined triplets = {}".format(epoch, batch_idx, loss, mining_func.num_triplets))
+            #print("Epoch {} Iteration {}: Loss = {}, Number of mined triplets = {}".format(epoch, batch_idx, loss, mining_func.num_triplets))
+            print("Epoch {} Iteration {}: Loss = {}".format(epoch, batch_idx, loss))
 
     return total_loss / (batch_idx + 1)
 
@@ -116,6 +118,11 @@ if __name__ == '__main__':
 
     mining_func = miners.TripletMarginMiner(margin = config['contrastive_learning']['margin'], distance=distance, 
                                             type_of_triplets=config['contrastive_learning']['type_of_triplets'])
+    
+    loss_func = losses.TripletMarginLoss(margin=config['contrastive_learning']['margin'], 
+                                         #distance = distance, 
+                                         triplets_per_anchor=config['contrastive_learning']['triplets_per_anchor'])
+    
     accuracy_calculator = AccuracyCalculator(include=("precision_at_1",), k = 1)
 
     # Loading Kmean graphs datasets
@@ -147,7 +154,6 @@ if __name__ == '__main__':
     #model = Simple_edge_encoder(config['layers_dimensions'])
 
     optimizer = optim.AdamW(model.parameters(), lr=config['lr'])
-    loss_func = losses.TripletMarginLoss(margin=config['contrastive_learning']['margin'], distance = distance)
     num_epochs = config['epochs']
     loss_evolution = []
     precision_evolution = []
@@ -166,7 +172,8 @@ if __name__ == '__main__':
                 print("Saving model")
                 max_precision = precision
                 torch.save(model, config["weights_dir"] / f'model_{epoch}.pth')
-
+            scheduler.step()
+            
         plt.plot(loss_evolution)
         plt.savefig(config['root_dir'] / 'loss.png')
         plt.close()

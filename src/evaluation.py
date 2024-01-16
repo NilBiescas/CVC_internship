@@ -19,7 +19,10 @@ def compute_auc_mc(scores, labels):
     scores = scores.detach().cpu().numpy()
     labels = F.one_hot(labels).cpu().numpy()
     # return roc_auc_score(labels, scores)
+    scores = np.array(scores)
+
     return average_precision_score(labels, scores)
+
 
 def get_binary_accuracy_and_f1(classes, labels : torch.Tensor, per_class = False) -> Tuple[float, list]:
 
@@ -55,8 +58,7 @@ def get_f1(logits : torch.Tensor, labels : torch.Tensor, per_class = False) -> t
     indices = indices.cpu().detach().numpy()
     labels = labels.cpu().detach().numpy()
     if not per_class:
-        return f1_score(labels, indices, average='macro'), f1_score(labels, indices, average='micro'), precision_score(labels, indices, average='macro', zero_division=0.0), recall_score(labels, indices, average='macro', zero_division=0.0)
-                                                                                                                                                                           
+        return f1_score(labels, indices, average='macro'), f1_score(labels, indices, average='micro'), precision_score(labels, indices, average='macro', zero_division=0.0), recall_score(labels, indices, average='macro', zero_division=0.0)                                                                                                      
     else:
         return precision_recall_fscore_support(labels, indices, average=None)[2].tolist()
 
@@ -74,9 +76,9 @@ def extract_embeddings(graph, model):
         return embeddings, labels
 
 
-def conf_matrix(y_true, y_pred, path, title):
+def conf_matrix(y_true, y_pred, path, title, columns = ['answer', 'header', 'other', 'question']):
     data = confusion_matrix(y_true, y_pred)
-    df_cm = pd.DataFrame(data, columns=np.array(['answer', 'header', 'other', 'question']), index = np.array(['answer', 'header', 'other', 'question']))
+    df_cm = pd.DataFrame(data, columns=np.array(columns), index = np.array(columns))
     df_cm.index.name = 'Actual'
     df_cm.columns.name = 'Predicted'
     plt.figure(figsize = (10,7))
