@@ -99,7 +99,6 @@ class MaskedGat_contrastive(nn.Module):
  
         use_g = pre_use_g
 
-
         for i in range(self.num_layers):
             use_x = self.gat_layers[i](use_g, use_x).flatten(1)
 

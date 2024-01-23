@@ -1,4 +1,5 @@
 import torch
+import pickle
 import dgl
 import os
 import matplotlib.pyplot as plt
@@ -29,9 +30,9 @@ def train(model, loss_func, mining_func, train_loader, optimizer, epoch):
 
         optimizer.zero_grad()
         embeddings = model(graph)
-        #indices_tuple = mining_func(embeddings, labels)
-        #loss = loss_func(embeddings, labels, indices_tuple)
-        loss = loss_func(embeddings, labels)
+        indices_tuple = mining_func(embeddings, labels)
+        loss = loss_func(embeddings, labels, indices_tuple)
+        #loss = loss_func(embeddings, labels)
 
         total_loss += loss.item()
         loss.backward()
@@ -82,6 +83,18 @@ def vector_func(config, edges):
     return {'m': msg}
 
 
+def message_of_the_edges(config: dict, g : dgl.graph):
+    message_edge = []
+    for edge_feat in config['features']['edge']:
+        edge_feat = g.edata[edge_feat]
+        if len(edge_feat.size()) == 1:
+            edge_feat = edge_feat.unsqueeze(1)
+        message_edge.append(edge_feat)
+
+    msg = torch.cat(message_edge, dim=1)
+    g.edata['m'] = msg
+    return g
+
 # Update features of the nodes
 def contrastive_features(loader: list, model, config, path_dir):
     createDir(config['root_dir'] / 'graphs_contrastive')
@@ -112,23 +125,24 @@ if __name__ == '__main__':
 
     device = 'cuda' if torch.cuda.is_available() else "cpu"
 
-    print("Distance metric {}".format(config['contrastive_learning']['distance_metric']))
+    #print("Distance metric {}".format(config['contrastive_learning']['distance_metric']))
     
-    distance = getattr(distances, config['contrastive_learning']['distance_metric'])()
-
-    mining_func = miners.TripletMarginMiner(margin = config['contrastive_learning']['margin'], distance=distance, 
+    #distance = getattr(distances, config['contrastive_learning']['distance_metric'])()
+    
+    mining_func = miners.TripletMarginMiner(margin = config['contrastive_learning']['margin'], 
+                                            #distance=distance, 
                                             type_of_triplets=config['contrastive_learning']['type_of_triplets'])
     
     loss_func = losses.TripletMarginLoss(margin=config['contrastive_learning']['margin'], 
                                          #distance = distance, 
-                                         triplets_per_anchor=config['contrastive_learning']['triplets_per_anchor'])
+                                         triplets_per_anchor=config['contrastive_learning']['type_of_triplets'])
     
     accuracy_calculator = AccuracyCalculator(include=("precision_at_1",), k = 1)
 
-    # Loading Kmean graphs datasets
-    import pickle
+
     vector_func_partial = partial(vector_func, config)
-    with open(config['pickle_path_train_kmeans'], 'rb') as kmeans_train, open(config['pickle_path_test_kmeans'], 'rb') as kmeans_test:
+    with open(config['pickle_path_train_kmeans'], 'rb') as kmeans_train, open(config['pickle_path_test_kmeans'], 'rb')  as kmeans_test:
+
         train_graphs = pickle.load(kmeans_train)
         test_graphs = pickle.load(kmeans_test)
 
@@ -141,16 +155,16 @@ if __name__ == '__main__':
     test_graphs = dgl.unbatch(batch)
     
     # Datasets
-    train_dataset = Dataset_Kmeans_Graphs(train_graphs)
-    test_dataset = Dataset_Kmeans_Graphs(test_graphs)
+    train_dataset = Dataset_Kmeans_Graphs(train_graphs) # Train
+    test_dataset = Dataset_Kmeans_Graphs(test_graphs)   # Test
 
     # Loaders
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=config['batch_size'], collate_fn = collate, shuffle=True)
     test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=config['batch_size'], collate_fn = collate, shuffle=False)
     
     config['activation'] = get_activation(config['activation'])
-    model = get_model_2(config['model_name'], config).to(device)
-    #model = get_model(config)
+    #model = get_model_2(config['model_name'], config).to(device)
+    model = get_model(config)
     #model = Simple_edge_encoder(config['layers_dimensions'])
 
     optimizer = optim.AdamW(model.parameters(), lr=config['lr'])

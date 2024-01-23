@@ -18,7 +18,8 @@ from ..data.Dataset import (FUNSD_loader,
 
 from ..models.autoencoders import device
 from .utils import (get_model, 
-                    compute_crossentropy_loss, 
+                    compute_crossentropy_loss,
+                    get_activation,
                     get_optimizer,
                     get_scheduler,
                     weighted_edges, 
@@ -447,11 +448,6 @@ def predic_edges(config):
 ##############                   BOTH TASKS AT THE SAME TIME            ######### 
 
 
-
-
-
-
-
 def train_edges_nodes(model, optimizer, train_loader, config):
     model.train()
     nodes_predictions = []
@@ -472,7 +468,7 @@ def train_edges_nodes(model, optimizer, train_loader, config):
         train_loss_nodes = compute_crossentropy_loss(x_pred_nodes, labels_nodes)
         train_loss_edges = compute_crossentropy_loss(x_pred_edges, labels_edges)
         train_loss = train_loss_nodes + train_loss_edges
-        #Reconstruction lossç
+        #Reconstruction loss
         wandb.log({'loss': train_loss.item()})
         total_train_loss += train_loss
         optimizer.zero_grad()
@@ -539,10 +535,42 @@ def validation_edges_nodes(model, val_loader):
             macro, micro, precision, recall = get_f1(predictions, ground_truth)
             auc = compute_auc_mc(predictions, ground_truth)
             accuracy = get_accuracy(predictions, ground_truth)
-            return macro, auc, precision, accuracy
+            return macro, auc, precision, accuracy, micro
         
         return total_validation_loss, *get_metrics(nodes_predictions, nodes_ground_truth), *get_metrics(edges_predicitons, edges_ground_truth)
 
+
+def test_edges_report(edges_predictions, edges_ground_truth, config):
+
+    macro, micro, precision_macro, recall_macro = get_f1(edges_predictions, edges_ground_truth)
+    accuracy = get_accuracy(edges_predictions, edges_ground_truth)
+    auc = compute_auc_mc(edges_predictions, edges_ground_truth)
+    
+    edges_predictions = torch.argmax(edges_predictions, dim=1)
+
+    accuracy, f1 = get_binary_accuracy_and_f1(edges_predictions, edges_ground_truth)
+    _, classes_f1 = get_binary_accuracy_and_f1(edges_predictions, edges_ground_truth, per_class=True)
+
+    precision = precision_score(edges_ground_truth, edges_predictions)
+    recall = recall_score(edges_ground_truth, edges_predictions)
+
+    conf_matrix(edges_ground_truth, edges_predictions, config["output_dir"], title="Test Set - Edges", columns =  ['no edge', 'edge'])
+    data = {
+        "precision_macro": precision_macro,
+        "precision": precision,
+        "recall_macro": recall_macro,
+        "recall": recall,
+        "accuracy": accuracy,
+        "macro_f1": macro,
+        "micro_f1": micro,
+        "f1": f1,
+        "None_F1": classes_f1[0],
+        "Key_Value_F1": classes_f1[1],
+        "AUC_PR": auc,
+    }
+    print("Saving metrics.json")
+    with open(config['output_dir'] / 'metrics_edges_doc2graph.json', 'w') as f:
+            json.dump(data, f)
 
 def test_edges_nodes(model, test_loader, config):
     model.eval()
@@ -593,34 +621,37 @@ def test_edges_nodes(model, test_loader, config):
         print("Accuracy nodes: {:.4f}".format(accuracy))
         print("AUC Nodes: {:.4f}".format(auc))
         print("F1 Nodes: Macro {:.4f} - Micro {:.4f}".format(macro_f1, micro))
-        data = {    
+        data = {
+            "precision macro": precision,
+            "macro f1": macro_f1,
+            "micro f1": micro,
+            "AUC": auc,
             "accuracy": accuracy,
             "f1": macro_f1,
-            "precision": precision,
-            "recall": recall
+            "recall macro": recall
         }
         with open(config['output_dir'] / title_json, 'w') as f:
             json.dump(data, f)
         return macro_f1, auc, precision, accuracy
    
     get_metrics(nodes_predictions, nodes_ground_truth, columns = ['answer', 'header', 'other', 'question'], title = "Confusion Matrix - Test Set - Nodes", title_json = "metrics_nodes.json")
-    get_metrics(edges_predicitons, edges_ground_truth, columns = ['no edge', 'edge'] ,title = "Confusion Matrix - Test Set - Edges", title_json = "metrics_edges.json")
+    test_edges_report(edges_predicitons, edges_ground_truth, config=config)
     
     return total_test_loss / len(test_loader.dataset)
+
 
 def contrastiv_node_edge_training(config):
     # Load the learned embeddings
 
     train_graphs, _ = dgl.load_graphs(config['train_graphs'])
+    validation_graphs, _ = dgl.load_graphs(config['validation_graphs'])
     test_graphs, _ = dgl.load_graphs(config['test_graphs'])
     
-    train_graphs, validation_graphs, _, _ = train_test_split(train_graphs, torch.ones(len(train_graphs), 1), test_size=0.1, random_state=42)
+    train_loader        = torch.utils.data.DataLoader(train_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=True)
+    validation_loader   = torch.utils.data.DataLoader(validation_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=False)
+    test_loader         = torch.utils.data.DataLoader(test_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=False)
 
-    train_loader = torch.utils.data.DataLoader(train_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=True)
-    validation_loader = torch.utils.data.DataLoader(validation_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=False)
-    test_loader = torch.utils.data.DataLoader(test_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=False)
-
-    config['activation'] = F.relu
+    config['activation'] = get_activation(config['activation'])
     try:
         if config['network']['checkpoint'] is None:
             model = get_model_2(config['model_name'], config).to(device)
@@ -631,29 +662,36 @@ def contrastiv_node_edge_training(config):
 
             total_train_loss = 0
             total_validation_loss = 0
-            best_val_auc = 0
+            best_val_f1_micro = 0
             for epoch in range(config['epochs']):
 
                 train_loss, macro, auc, accuracy_train, _, _, _ = train_edges_nodes(model, optimizer, train_loader, config)
-                val_tot_loss, val_macro, val_auc, precision, accuracy_val, _, _, _, _ = validation_edges_nodes(model, validation_loader)
+                val_tot_loss, val_macro, val_auc, precision, accuracy_val, micro_f1_nodes, macro_f1_edges, auc_edges, precision_edges, accuracy_edges, f1_micro_edges = validation_edges_nodes(model, validation_loader)
                 scheduler.step()
 
                 total_train_loss += train_loss.item()
                 total_validation_loss += val_tot_loss.item()
 
-                if val_auc > best_val_auc:
+                if f1_micro_edges > best_val_f1_micro:
                     torch.save(model.state_dict(), config['weights_dir'] / f"epoch_{epoch}.pth")
-                    best_val_auc = val_auc
+                    best_val_f1_micro = f1_micro_edges
                     best_model = model
 
                 wandb.log({"Train loss": train_loss.item(), 
                            "Train node macro": macro, 
                            "Train node auc": auc,
-                           "Validation loss": val_tot_loss.item(), 
+                           "Validation loss": val_tot_loss.item(),
+                           "Validation node f1 micro": micro_f1_nodes,
                            "Validation node macro": val_macro,
                            "Validation node auc": val_auc,
                            "Validation node accuracy": accuracy_val,
-                           "Train node accuracy": accuracy_train})
+                           "Train node accuracy": accuracy_train,
+                           "Validation edge macro": macro_f1_edges,
+                            "Validation edge auc": auc_edges,
+                            "Validation edge precision": precision_edges,
+                            "Validation edge accuracy": accuracy_edges,
+                            "Validation edge f1_micro": f1_micro_edges
+                           })
                 
                 print("Epoch {:05d} | TrainLoss {:.4f} | TrainF1-MACRO-node {:.4f} | TrainAUC-PR-node {:.4f} | ValLoss {:.4f} | ValF1-MACRO-node {:.4f} | ValAUC-PR-node {:.4f} |"
                         .format(epoch, train_loss.item(), macro, auc, val_tot_loss.item(), val_macro, val_auc))

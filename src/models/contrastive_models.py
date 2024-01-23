@@ -72,7 +72,67 @@ class Simple_edge_encoder(nn.Module):
             return embeddings, labels
 
 
+def lynorm(x):
+    return x
 
+class Contrastive_model_edges_features(nn.Module):
+    def __init__(self, layers_dimensions, activation, in_dim, out_dim, use_lynorm, norm, dropout, **kwargs):
+        super().__init__()
+        self.encoder = nn.ModuleList()
+        self.layers_dimensions = layers_dimensions
+
+        self.l1 = nn.Linear(in_dim, out_dim, bias = True)
+        self.dropout = nn.Dropout(dropout)
+
+        self.user_norm = kwargs.get('user_norm', False)
+        
+        self.sequential = nn.Sequential(nn.Linear(in_dim, out_dim, bias = True),
+                                        nn.ReLU(),
+                                        nn.Linear(out_dim, out_dim, bias = True),
+                                        nn.ReLU(),
+                                        nn.Linear(out_dim, out_dim, bias = True))
+        if use_lynorm:
+            self.lynorm = nn.LayerNorm(out_dim, elementwise_affine=True)
+        else:
+            self.lynorm = lynorm
+
+        for dim in range(len(self.layers_dimensions) - 1):
+            self.encoder.append(
+                GraphConv(layers_dimensions[dim], layers_dimensions[dim + 1], 
+                          norm=norm, weight=True, bias=True, 
+                          activation=activation, allow_zero_in_degree=True))
+    
+    def message_func(self, edges):
+        out_feat = self.sequential(edges.data['m'])
+        out_feat = self.lynorm(out_feat)
+        #out_feat = self.lynorm(self.l1(edges.data['m']))
+        return {'new_m': out_feat}
+    
+    def forward(self, graph):
+        graph.send_and_recv(graph.edges(), self.message_func, fn.sum('new_m', 'h'))
+        feat_nodes = graph.ndata.pop('h')
+        if self.user_norm:
+            feat_nodes = feat_nodes * graph.ndata['norm']
+        for layer in self.encoder:
+            feat_nodes = layer(graph, feat_nodes)
+        feat_nodes = self.dropout(feat_nodes)
+        return feat_nodes
+    
+    def get_embeddigns(self, loader):
+        import numpy as np
+        with torch.no_grad():
+            embeddings = []
+            labels = []
+            for graph, label in loader:
+                graph = graph.to('cuda:0')
+                out = self.forward(graph)
+                embeddings.append(out.cpu().numpy())
+                labels.append(label.cpu().numpy())
+
+            embeddings = np.concatenate(embeddings, axis=0)
+            labels = np.concatenate(labels, axis=0)
+            return embeddings, labels
+        
 import dgl.function as fn
 import torch.nn as nn
 import math
@@ -93,7 +153,7 @@ class GcnSAGELayer(nn.Module):
         #print("in_feats: ->", (2 * in_feats) + added_features)
         #print("out_feats: ->", out_feats)
 
-        self.in_feats = in_feats +  24 # With distance, angle 11
+        self.in_feats = in_feats + 24 # With distance, angle 11
         self.linear = nn.Linear(self.in_feats, out_feats, bias=bias)
         self.activation = activation
         self.use_pp = use_pp
@@ -136,11 +196,12 @@ class GcnSAGELayer(nn.Module):
     def forward(self, g, h): # h comes from g.ndata['Geometric']
         g = g.local_var()
         
+        #g.ndata['Geometric'] = h
         norm = g.ndata['norm']
 
         if not self.Tresh_distance:
             g.edata['distance'] = g.edata['distance_not_tresh']
-
+        
         g.send_and_recv(g.edges(), self.message_func, self.reduce_func)
         ah = g.ndata.pop('h')
         h = self.concat(h, ah, norm)
@@ -155,7 +216,102 @@ class GcnSAGELayer(nn.Module):
         ah = ah * norm
         h = torch.cat((h, ah), dim=1)
         return h
-       
+
+class GCN_LAYER(nn.Module):
+    def __init__(self,
+                 in_feats,
+                 out_feats,
+                 activation,
+                 Tresh_distance,
+                 bias=True,
+                 use_pp=False,
+                 use_lynorm=True):
+        
+        super(GCN_LAYER, self).__init__()
+
+        self.in_feats = in_feats + 24 # With distance, angle 11
+        self.linear = nn.Linear(self.in_feats, out_feats, bias=bias)
+        self.activation = activation
+        self.use_pp = use_pp
+        self.Tresh_distance = Tresh_distance
+
+        if use_lynorm:
+            self.lynorm = nn.LayerNorm(out_feats, elementwise_affine=True)
+        else:
+            self.lynorm = lambda x: x
+        self.reset_parameters()
+
+    def reset_parameters(self):
+        stdv = 1. / math.sqrt(self.linear.weight.size(1))
+        self.linear.weight.data.uniform_(-stdv, stdv)
+        if self.linear.bias is not None:
+            self.linear.bias.data.uniform_(-stdv, stdv)
+
+    def forward(self, g, h):
+        g = g.local_var()
+        
+        norm = g.ndata['norm']
+
+        g.send_and_recv(g.edges(), fn.copy_e('m', 'h'), fn.sum('h', 'sum_h'))
+        ah = g.ndata.pop('sum_h')
+        h = self.concat(h, ah, norm)
+
+        h = self.linear(h)
+        h = self.lynorm(h)
+        if self.activation:
+            h = self.activation(h)
+        return h
+
+    def concat(self, h, ah, norm):
+        ah = ah * norm
+        h = torch.cat((h, ah), dim=1)
+        return h
+
+class class_contrastive_model(nn.Module):
+    def __init__(self, layers_dimensions, dropout, Tresh_distance, concat_hidden=False, **kwargs):
+        
+        super(class_contrastive_model, self).__init__()
+        self._concat_hidden = concat_hidden
+        self.dropout = nn.Dropout(dropout)
+        self.encoder = nn.ModuleList()
+        self.Tresh_distance = Tresh_distance
+        self.layers_dimensions = layers_dimensions
+        
+        for i in range(len(layers_dimensions) - 1):
+            # ENCODER
+            self.encoder.append(GCN_LAYER(   in_feats           = layers_dimensions[i],  
+                                                out_feats          = layers_dimensions[i+1],
+                                                Tresh_distance     = self.Tresh_distance,
+                                                activation         = F.relu))
+    def forward(self, g):
+        h = g.ndata['Geometric']
+        all_hidden = []
+        for conv in self.encoder:
+            h = conv(g, h)
+
+            if self._concat_hidden:
+                all_hidden.append(h)
+                
+        h = self.dropout(h) 
+        return h
+
+    def get_embeddigns(self, loader):
+        import numpy as np
+        with torch.no_grad():
+            embeddings = []
+            labels = []
+            for graph, label in loader:
+                graph = graph.to('cuda:0')
+                x = graph.ndata['Geometric'].to('cuda:0')
+                out = self.forward(graph)
+                embeddings.append(out.cpu().numpy())
+                labels.append(label.cpu().numpy())
+
+            embeddings = np.concatenate(embeddings, axis=0)
+            labels = np.concatenate(labels, axis=0)
+            return embeddings, labels
+        
+
 class AUTOENCODER_MASK_MODF_SAGE_CONTRASTIVE(nn.Module):
 
     def __init__(self, layers_dimensions, dropout, node_classes, Tresh_distance, concat_hidden=False, mask_rate=0.2, **kwargs):
@@ -165,7 +321,6 @@ class AUTOENCODER_MASK_MODF_SAGE_CONTRASTIVE(nn.Module):
         self._mask_rate = mask_rate
         self.dropout = nn.Dropout(dropout)
         self.encoder = nn.ModuleList()
-        self.decoder = nn.ModuleList()
         self.Tresh_distance = Tresh_distance
         self.layers_dimensions = layers_dimensions
         
@@ -232,17 +387,17 @@ class AUTOENCODER_MASK_MODF_SAGE_CONTRASTIVE(nn.Module):
             labels = np.concatenate(labels, axis=0)
             return embeddings, labels
         
-    def extract_embeddings(self, graph, features = None):
-        with torch.no_grad():
-            self.eval()
-            # Get the features of the nodes
-            h = graph.ndata['Geometric'].to('cuda:0') if features is None else features.to('cuda:0')
-            
-            h, _ = self.encoder_(graph, h)
-            h = h.view(h.shape[0], -1)
-            embeddings = h.cpu().detach().numpy()
-            labels = graph.ndata['label'].cpu().detach().numpy()
-            return embeddings, labels
+    #def extract_embeddings(self, graph, features = None):
+    #    with torch.no_grad():
+    #        self.eval()
+    #        # Get the features of the nodes
+    #        h = graph.ndata['Geometric'].to('cuda:0') if features is None else features.to('cuda:0')
+    #        
+    #        h, _ = self.encoder_(graph, h)
+    #        h = h.view(h.shape[0], -1)
+    #        embeddings = h.cpu().detach().numpy()
+    #        labels = graph.ndata['label'].cpu().detach().numpy()
+    #        return embeddings, labels
     
     def encoding_mask_noise(self, g, x, mask_rate=0.2):
         num_nodes = g.num_nodes()
