@@ -1,5 +1,4 @@
 import torch
-import dgl
 import torch.nn as nn
 from dgl.nn.pytorch.conv import GraphConv
 import math
@@ -133,12 +132,6 @@ class Contrastive_model_edges_features(nn.Module):
             labels = np.concatenate(labels, axis=0)
             return embeddings, labels
         
-import dgl.function as fn
-import torch.nn as nn
-import math
-import torch
-import torch.nn.functional as F
-
 class GcnSAGELayer(nn.Module):
     def __init__(self,
                  in_feats,
@@ -223,13 +216,15 @@ class GCN_LAYER(nn.Module):
                  out_feats,
                  activation,
                  Tresh_distance,
+                 added_features = 24,
                  bias=True,
                  use_pp=False,
                  use_lynorm=True):
         
         super(GCN_LAYER, self).__init__()
 
-        self.in_feats = in_feats + 24 # With distance, angle 11
+        self.added_features = added_features
+        self.in_feats = in_feats + self.added_features #+ 24 # With distance, angle 11
         self.linear = nn.Linear(self.in_feats, out_feats, bias=bias)
         self.activation = activation
         self.use_pp = use_pp
@@ -267,8 +262,74 @@ class GCN_LAYER(nn.Module):
         h = torch.cat((h, ah), dim=1)
         return h
 
+class simplified_gcn_contrastive_model(nn.Module):
+    def __init__(self, layers_dimensions, dropout, Tresh_distance, added_features = 24, concat_hidden=False, **kwargs):
+        super(simplified_gcn_contrastive_model, self).__init__()
+        self.dropout = nn.Dropout(dropout)
+        self.layers_dimensions = layers_dimensions
+        self.added_features = added_features
+        self.norm = kwargs.get('norm', True)
+        layers = []
+        for i in range(len(self.layers_dimensions) - 1):
+            layers.append(nn.Linear(self.layers_dimensions[i] + self.added_features, self.layers_dimensions[i+1], bias=True))
+            layers.append(nn.ReLU())
+
+        self.linear_projections = nn.Sequential(*layers)
+    
+    def project_message(self, edges):
+        m = edges.data['m']
+        m = self.message_passing_projection(m)
+        return {'m': m}
+    
+    def forward(self, g, h):
+        g = g.local_var()
+        norm = g.ndata['norm']
+        g.apply_edges(self.project_message)
+        g.update_all(fn.copy_e('m', 'h'), fn.sum('h', 'sum_h'))
+        ah = g.ndata.pop('sum_h')
+        h = self.concat(h, ah, norm)
+        h = self.linear_projections(h)
+        h = self.dropout(h)
+        return h
+    
+    def concat(self, h, ah, norm):
+        if self.norm:
+            ah = ah * norm
+        h = torch.cat((h, ah), dim=1)
+        return h
+
+class simplified_contrastive_model(nn.Module):
+    def __init__(self, layers_dimensions, dropout, Tresh_distance, added_features = 24, concat_hidden=False, **kwargs):
+        super(simplified_contrastive_model, self).__init__()
+        self.dropout = nn.Dropout(dropout)
+        self.layers_dimensions = layers_dimensions
+        self.added_features = added_features
+        self.norm = kwargs.get('norm', True)
+        layers = []
+        for i in range(len(self.layers_dimensions) - 1):
+            layers.append(nn.Linear(self.layers_dimensions[i] + self.added_features, self.layers_dimensions[i+1], bias=True))
+            layers.append(nn.ReLU())
+
+        self.linear_projections = nn.Sequential(*layers)
+    
+    def forward(self, g, h):
+        g = g.local_var()
+        norm = g.ndata['norm']
+        g.send_and_recv(g.edges(), fn.copy_e('m', 'h'), fn.sum('h', 'sum_h'))
+        ah = g.ndata.pop('sum_h')
+        h = self.concat(h, ah, norm)
+        h = self.linear_projections(h)
+        h = self.dropout(h)
+        return h
+
+    def concat(self, h, ah, norm):
+        if self.norm:
+            ah = ah * norm
+        h = torch.cat((h, ah), dim=1)
+        return h
+
 class class_contrastive_model(nn.Module):
-    def __init__(self, layers_dimensions, dropout, Tresh_distance, concat_hidden=False, **kwargs):
+    def __init__(self, layers_dimensions, dropout, Tresh_distance, added_features = 24, concat_hidden=False, **kwargs):
         
         super(class_contrastive_model, self).__init__()
         self._concat_hidden = concat_hidden
@@ -282,7 +343,8 @@ class class_contrastive_model(nn.Module):
             self.encoder.append(GCN_LAYER(   in_feats           = layers_dimensions[i],  
                                                 out_feats          = layers_dimensions[i+1],
                                                 Tresh_distance     = self.Tresh_distance,
-                                                activation         = F.relu))
+                                                activation         = F.relu,
+                                                added_features     = added_features))
     def forward(self, g):
         h = g.ndata['Geometric']
         all_hidden = []
@@ -313,7 +375,6 @@ class class_contrastive_model(nn.Module):
         
 
 class AUTOENCODER_MASK_MODF_SAGE_CONTRASTIVE(nn.Module):
-
     def __init__(self, layers_dimensions, dropout, node_classes, Tresh_distance, concat_hidden=False, mask_rate=0.2, **kwargs):
         
         super().__init__()

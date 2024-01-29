@@ -5,7 +5,7 @@ from ..models.autoencoder_drop_edge import E2E
 from ..models.mask_autoencoders import GAT_masking
 from ..models.autoencoders import device
 from ..models.mask_autoencoders import SELF_supervised
-from ..models.contrastive_models import AUTOENCODER_MASK_MODF_SAGE_CONTRASTIVE
+#from ..models.contrastive_models import AUTOENCODER_MASK_MODF_SAGE_CONTRASTIVE
 
 
 import math
@@ -310,7 +310,8 @@ def get_model(config):
                                                ).to(device)
     
     elif config['model_name'] == 'Contrastive_nodes':
-        model = AUTOENCODER_MASK_MODF_SAGE_CONTRASTIVE(**config).to(device)
+        raise NotImplementedError
+        #model = AUTOENCODER_MASK_MODF_SAGE_CONTRASTIVE(**config).to(device)
     else:
         raise NotImplementedError
     

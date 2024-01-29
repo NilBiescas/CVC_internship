@@ -120,7 +120,7 @@ def add_features(graph):
     #features = concat_geom_edge_featurs(graph)
     features = graph.ndata['geom']
     #features = torch.cat((features, concat_geom_edge_featurs(graph)), dim = 1)
-    # Adding areas
+    # Adding areas  
     area = lambda geom: (geom[:, 2] - geom[:, 0]) * (geom[:, 3] - geom[:, 1])
     features = torch.cat((features, area(graph.ndata['geom']).unsqueeze(dim=1)), dim = 1)
     # Region encoding

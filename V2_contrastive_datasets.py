@@ -86,25 +86,6 @@ def vector_func(config, edges):
     msg = torch.cat(node_feat_list, dim=1)
     return {'m': msg}
 
-
-def message_of_the_edges(config: dict, g : dgl.graph):
-    message_edge = []
-    for node_feat in config['features']['node']:
-        node_feat = g.ndata[node_feat]
-        if len(node_feat.size()) == 1:
-            node_feat = node_feat.unsqueeze(1)
-        message_edge.append(node_feat)
-
-    for edge_feat in config['features']['edge']:
-        edge_feat = g.edata[edge_feat]
-        if len(edge_feat.size()) == 1:
-            edge_feat = edge_feat.unsqueeze(1)
-        message_edge.append(edge_feat)
-
-    msg = torch.cat(message_edge, dim=1)
-    g.edata['m'] = msg
-    return g
-
 # Update features of the nodes
 def contrastive_features(loader: list, model, config, path_dir):
     createDir(config['root_dir'] / 'graphs_contrastive')
@@ -129,7 +110,7 @@ xmin, ymin, xmax, ymax = box
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Training')
-    parser.add_argument('--run-name', type=str, default='run55')
+    parser.add_argument('--run-name', type=str, default='run102')
     args = parser.parse_args()
 
     config = LoadConfig(args.run_name)
