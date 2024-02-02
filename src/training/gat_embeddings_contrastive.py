@@ -469,7 +469,10 @@ def train_edges_nodes(model, optimizer, train_loader, config):
         train_loss_edges = compute_crossentropy_loss(x_pred_edges, labels_edges)
         train_loss = train_loss_nodes + train_loss_edges
         #Reconstruction loss
-        wandb.log({'loss': train_loss.item()})
+        wandb.log({'train loss nodes': train_loss_nodes.item(), 
+                   'train loss edges': train_loss_edges.item(),
+                   'train loss': train_loss.item()})
+
         total_train_loss += train_loss
         optimizer.zero_grad()
         train_loss.backward()
@@ -488,13 +491,13 @@ def train_edges_nodes(model, optimizer, train_loader, config):
     edges_ground_truth = torch.cat(edges_ground_truth)
 
     def get_metrics(predictions, ground_truth):
-        macro, micro, _, _ = get_f1(predictions, ground_truth)
+        macro_f1, micro_f1, _, _ = get_f1(predictions, ground_truth)
         auc = compute_auc_mc(predictions, ground_truth)
         accuracy_train = get_accuracy(predictions, ground_truth)
-        return macro, auc, accuracy_train
-    
-    return total_train_loss, *get_metrics(nodes_predictions, nodes_ground_truth), *get_metrics(edges_predicitons, edges_ground_truth)
-
+        return macro_f1, auc, accuracy_train
+    metrics_nodes = get_metrics(nodes_predictions, nodes_ground_truth)
+    metrics_edges = get_metrics(edges_predicitons, edges_ground_truth)
+    return total_train_loss, *metrics_nodes, *metrics_edges
 
 
 def validation_edges_nodes(model, val_loader):
@@ -520,6 +523,9 @@ def validation_edges_nodes(model, val_loader):
             val_n_loss = val_n_loss_nodes + val_n_loss_edges
             total_validation_loss += val_n_loss
 
+            wandb.log({'validation loss nodes': val_n_loss_nodes.item(), 
+                       'validation loss edges': val_n_loss_edges.item(),
+                       'validation loss': val_n_loss.item()})
             nodes_predictions.append(x_pred_nodes)
             nodes_ground_truth.append(x_true_nodes)
             edges_predicitons.append(x_pred_edges)
@@ -531,13 +537,19 @@ def validation_edges_nodes(model, val_loader):
         edges_predicitons = torch.cat(edges_predicitons, dim = 0)
         edges_ground_truth = torch.cat(edges_ground_truth)
 
-        def get_metrics(predictions, ground_truth):
-            macro, micro, precision, recall = get_f1(predictions, ground_truth)
+        def get_metrics(predictions, ground_truth, per_class = False):
+            classes_f1 = None
+            if per_class:
+                edges_predictions = torch.argmax(predictions, dim=1)
+                _, classes_f1 = get_binary_accuracy_and_f1(edges_predictions, edges_ground_truth, per_class=True)
+
+            macro_f1, micro_f1, precision, recall = get_f1(predictions, ground_truth)
             auc = compute_auc_mc(predictions, ground_truth)
             accuracy = get_accuracy(predictions, ground_truth)
-            return macro, auc, precision, accuracy, micro
+            return macro_f1, auc, precision, accuracy, micro_f1, classes_f1
         
-        return total_validation_loss, *get_metrics(nodes_predictions, nodes_ground_truth), *get_metrics(edges_predicitons, edges_ground_truth)
+        
+        return total_validation_loss, *get_metrics(nodes_predictions, nodes_ground_truth), *get_metrics(edges_predicitons, edges_ground_truth, per_class=True)
 
 
 def test_edges_report(edges_predictions, edges_ground_truth, config):
@@ -662,23 +674,23 @@ def contrastiv_node_edge_training(config):
 
             total_train_loss = 0
             total_validation_loss = 0
-            best_val_f1_micro = 0
+            best_val_f1_micro_key_value = 0
             for epoch in range(config['epochs']):
 
-                train_loss, macro, auc, accuracy_train, _, _, _ = train_edges_nodes(model, optimizer, train_loader, config)
-                val_tot_loss, val_macro, val_auc, precision, accuracy_val, micro_f1_nodes, macro_f1_edges, auc_edges, precision_edges, accuracy_edges, f1_micro_edges = validation_edges_nodes(model, validation_loader)
+                train_loss, macro_f1, auc, accuracy_train, _, _, _ = train_edges_nodes(model, optimizer, train_loader, config)
+                val_tot_loss, val_macro, val_auc, precision, accuracy_val, micro_f1_nodes, _, macro_f1_edges, auc_edges, precision_edges, accuracy_edges, f1_micro_edges, classes_f1 = validation_edges_nodes(model, validation_loader)
                 scheduler.step()
 
                 total_train_loss += train_loss.item()
                 total_validation_loss += val_tot_loss.item()
-
-                if f1_micro_edges > best_val_f1_micro:
+                
+                if classes_f1[1] > best_val_f1_micro_key_value:
                     torch.save(model.state_dict(), config['weights_dir'] / f"epoch_{epoch}.pth")
-                    best_val_f1_micro = f1_micro_edges
+                    best_val_f1_micro_key_value = classes_f1[1]
                     best_model = model
 
                 wandb.log({"Train loss": train_loss.item(), 
-                           "Train node macro": macro, 
+                           "Train node macro": macro_f1, 
                            "Train node auc": auc,
                            "Validation loss": val_tot_loss.item(),
                            "Validation node f1 micro": micro_f1_nodes,
@@ -690,11 +702,13 @@ def contrastiv_node_edge_training(config):
                             "Validation edge auc": auc_edges,
                             "Validation edge precision": precision_edges,
                             "Validation edge accuracy": accuracy_edges,
-                            "Validation edge f1_micro": f1_micro_edges
+                            "Validation edge f1_micro": f1_micro_edges,
+                            "Validation f1_key_value": classes_f1[1],
+                            "Validation f1_none": classes_f1[0],
                            })
                 
-                print("Epoch {:05d} | TrainLoss {:.4f} | TrainF1-MACRO-node {:.4f} | TrainAUC-PR-node {:.4f} | ValLoss {:.4f} | ValF1-MACRO-node {:.4f} | ValAUC-PR-node {:.4f} |"
-                        .format(epoch, train_loss.item(), macro, auc, val_tot_loss.item(), val_macro, val_auc))
+                print("Epoch {:05d} | TrainLoss {:.4f} | TrainF1-MACRO-node {:.4f} | Val-f1-key-val {:.4f} | ValLoss {:.4f} | ValF1-MACRO-node {:.4f} | ValAUC-PR-node {:.4f} |"
+                        .format(epoch, train_loss.item(), macro_f1, classes_f1[1], val_tot_loss.item(), val_macro, val_auc))
 
             total_train_loss /= config['epochs']; total_validation_loss /= config['epochs']
             print("Train Loss: {:.4f} | Validation Loss: {:.4f}".format(total_train_loss, total_validation_loss), end='')

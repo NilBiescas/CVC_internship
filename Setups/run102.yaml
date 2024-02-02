@@ -27,7 +27,11 @@ eta_min: 0.00001
 
 Tresh_distance: False
 layers_dimensions: [9, 15, 17]
+
+####### ADDED FEATURES #######
 added_features: 23
+
+
 dropout: 0.3
 mask_rate: 0.0
 concat_hidden: False

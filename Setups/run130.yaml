@@ -3,12 +3,14 @@
 contrastive_learning:
   margin: 0.3
   type_of_triplets: 'all'
-  distance_metric: 'LpDistance'
+  distance_metric: 'CosineSimilarity'
 
 pretrainedWeights: False
 epochs: 200
 batch_size: 4
 loader: True
+
+added_features: 324 # The added features to the vector of the nodes. # angle and distance
 
 model_name: "class_contrastive_model" 
 optimizer: "ADAMW"
@@ -26,20 +28,20 @@ T_max: 200
 eta_min: 0.00001
 
 Tresh_distance: False
-layers_dimensions: [9, 15, 17]
+layers_dimensions: [9, 400, 500]
 dropout: 0.3
 mask_rate: 0.0
 concat_hidden: False
 
 activation: "relu"
 
-pickle_path_train_kmeans: '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/V2_Kmeans_dis_ntresh_discrete/train_Kmeans_dis_ntresh_discrete.pkl'
-pickle_path_val_kmeans: '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/V2_Kmeans_dis_ntresh_discrete/val_Kmeans_dis_ntresh_discrete.pkl'
-pickle_path_test_kmeans: '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/V2_Kmeans_dis_ntresh_discrete/test_Kmeans_dis_ntresh_discrete.pkl'
+pickle_path_train_kmeans: '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/V2_TEXT_Kmeans_dis_ntresh_discrete/train_TEXT_Kmeans_dis_ntresh_discrete.pkl'
+pickle_path_val_kmeans: '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/V2_TEXT_Kmeans_dis_ntresh_discrete/val_TEXT_Kmeans_dis_ntresh_discrete.pkl'
+pickle_path_test_kmeans: '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/V2_TEXT_Kmeans_dis_ntresh_discrete/test_TEXT_Kmeans_dis_ntresh_discrete.pkl'
 
 network: 
   checkpoint: ~
 
 features:
-  node: ['Geometric']
+  node: ['Geometric', 'text_feat']
   edge: ['distance_not_tresh', 'angle', 'discrete_bin_edges', 'feat']

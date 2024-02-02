@@ -117,7 +117,7 @@ def get_relative_positons(data):
 
 def region_encoding(graph):
     """
-    Encode the region of the bounding box in a 3x3 grid
+    Encode the region of the bounding box in a 4x4 grid
     """
     def get_encoding(coord):
         limit = 1 # High and with of the image after normalization

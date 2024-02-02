@@ -86,7 +86,8 @@ def conf_matrix(y_true, y_pred, path, title, columns = ['answer', 'header', 'oth
     sn.set(font_scale=1.4) #for label size
     sn.heatmap(df_cm, cmap="Blues", annot=True, annot_kws={"size": 16}, fmt='d') # font size
     plt.savefig(path / f'{title}.png')
-    plt.show()
+    #plt.show()
+    plt.close()
     wandb.log({f'Confussion Matrix {title}':wandb.Image(PIL.Image.open(path / f'{title}.png').convert('RGB')
                                                , caption=f'Confusion Matrix {title}')})
 

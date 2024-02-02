@@ -3,14 +3,14 @@
 contrastive_learning:
   margin: 0.3
   type_of_triplets: 'hard'
-  distance_metric: 'CosineSimilarity'
+  distance_metric: 'LpDistance'
 
 pretrainedWeights: False
 epochs: 200
 batch_size: 4
 loader: True
 
-added_features: 2 # The added features to the vector of the nodes. # angle and distance
+added_features: 24 # The added features to the vector of the nodes. # angle and distance
 model_name: "class_contrastive_model" 
 optimizer: "ADAMW"
 lr: 0.001

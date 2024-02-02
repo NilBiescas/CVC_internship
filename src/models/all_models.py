@@ -57,8 +57,17 @@ class MaskedGat_contrastive(nn.Module):
         for i in range(1, num_layers):
             self.gat_layers.append(GATConv(hidden_dim * num_heads, hidden_dim, num_heads, feat_drop, attn_drop, negative_slope, residual, activation=activation))
         self.norm = nn.BatchNorm1d(hidden_dim * num_heads)
+        
+        if kwargs.get('layers_dimensions', None) is None:
+            self.fc = nn.Linear(hidden_dim * num_heads, kwargs['node_classes'])
+        else:
+            dimensions_layers = kwargs['layers_dimensions']
+            layers = []
+            for i in range(len(dimensions_layers) - 1):
+                layers.append(nn.Linear(dimensions_layers[i], dimensions_layers[i + 1]))
+            layers.append(nn.Linear(dimensions_layers[-1], kwargs['node_classes']))
+            self.fc = nn.Sequential(*layers)
 
-        self.fc = nn.Linear(hidden_dim * num_heads, kwargs['node_classes'])
         self.enc_mask_token = nn.Parameter(torch.zeros(1, in_dim))
 
         kwargs['cfg_edge_predictor']['in_features'] = hidden_dim * num_heads
@@ -96,29 +105,34 @@ class MaskedGat_contrastive(nn.Module):
     
     def mask_attr_prediction(self, g, x, mask_rate):
         pre_use_g, use_x, (mask_nodes, keep_nodes) = self.encoding_mask_noise(g, x, mask_rate) # Mask the features
- 
         use_g = pre_use_g
 
         for i in range(self.num_layers):
             use_x = self.gat_layers[i](use_g, use_x).flatten(1)
 
         use_x = self.norm(use_x)
-
         preds = self.fc(use_x)
-
-        pred_edges = self.edge_fc(use_g, use_x, preds) # 
-
+        pred_edges = self.edge_fc(use_g, use_x, preds)
         return preds, pred_edges
     
 class MLPPredictor_E2E(nn.Module):
-    def __init__(self, in_features, hidden_dim, out_classes, dropout,  edge_pred_features):
+    def __init__(self, in_features, hidden_dim, out_classes, dropout, edge_pred_features, layers_dimensions = None):
         super().__init__()
         self.out = out_classes
-        self.W1 = nn.Linear(in_features * 2 +  edge_pred_features, hidden_dim)
+        self.in_feat = in_features * 2 + edge_pred_features
+
+        if layers_dimensions is not None:
+            layers = []
+            for i in range(len(layers_dimensions) - 1):
+                layers.append(nn.Linear(layers_dimensions[i], layers_dimensions[i + 1]))
+            layers.append(nn.Linear(layers_dimensions[-1], hidden_dim))
+            self.W1 = nn.Sequential(*layers)
+        else:
+            self.W1 = nn.Linear(in_features * 2 + edge_pred_features, hidden_dim)
+  
         self.norm = nn.LayerNorm(hidden_dim)
         self.W2 = nn.Linear(hidden_dim, out_classes)
         self.drop = nn.Dropout(dropout)
-        #self.W3 = nn.Linear(hidden_dim, 4)
 
     def apply_edges(self, edges):
         h_u = edges.src['h']
@@ -129,18 +143,14 @@ class MLPPredictor_E2E(nn.Module):
 
         x = F.relu(self.norm(self.W1(torch.cat((h_u, cls_u, polar, h_v, cls_v), dim=1))))
         score = self.drop(self.W2(x))
-
-        #bounding_box = self.W3(x)
-        return {'score': score} #, 'box': bounding_box}
+        return {'score': score}
 
     def forward(self, graph, h, cls):
-        # h contains the node representations computed from the GNN z
-        # in the node classification section (Section 5.1).
         with graph.local_scope():
             graph.ndata['h'] = h
             graph.ndata['cls'] = cls
             graph.apply_edges(self.apply_edges)
-            return graph.edata['score'] #, graph.edata['box']
+            return graph.edata['score']
         
 
 class MaskedGat_contrastive_linegraphs(nn.Module):

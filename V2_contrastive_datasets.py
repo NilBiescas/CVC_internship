@@ -52,15 +52,13 @@ def get_all_embeddings(dataset, model):
     tester = testers.BaseTester(dataloader_num_workers=2)
     return tester.get_all_embeddings(dataset, model, collate_fn=collate)
 
-def test(train_set, test_set, model, accuracy_calculator):
+def accuracy_at_1(train_set, val_set, model, accuracy_calculator):
     model.eval()
-    train_embeddings, train_labels = get_all_embeddings(train_set, model)
-    test_embeddings, test_labels = get_all_embeddings(test_set, model)
-
-    print("Computing accuracy")
-    accuracies = accuracy_calculator.get_accuracy(query = train_embeddings, reference = test_embeddings, query_labels = train_labels, reference_labels = test_labels)
+    with torch.no_grad():
+        train_embeddings, train_labels = get_all_embeddings(train_set, model)
+        val_embeddings, val_labels = get_all_embeddings(val_set, model)
+        accuracies = accuracy_calculator.get_accuracy(query = train_embeddings, reference = val_embeddings, query_labels = train_labels, reference_labels = val_labels)
     
-    print("Test set accuracy (Precision@1) = {}".format(accuracies["precision_at_1"]))
     return accuracies["precision_at_1"]
 
 def collate(batch):
@@ -110,11 +108,11 @@ xmin, ymin, xmax, ymax = box
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Training')
-    parser.add_argument('--run-name', type=str, default='run102')
+    parser.add_argument('--run-name', type=str, default='run128')
     args = parser.parse_args()
 
     config = LoadConfig(args.run_name)
-    with wandb.init(project="masking", config = config):
+    with wandb.init(project="experiments_finals", config = config):
         wandb.run.name = config['run_name']
         device = 'cuda' if torch.cuda.is_available() else "cpu"
 
@@ -177,12 +175,12 @@ if __name__ == '__main__':
         if config.get('pretrainedWeights', False) == False:
             for epoch in range(config['epochs']):
                 loss = train(model, loss_func, mining_func, train_loader, optimizer, epoch)
-                if epoch % 5 == 0:
-                    precision = test(train_dataset, test_dataset, model, accuracy_calculator)
-                    precision_evolution.append(precision)
-                    wandb.log({"train loss": loss, "precision": precision})
-                    
+                precision = accuracy_at_1(train_dataset, val_dataset, model, accuracy_calculator)
+                
+                precision_evolution.append(precision)   
                 loss_evolution.append(loss)
+                wandb.log({"train loss": loss, "validation precision": precision})
+
                 if precision > max_precision:
                     print("Saving model")
                     max_precision = precision
@@ -190,17 +188,22 @@ if __name__ == '__main__':
 
                 scheduler.step()
 
-            wandb.log({'max_precision': max_precision})
+            wandb.log({'max_precision validation': max_precision})
             plt.plot(loss_evolution)
             plt.savefig(config['root_dir'] / 'loss.png')
             plt.close()
             plt.plot(precision_evolution)
             plt.savefig(config['root_dir'] / 'precision.png')
             plt.close()
-        else:
+        else: 
             print("Skipping training")
         # Load best model
         model = torch.load(os.path.join(config["weights_dir"], os.listdir(config["weights_dir"])[-1]))
+        # Compute the test accuracy
+        print("!!! Computing test accuracy !!!")
+        precision = accuracy_at_1(train_dataset, test_dataset, model, accuracy_calculator)
+        print("Test precision {}".format(precision))
+        wandb.log({"test precision": precision})
         model.eval()
         # T-SNE Visualization
         createDir(config['root_dir'] / 'train_and_test_embeddings')
