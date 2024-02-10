@@ -108,7 +108,7 @@ xmin, ymin, xmax, ymax = box
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Training')
-    parser.add_argument('--run-name', type=str, default='run128')
+    parser.add_argument('--run-name', type=str, default='run172')
     args = parser.parse_args()
 
     config = LoadConfig(args.run_name)
@@ -222,6 +222,7 @@ if __name__ == '__main__':
         embeddings_test, labels_test = obtain_embeddings(train_loader, test_loader, model, train = False, test = True)
         create_plots(embeddings_test, labels_test, dir_path = config['root_dir'] / 'test_embeddings', config = config)
 
+        train_loader.shuffle = False
         contrastive_features(train_loader, model, config, 'train_contrastive.bin')
         contrastive_features(test_loader, model, config, 'test_contrastive.bin')
         contrastive_features(val_loader, model, config, 'val_contrastive.bin')

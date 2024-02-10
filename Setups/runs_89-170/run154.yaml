@@ -1,0 +1,58 @@
+run_name: "run54_featuresNonContrastive"
+
+epochs: 1500
+batch_size: 30
+loader: True
+
+model_name: "MaskedGat_contrastive" 
+optimizer: "ADAMW"
+lr: 0.001
+val_size: 0.1
+
+momentum: 0.9
+weight_decay: 0.0001
+
+schedule_name: "CosineAnnealingLR"
+milestones: [600, 800]
+gamma: 0.1
+# Values for the CosineAnnealingLR scheduler
+T_max: 200
+eta_min: 0.00001
+
+
+activation: "relu"
+reduce: "mean"
+train_method: "contrastiv_node_edge_training"
+kmeans_partition: True
+
+train_graphs :     '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/GRAPHS_PEL_PAPER/train_nonContrastive_features.bin'
+validation_graphs: '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/GRAPHS_PEL_PAPER/val_nonContrastive_features.bin'
+test_graphs:       '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/GRAPHS_PEL_PAPER/test_nonContrastive_features.bin'
+
+Dataset_partitions:
+  n: 5
+  m: 5
+
+network: 
+  checkpoint: ~
+
+node_classes: 4
+edge_classes: 2
+
+cfg_edge_predictor:
+    in_features: 20
+    hidden_dim: 20
+    out_classes: 2
+    dropout: 0
+    edge_pred_features: 14 # Polar coordinates + class probablities for the src and dst nodes
+
+in_dim: 9
+hidden_dim: 20
+num_heads: 4
+num_layers: 4
+feat_drop: 0.1
+attn_drop: 0.2
+negative_slope: 0.2
+residual: True
+
+mask_rate: 0.2

@@ -1,16 +1,10 @@
 #!/bin/bash
 
-
-python main.py --run-name run133
-python main.py --run-name run134
-python main.py --run-name run135
-
-python main.py --run-name run137
-python main.py --run-name run138
-python main.py --run-name run139
-
-python V2_contrastive_datasets --run-name run140
-python V2_contrastive_datasets --run-name run141
-
-python main.py --run-name run142
-python main.py --run-name run143
+python main.py --run-name run180
+python main.py --run-name run181
+python main.py --run-name run182
+python main.py --run-name run183
+python main.py --run-name run184
+python main.py --run-name run185
+python main.py --run-name run186
+python main.py --run-name run187

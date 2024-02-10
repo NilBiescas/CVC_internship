@@ -298,6 +298,107 @@ class simplified_gcn_contrastive_model(nn.Module):
         h = torch.cat((h, ah), dim=1)
         return h
 
+class simplified_GCN_layer(nn.Module):
+    def __init__(self,
+                 in_feats,
+                 out_feats,
+                 activation,
+                 Tresh_distance,
+                 added_features = 24,
+                 bias=True,
+                 use_pp=False,
+                 use_lynorm=True):
+        
+        super(simplified_GCN_layer, self).__init__()
+
+        self.added_features = added_features
+        self.in_feats = in_feats #+ 24 # With distance, angle 11
+        self.linear = nn.Linear(self.in_feats, out_feats, bias=bias)
+        self.activation = activation
+        self.use_pp = use_pp
+        self.Tresh_distance = Tresh_distance
+
+        if use_lynorm:
+            self.lynorm = nn.LayerNorm(out_feats, elementwise_affine=True)
+        else:
+            self.lynorm = lambda x: x
+        self.reset_parameters()
+
+    def reset_parameters(self):
+        stdv = 1. / math.sqrt(self.linear.weight.size(1))
+        self.linear.weight.data.uniform_(-stdv, stdv)
+        if self.linear.bias is not None:
+            self.linear.bias.data.uniform_(-stdv, stdv)
+
+    def message_func(self, edges):
+        return {'h': self.activation(self.linear(edges.data['m']))}
+
+    def aggregate_func(self, nodes):
+        message_sum = torch.sum(nodes.mailbox['h'], dim=1)
+        return {'sum_h': torch.cat((nodes.data['Geometric'], message_sum), dim=1)}
+
+    def forward(self, g):
+        g = g.local_var()
+        g.update_all(self.message_func, self.aggregate_func)
+        h = g.ndata.pop('sum_h')
+        return h
+
+class NEW_contrastive_simplified(nn.Module):
+    def __init__(self, layers_dimensions, dropout, Tresh_distance, added_features = 24, concat_hidden=False, **kwargs):
+        super(NEW_contrastive_simplified, self).__init__()
+        self.dropout = nn.Dropout(dropout)
+        self.layers_dimensions = layers_dimensions
+        self.added_features = added_features
+        self.norm = kwargs.get('norm', True)
+
+        self.encoder = nn.ModuleList()
+        for i in range(len(layers_dimensions) - 1):
+            if i == 0:
+                self.encoder.append(simplified_GCN_layer(in_feats           = layers_dimensions[i],  
+                                            out_feats          = layers_dimensions[i],
+                                            Tresh_distance     = Tresh_distance,
+                                            activation         = F.relu,
+                                            added_features     = added_features))
+            else:
+                self.encoder.append(GraphConv(layers_dimensions[i], layers_dimensions[i+1], 
+                          weight=True, bias=True, 
+                          activation=F.relu, allow_zero_in_degree=True))
+        if kwargs.get('final_projections', False) == False:
+            raise ValueError("You need to specify the final projection")
+        final_projections = kwargs.get('final_projections')
+        final_projection_dims = []
+        for i in range(len(final_projections) - 1):
+            final_projection_dims.append(nn.Linear(final_projections[i], final_projections[i+1], bias=True))
+            final_projection_dims.append(nn.ReLU())
+        self.final_projection = nn.Sequential(*final_projection_dims)
+
+    def get_embeddigns(self, loader):
+        import numpy as np
+        with torch.no_grad():
+            embeddings = []
+            labels = []
+            for graph, label in loader:
+                graph = graph.to('cuda:0')
+                out = self.forward(graph)
+                embeddings.append(out.cpu().numpy())
+                labels.append(label.cpu().numpy())
+
+            embeddings = np.concatenate(embeddings, axis=0)
+            labels = np.concatenate(labels, axis=0)
+            return embeddings, labels
+        
+    def forward(self, g):
+        for idx, conv in enumerate(self.encoder):
+            if idx == 0:
+                h = conv(g)
+            else:
+                h = conv(g, h)
+
+        h = self.final_projection(h)           
+        h = self.dropout(h) 
+        return h 
+    
+
 class simplified_contrastive_model(nn.Module):
     def __init__(self, layers_dimensions, dropout, Tresh_distance, added_features = 24, concat_hidden=False, **kwargs):
         super(simplified_contrastive_model, self).__init__()
@@ -327,7 +428,7 @@ class simplified_contrastive_model(nn.Module):
             ah = ah * norm
         h = torch.cat((h, ah), dim=1)
         return h
-
+   
 class class_contrastive_model(nn.Module):
     def __init__(self, layers_dimensions, dropout, Tresh_distance, added_features = 24, concat_hidden=False, **kwargs):
         
