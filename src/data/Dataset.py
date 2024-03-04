@@ -190,16 +190,25 @@ def dataloaders_funsd(train, config):
 
 from .doc2_graph.data.dataloader import Document2Graph
 from .doc2_graph.paths import FUNSD_TRAIN, FUNSD_TEST, TRAIN_SAMPLES, TEST_SAMPLES
+from .doc2_graph.paths import PAU_TRAIN, PAU_TEST
 from .doc2_graph.utils import get_config
 
-def FUNSD_loader(train = True):
+def FUNSD_loader(train = True, name = 'FUNSD'):
     config = get_config('preprocessing')
 
     pprint.pprint(config, indent=4, width=1)
     print("\n")
-    if train:
-        print("TRAIN")
-        return Document2Graph(name='FUNSD TRAIN', src_path=FUNSD_TRAIN, device = "cuda:0", output_dir=TRAIN_SAMPLES)
-    else:
-        print("TEST")
-        return Document2Graph(name='FUNSD TEST', src_path=FUNSD_TEST, device = "cuda:0", output_dir=TEST_SAMPLES)
+    if name == 'FUNSD':
+        if train:
+            print("TRAIN")
+            return Document2Graph(name='FUNSD TRAIN', src_path=FUNSD_TRAIN, device = "cuda:0", output_dir=TRAIN_SAMPLES)
+        else:
+            print("TEST")
+            return Document2Graph(name='FUNSD TEST', src_path=FUNSD_TEST, device = "cuda:0", output_dir=TEST_SAMPLES)
+    elif name == 'PAU':
+        if train:
+            print("TRAIN")
+            return Document2Graph(name='PAU TRAIN', src_path=PAU_TRAIN, device = "cuda:0", output_dir=TRAIN_SAMPLES)
+        else:
+            print("TEST")
+            return Document2Graph(name='PAU TEST', src_path=PAU_TEST, device = "cuda:0", output_dir=TEST_SAMPLES)

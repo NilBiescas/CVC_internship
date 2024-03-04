@@ -15,10 +15,8 @@ from pytorch_metric_learning.utils.accuracy_calculator import AccuracyCalculator
 
 from src.training.utils import get_model, get_activation, get_scheduler
 from src.training.utils_contrastive import obtain_embeddings, create_plots
-from src.models.contrastive_models import Simple_edge_encoder
-from src.data.Dataset import kmeans_graphs, Dataset_Kmeans_Graphs
+from src.data.Dataset import Dataset_Kmeans_Graphs
 from utils import LoadConfig, createDir
-from src.data.utils import concat_paragraph2graph_edges
 
 torch.manual_seed(hash("by removing stochasticity") % 2**32 - 1)
 np.random.seed(42)
@@ -34,16 +32,15 @@ def train(model, loss_func, mining_func, train_loader, optimizer, epoch):
 
         optimizer.zero_grad()
         embeddings = model(graph)
+
         indices_tuple = mining_func(embeddings, labels)
         loss = loss_func(embeddings, labels, indices_tuple)
-        #loss = loss_func(embeddings, labels)
 
         total_loss += loss.item()
         loss.backward()
 
         optimizer.step()
         if batch_idx % 20 == 0:
-            #print("Epoch {} Iteration {}: Loss = {}, Number of mined triplets = {}".format(epoch, batch_idx, loss, mining_func.num_triplets))
             print("Epoch {} Iteration {}: Loss = {}".format(epoch, batch_idx, loss))
 
     return total_loss / (batch_idx + 1)
@@ -84,8 +81,10 @@ def vector_func(config, edges):
     msg = torch.cat(node_feat_list, dim=1)
     return {'m': msg}
 
-# Update features of the nodes
 def contrastive_features(loader: list, model, config, path_dir):
+    """
+    Obtain the embeddings obtained after the contrastive learning
+    """
     createDir(config['root_dir'] / 'graphs_contrastive')
     with torch.no_grad():
         model.eval()
@@ -130,16 +129,19 @@ if __name__ == '__main__':
 
         accuracy_calculator = AccuracyCalculator(include=("precision_at_1",), k = 1)
 
+        if config['pickle_path_train_kmeans'].endswith(".bin"):
+            train_graphs, _ = dgl.load_graphs(config['pickle_path_train_kmeans'])
+            val_graphs, _   = dgl.load_graphs(config['pickle_path_val_kmeans'])
+            test_graphs, _  = dgl.load_graphs(config['pickle_path_test_kmeans'])
+        else:
+            with open(config['pickle_path_train_kmeans'], 'rb') as kmeans_train,\
+                 open(config['pickle_path_val_kmeans'], 'rb')   as kmeans_val,\
+                 open(config['pickle_path_test_kmeans'], 'rb')  as kmeans_test:
+                 train_graphs = pickle.load(kmeans_train)
+                 val_graphs = pickle.load(kmeans_val)
+                 test_graphs = pickle.load(kmeans_test)
 
-        with open(config['pickle_path_train_kmeans'], 'rb') as kmeans_train,\
-             open(config['pickle_path_val_kmeans'], 'rb')   as kmeans_val,\
-             open(config['pickle_path_test_kmeans'], 'rb')  as kmeans_test:
-
-            train_graphs = pickle.load(kmeans_train)
-            val_graphs = pickle.load(kmeans_val)
-            test_graphs = pickle.load(kmeans_test)
-
-        vector_func_partial = partial(vector_func, config) # Partial function to pass to apply_edges
+        vector_func_partial = partial(vector_func, config) # Partial function to use with apply_edges
         def update_features(graphs: dgl.graph):
             batch = dgl.batch(graphs)
             batch.apply_edges(vector_func_partial)
@@ -147,9 +149,8 @@ if __name__ == '__main__':
             return graphs
 
         train_graphs = update_features(train_graphs)
-        val_graphs = update_features(val_graphs)
-        test_graphs = update_features(test_graphs)
-
+        val_graphs   = update_features(val_graphs)
+        test_graphs  = update_features(test_graphs)
 
         # Datasets
         train_dataset = Dataset_Kmeans_Graphs(train_graphs) # Train
@@ -209,18 +210,6 @@ if __name__ == '__main__':
         createDir(config['root_dir'] / 'train_and_test_embeddings')
         createDir(config['root_dir'] / 'train_embeddings')
         createDir(config['root_dir'] / 'test_embeddings')
-
-        print("Obtaining embeddings for train and test datasets")
-        embeddings, labels = obtain_embeddings(train_loader, test_loader, model,train = True, test = True)
-        create_plots(embeddings, labels, dir_path = config['root_dir'] / 'train_and_test_embeddings', config=config)
-
-        print("Obtaining embeddings for train dataset")
-        embeddings_train, labels_train = obtain_embeddings(train_loader, test_loader, model, train = True, test = False)
-        create_plots(embeddings_train, labels_train, dir_path = config['root_dir'] / 'train_embeddings', config = config)
-
-        print("Obtaining embeddings for test dataset")
-        embeddings_test, labels_test = obtain_embeddings(train_loader, test_loader, model, train = False, test = True)
-        create_plots(embeddings_test, labels_test, dir_path = config['root_dir'] / 'test_embeddings', config = config)
 
         train_loader.shuffle = False
         contrastive_features(train_loader, model, config, 'train_contrastive.bin')

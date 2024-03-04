@@ -1,12 +1,10 @@
 import yaml
 import os
+from pathlib import Path
 
 def createDir(dir_name):
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
-
-import yaml
-from pathlib import Path
 
 def LoadConfig(test_name):
     with open(Path("/home/nbiescas/Desktop/CVC/CVC_internship/Setups") / (test_name + ".yaml")) as f:

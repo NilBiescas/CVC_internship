@@ -23,9 +23,9 @@ reduce: "mean"
 train_method: "contrastiv_node_edge_training"
 kmeans_partition: True
 
-train_graphs :     '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/WEIGHTED_CONCAT/train_text_geom_weighted.bin'
-validation_graphs: '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/WEIGHTED_CONCAT/val_text_geom_weighted.bin'
-test_graphs:       '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/WEIGHTED_CONCAT/test_text_geom_weighted.bin'
+train_graphs :     '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/Only_edgeFeatContra_TEXT/train_TEXT_only_edgeFeatContra.bin'
+validation_graphs: '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/Only_edgeFeatContra_TEXT/val_TEXT_only_edgeFeatContra.bin'
+test_graphs:       '/home/nbiescas/Desktop/CVC/CVC_internship/PKL_Graphs/Only_edgeFeatContra_TEXT/test_TEXT_only_edgeFeatContra.bin'
 
 Dataset_partitions:
   n: 5
@@ -37,37 +37,22 @@ network:
 node_classes: 4
 edge_classes: 2
 
-<<<<<<< HEAD
 layers_dimensions: [450, 200, 100] # RECORDA QUE LA ULTIMA LAYER PASSARA DE 100 A NODE_NUM_CLASSES
 
 cfg_edge_predictor:
     layers_dimensions: [914, 450, 80, 20] # RECORDA QUE LA ULTIMA LAYER PASSARA DE 20 A EDGE_NUM_CLASSES I QUE 
-=======
-layers_dimensions: [350, 100, 50] # RECORDA QUE LA ULTIMA LAYER PASSARA DE 100 A NODE_NUM_CLASSES
-
-cfg_edge_predictor:
-    layers_dimensions: [714, 120, 50] # RECORDA QUE LA ULTIMA LAYER PASSARA DE 20 A EDGE_NUM_CLASSES I QUE 
->>>>>>> 6574fdf59584b43a5f695f6a57cc37047858173a
     hidden_dim: 20                              # RECORDA QUE LA ULTIMA LAYER HA DE CORESPONDRE AMB LA HIDDEN DIM
     out_classes: 2
     dropout: 0.2
     edge_pred_features: 14 # Polar coordinates + class probablities for the src and dst nodes
 
 in_dim: 317
-<<<<<<< HEAD
 hidden_dim: 450
-=======
-hidden_dim: 350
->>>>>>> 6574fdf59584b43a5f695f6a57cc37047858173a
 num_heads: 1
 num_layers: 1
 feat_drop: 0.1
 attn_drop: 0.1
 negative_slope: 0.2
 residual: True
-<<<<<<< HEAD
-=======
-ffn_dim: 300
->>>>>>> 6574fdf59584b43a5f695f6a57cc37047858173a
 
-mask_rate: 0.2
+mask_rate: 0.5

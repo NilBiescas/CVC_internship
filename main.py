@@ -27,8 +27,9 @@ if __name__ == '__main__':
     print("\n\n")
     with wandb.init(project="experiments_finals", config = config, name = config['run_name']):
         
+        # We should firts do stage-1 if the graphs are not already created with the feat features
+        
         orchestration_func = get_orchestration_func(config['train_method']) # Load orchestration function
         model = orchestration_func(config)
 
-        
         print("Ja s'ha acabat")
