@@ -2,8 +2,7 @@
 Related work with Graph neural networks
 
 I recommend to createa a conda env with python == Python 3.9.18
-and then install the requirments with pip   
-
+and then install the requirments with pip   more or less is 8 G
 
 The way how it works is that you train the firts stage1 and that training geneartest the graph used in stage2. So you have the graph used in stage1 and then the graph used in stage2 genereated in stage1.
 I provided all the necessary graphs and configs to repeat the experimetns and that is not necessary for you to train again to obtain the graphs used in stage2. You can go directly and train them and see the results.
