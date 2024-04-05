@@ -1,17 +1,20 @@
 import yaml
 import os
 from pathlib import Path
+from paths import *
 
 def createDir(dir_name):
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
 
-def LoadConfig(test_name):
-    with open(Path("/home/nbiescas/Desktop/CVC/CVC_internship/Setups") / (test_name + ".yaml")) as f:
+def LoadConfig(dir_name, args_name):
+
+    with open(dir_name / args_name + ".yaml") as f:
         opt = yaml.load(f, Loader=yaml.FullLoader)
-    
-    ROOT = Path('/home/nbiescas/Desktop/CVC/CVC_internship/runs') / test_name
-    opt['run_name'] = test_name
+        
+    ROOT = HERE / "runs" / args_name
+    #ROOT = Path('/home/nbiescas/Desktop/CVC/CVC_internship/runs') / test_name
+    opt['run_name'] = args_name
 
     opt["root_dir"]         = ROOT
     opt["weights_dir"]      = ROOT / "weights"

@@ -8,7 +8,7 @@ import numpy as np
 # OWN MODULES
 from src.training import get_orchestration_func
 from utils import LoadConfig
-
+from paths import *
 # Ensure deterministic behavior
 torch.manual_seed(hash("by removing stochasticity") % 2**32 - 1)
 np.random.seed(42)
@@ -20,7 +20,7 @@ if __name__ == '__main__':
     parser.add_argument('--run-name', type=str, default='run144')
     args = parser.parse_args()
 
-    config = LoadConfig(args.run_name)
+    config = LoadConfig(dir_name = SETUPS_STAGE2, args_name = args.run_name)
 
     print(f"\n{'- '*10}CONFIGURATION{' -'*10}\n")
     pprint.pprint(config, indent=10, width=1)

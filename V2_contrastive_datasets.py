@@ -17,6 +17,7 @@ from src.training.utils import get_model, get_activation, get_scheduler
 from src.training.utils_contrastive import obtain_embeddings, create_plots
 from src.data.Dataset import Dataset_Kmeans_Graphs
 from utils import LoadConfig, createDir
+from paths import *
 
 torch.manual_seed(hash("by removing stochasticity") % 2**32 - 1)
 np.random.seed(42)
@@ -110,7 +111,8 @@ if __name__ == '__main__':
     parser.add_argument('--run-name', type=str, default='run172')
     args = parser.parse_args()
 
-    config = LoadConfig(args.run_name)
+
+    config = LoadConfig(dir = SETUPS_STAGE1, args_name = args.run_name)
     with wandb.init(project="experiments_finals", config = config):
         wandb.run.name = config['run_name']
         device = 'cuda' if torch.cuda.is_available() else "cpu"
