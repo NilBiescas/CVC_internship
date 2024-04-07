@@ -1,8 +1,35 @@
 # CVC_internship
-Related work with Graph neural networks
 
-I recommend to createa a conda env with python == Python 3.9.18
-and then install the requirments with pip   more or less is 8 G
+
+# Setup
+
+Clonse this repository
+```
+git clone https://github.com/NilBiescas/CVC_internship.git
+```
+You will need the graphs to try the experiments, we already provide them, but if you want to construc it yourself you will need to clonse this repository
+```
+git clone https://github.com/andreagemelli/doc2graph.git
+```
+Once you have cloned the repository, create a conda environment.
+```
+conda create doc2graph python=3.9.18
+```
+and then intall the requirments.txt
+```
+pip install -r requirments.txt
+```
+Training 
+To train in stage 2 and evaluate on FUNSD you will need to run this command
+```
+python main.py --run-name (name of you yaml file)
+```
+Test
+To test the model you will need to do:
+```
+python main.py --run-name (name of you yaml file) --checkpoint (path to saved checkpoints)
+```
+As you see the only difference for training or testing is specifying the pretrained weights.
 
 The way how it works is that you train the firts stage1 and that training geneartest the graph used in stage2. So you have the graph used in stage1 and then the graph used in stage2 genereated in stage1.
 I provided all the necessary graphs and configs to repeat the experimetns and that is not necessary for you to train again to obtain the graphs used in stage2. You can go directly and train them and see the results.
