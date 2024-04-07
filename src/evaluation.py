@@ -12,8 +12,8 @@ import torch.nn.functional as F
 import matplotlib.pyplot as plt
 import numpy as np
 
-from .models.autoencoders import device
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def compute_auc_mc(scores, labels):
     scores = scores.detach().cpu().numpy()

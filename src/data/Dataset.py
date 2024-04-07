@@ -6,7 +6,23 @@ from sklearn.model_selection import train_test_split
 import pickle
 import pprint
 from functools import partial
+from paths import HERE
 
+class Unet_Dataset(Dataset):
+    def __init__(self, graphs, path):
+        self.graphs = graphs
+        with open(path, 'rb') as file:
+            self.imgs_paths = pickle.load(file)
+        
+        self.imgs_paths = [path.replace('/data2/users/sbiswas/nil_biescas', HERE.__str__()) 
+                           for path in self.imgs_paths] 
+
+    def __len__(self):
+        return len(self.graphs)
+    
+    def __getitem__(self, index):
+        return self.graphs[index], self.imgs_paths[index]  
+    
 class Dataset_Kmeans_Graphs(Dataset):
     def __init__(self, graphs):
         self.graphs = graphs

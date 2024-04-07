@@ -25,20 +25,20 @@ reduce: "mean"
 train_method: "contrastiv_node_edge_training"
 kmeans_partition: True
 
-train_graphs :     '/data2/users/sbiswas/nil_biescas/PKL_Graphs/UNET_GRAPHS/train_geom_UNET.bin'
-validation_graphs: '/data2/users/sbiswas/nil_biescas/PKL_Graphs/UNET_GRAPHS/val_geom_UNET.bin'
-test_graphs:       '/data2/users/sbiswas/nil_biescas/PKL_Graphs/UNET_GRAPHS/test_geom_UNET.bin'
+train_graphs :     '/home/nbiescas/Desktop/CVC/FINAL_WORK/graphs_stage2/UNET_GRAPHS/train_geom_UNET.bin'
+validation_graphs: '/home/nbiescas/Desktop/CVC/FINAL_WORK/graphs_stage2/UNET_GRAPHS/val_geom_UNET.bin'
+test_graphs:       '/home/nbiescas/Desktop/CVC/FINAL_WORK/graphs_stage2/UNET_GRAPHS/test_geom_UNET.bin'
 
-train_img: '/data2/users/sbiswas/nil_biescas/PKL_Graphs/UNET_GRAPHS/imgs_train.pkl'
-val_img: '/data2/users/sbiswas/nil_biescas/PKL_Graphs/UNET_GRAPHS/imgs_val.pkl'
-test_img: '/data2/users/sbiswas/nil_biescas/PKL_Graphs/UNET_GRAPHS/imgs_test.pkl'
+train_img: '/home/nbiescas/Desktop/CVC/FINAL_WORK/graphs_stage2/UNET_GRAPHS/imgs_train.pkl'
+val_img:   '/home/nbiescas/Desktop/CVC/FINAL_WORK/graphs_stage2/UNET_GRAPHS/imgs_val.pkl'
+test_img:  '/home/nbiescas/Desktop/CVC/FINAL_WORK/graphs_stage2/UNET_GRAPHS/imgs_test.pkl'
 
 Dataset_partitions:
   n: 5
   m: 5
 
 network: 
-  checkpoint: ~
+  checkpoint: '/home/nbiescas/Desktop/CVC/FINAL_WORK/weights/stage2/epoch_906.pth'
 
 node_classes: 4
 edge_classes: 2

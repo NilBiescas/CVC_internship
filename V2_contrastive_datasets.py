@@ -109,10 +109,13 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Training')
     parser.add_argument('--run-name', type=str, default='run172')
+    parser.add_argument('--checkpoint', type=str, default=None)
     args = parser.parse_args()
 
 
     config = LoadConfig(dir = SETUPS_STAGE1, args_name = args.run_name)
+    config['pretrainedWeights'] = args.checkpoint
+
     with wandb.init(project="experiments_finals", config = config):
         wandb.run.name = config['run_name']
         device = 'cuda' if torch.cuda.is_available() else "cpu"
@@ -175,7 +178,7 @@ if __name__ == '__main__':
         scheduler = get_scheduler(optimizer, config)
         max_precision = 0
 
-        if config.get('pretrainedWeights', False) == False:
+        if config['pretrainedWeights'] == None:
             for epoch in range(config['epochs']):
                 loss = train(model, loss_func, mining_func, train_loader, optimizer, epoch)
                 precision = accuracy_at_1(train_dataset, val_dataset, model, accuracy_calculator)
@@ -198,10 +201,13 @@ if __name__ == '__main__':
             plt.plot(precision_evolution)
             plt.savefig(config['root_dir'] / 'precision.png')
             plt.close()
-        else: 
+            # Load the best model
+            model = torch.load(os.path.join(config["weights_dir"], os.listdir(config["weights_dir"])[-1]))
+        else:
+            statedict = torch.load(config['pretrainedWeights'])
+            model.load_state_dict(statedict)
+            #model = torch.load(os.path.join(config["weights_dir"], os.listdir(config["weights_dir"])[-1]))
             print("Skipping training")
-        # Load best model
-        model = torch.load(os.path.join(config["weights_dir"], os.listdir(config["weights_dir"])[-1]))
         # Compute the test accuracy
         print("!!! Computing test accuracy !!!")
         precision = accuracy_at_1(train_dataset, test_dataset, model, accuracy_calculator)

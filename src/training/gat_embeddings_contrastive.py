@@ -11,12 +11,13 @@ import json
 sys.path.append("..") 
 
 from ..models import get_model_2
-from ..data.Dataset import (FUNSD_loader, 
+from ..data.Dataset import (FUNSD_loader,
+                            Unet_Dataset,
                             dataloaders_funsd, 
                             kmeans_graphs, 
                             edgesAggregation_kmeans_graphs)
 
-from ..models.autoencoders import device
+
 from .utils import (get_model, 
                     compute_crossentropy_loss,
                     get_activation,
@@ -35,6 +36,9 @@ from ..evaluation import (SVM_classifier,
                           get_binary_accuracy_and_f1)
 
 from sklearn.metrics import recall_score, precision_score
+
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def train_funsd(model, optimizer, train_loader, config):
     model.train()
@@ -456,13 +460,14 @@ def train_edges_nodes(model, optimizer, train_loader, config):
     edges_ground_truth = []
 
     total_train_loss = 0
-    for train_graph in train_loader:
+    for train_graph, imgs in train_loader:
         
         train_graph = train_graph.to(device)
         feat = train_graph.ndata['feat']
         labels_nodes = train_graph.ndata['label']
         labels_edges = train_graph.edata['label']
 
+        train_graph.imgs = imgs
         x_pred_nodes, x_pred_edges = model(train_graph, feat, mask_rate = config['mask_rate'])
 
         train_loss_nodes = compute_crossentropy_loss(x_pred_nodes, labels_nodes)
@@ -509,13 +514,14 @@ def validation_edges_nodes(model, val_loader):
 
     total_validation_loss = 0
     with torch.no_grad():
-        for val_graph in val_loader:
+        for val_graph, imgs in val_loader:
             
             val_graph = val_graph.to(device)
             feat = val_graph.ndata['feat']
             x_true_nodes = val_graph.ndata['label']
             x_true_edges = val_graph.edata['label']
 
+            val_graph.imgs = imgs
             x_pred_nodes, x_pred_edges = model(val_graph, feat, mask_rate = 0)
 
             val_n_loss_nodes = compute_crossentropy_loss(x_pred_nodes, x_true_nodes)
@@ -593,13 +599,14 @@ def test_edges_nodes(model, test_loader, config):
     total_test_loss = 0
 
     with torch.no_grad():
-        for test_graph in test_loader:
+        for test_graph, imgs in test_loader:
             
             test_graph = test_graph.to(device)
             feat = test_graph.ndata['feat']
             x_true_nodes = test_graph.ndata['label']
             x_true_edges = test_graph.edata['label']
 
+            test_graph.imgs = imgs
             x_pred_nodes, x_pred_edges = model(test_graph, feat, mask_rate = 0)
 
             val_n_loss_nodes = compute_crossentropy_loss(x_pred_nodes, x_true_nodes)
@@ -625,7 +632,7 @@ def test_edges_nodes(model, test_loader, config):
         _, indices = torch.max(predictions, dim=1)
         indices = indices.cpu().detach().numpy()
         nodes_ground_truth = ground_truth.cpu().detach().numpy()
-        conf_matrix(nodes_ground_truth, indices, config["output_dir"], title=title, columns = columns)
+        #conf_matrix(nodes_ground_truth, indices, config["output_dir"], title=title, columns = columns)
         ################* STEP 4: RESULTS ################
         print("\n### BEST RESULTS ###")
         print("Precision nodes macro: {:.4f}".format(precision))
@@ -646,11 +653,18 @@ def test_edges_nodes(model, test_loader, config):
             json.dump(data, f)
         return macro_f1, auc, precision, accuracy
    
-    get_metrics(nodes_predictions, nodes_ground_truth, columns = ['answer', 'header', 'other', 'question'], title = "Confusion Matrix - Test Set - Nodes", title_json = "metrics_nodes.json")
+    get_metrics(nodes_predictions, nodes_ground_truth, columns = ['answer', 'header', 'other', 'question', "a", "b"], 
+                title = "Confusion Matrix - Test Set - Nodes", title_json = "metrics_nodes.json")
     test_edges_report(edges_predicitons, edges_ground_truth, config=config)
     
     return total_test_loss / len(test_loader.dataset)
 
+def collate(samples):
+    # The input `samples` is a list of pairs
+    #  (graph, label).
+    graphs, labels = map(list, zip(*samples))
+    batched_graph = dgl.batch(graphs)
+    return batched_graph, labels
 
 def contrastiv_node_edge_training(config):
     # Load the learned embeddings
@@ -659,9 +673,17 @@ def contrastiv_node_edge_training(config):
     validation_graphs, _ = dgl.load_graphs(config['validation_graphs'])
     test_graphs, _ = dgl.load_graphs(config['test_graphs'])
     
-    train_loader        = torch.utils.data.DataLoader(train_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=True)
-    validation_loader   = torch.utils.data.DataLoader(validation_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=False)
-    test_loader         = torch.utils.data.DataLoader(test_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=False)
+    dataset_train = Unet_Dataset(train_graphs, config['train_img'])
+    dataset_val   = Unet_Dataset(validation_graphs, config['val_img'])
+    dataset_train = Unet_Dataset(test_graphs, config['test_img'])
+#
+    train_loader        = torch.utils.data.DataLoader(dataset_train, batch_size=config['batch_size'], collate_fn = collate, shuffle=True)
+    validation_loader   = torch.utils.data.DataLoader(dataset_val, batch_size=config['batch_size'],  collate_fn = collate, shuffle=False)
+    test_loader         = torch.utils.data.DataLoader(dataset_train, batch_size=config['batch_size'], collate_fn = collate, shuffle=False)
+   
+    #train_loader        = torch.utils.data.DataLoader(train_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=True)
+    #validation_loader   = torch.utils.data.DataLoader(validation_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=False)
+    #test_loader         = torch.utils.data.DataLoader(test_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=False)
 
     config['activation'] = get_activation(config['activation'])
     try:
@@ -674,7 +696,7 @@ def contrastiv_node_edge_training(config):
 
             total_train_loss = 0
             total_validation_loss = 0
-            best_val_f1_micro_key_value = 0
+            best_val_f1_micro_key_value = -1
             for epoch in range(config['epochs']):
 
                 train_loss, macro_f1, auc, accuracy_train, _, _, _ = train_edges_nodes(model, optimizer, train_loader, config)
@@ -715,7 +737,9 @@ def contrastiv_node_edge_training(config):
         else:
             print("Loading model from checkpoint")
             best_model = get_model_2(config['model_name'], config)
-            best_model.load_state_dict(torch.load(config['network']['checkpoint']))
+            state_dict = torch.load(config['network']['checkpoint'])
+            state_dict["gat_layers.0.bias"] = state_dict.pop("gat_layers.0.res_fc.bias")
+            best_model.load_state_dict(state_dict)
             best_model = best_model.to(device)
     except KeyboardInterrupt:
         pass
@@ -724,8 +748,6 @@ def contrastiv_node_edge_training(config):
 
     print(" | Test Loss: {:.4f}".format(test_loss))
     return best_model
-
-
 
 
 

@@ -8,8 +8,8 @@ def createDir(dir_name):
         os.makedirs(dir_name)
 
 def LoadConfig(dir_name, args_name):
-
-    with open(dir_name / args_name + ".yaml") as f:
+    
+    with open(dir_name / (args_name + ".yaml")) as f:
         opt = yaml.load(f, Loader=yaml.FullLoader)
         
     ROOT = HERE / "runs" / args_name

@@ -13,15 +13,18 @@ from paths import *
 torch.manual_seed(hash("by removing stochasticity") % 2**32 - 1)
 np.random.seed(42)
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 if __name__ == '__main__':
 
     wandb.login()
     parser = argparse.ArgumentParser(description='Training')
     parser.add_argument('--run-name', type=str, default='run144')
+    parser.add_argument('--checkpoint', type=str, default=None)
     args = parser.parse_args()
 
     config = LoadConfig(dir_name = SETUPS_STAGE2, args_name = args.run_name)
-
+    config['network']['checkpoint'] = args.checkpoint
+    
     print(f"\n{'- '*10}CONFIGURATION{' -'*10}\n")
     pprint.pprint(config, indent=10, width=1)
     print("\n\n")

@@ -13,7 +13,7 @@ from ..data.Dataset import (FUNSD_loader,
                             kmeans_graphs, 
                             edgesAggregation_kmeans_graphs)
 
-from ..models.autoencoders import device
+
 from .utils import (get_model, 
                     compute_crossentropy_loss, 
                     get_optimizer,
@@ -26,6 +26,9 @@ from ..evaluation import (SVM_classifier,
                           compute_auc_mc, get_f1,
                           plot_predictions)
 
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+ 
 def train_funsd(model, criterion, optimizer, train_loader, config):
     model.train()
     nodes_predictions = []

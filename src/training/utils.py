@@ -1,10 +1,10 @@
-from ..models.autoencoders import GAE, GSage_AE, GIN_AE, GAT_AE
-from ..models.mask_autoencoder_modified_sage import AUTOENCODER_MASK_MODF_SAGE
-from ..models.mask_aut_modifed_edges import V2_AUTOENCODER_MASK_MODF_SAGE
-from ..models.autoencoder_drop_edge import E2E
-from ..models.mask_autoencoders import GAT_masking
-from ..models.autoencoders import device
-from ..models.mask_autoencoders import SELF_supervised
+#from ..models.autoencoders import GAE, GSage_AE, GIN_AE, GAT_AE
+#from ..models.mask_autoencoder_modified_sage import AUTOENCODER_MASK_MODF_SAGE
+#from ..models.mask_aut_modifed_edges import V2_AUTOENCODER_MASK_MODF_SAGE
+#from ..models.autoencoder_drop_edge import E2E
+#from ..models.mask_autoencoders import GAT_masking
+#from ..models.autoencoders import device
+#from ..models.mask_autoencoders import SELF_supervised
 #from ..models.contrastive_models import AUTOENCODER_MASK_MODF_SAGE_CONTRASTIVE
 
 
@@ -25,6 +25,8 @@ from typing import Tuple
 from ..data.Dataset import FUNSD_loader
 
 from ..paths import TRAIN_GRAPH, VAL_GRAPH
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def polar(rect_src : list, rect_dst : list) -> Tuple[int, int]:
     """Compute distance and angle from src to dst bounding boxes (poolar coordinates considering the src as the center)
@@ -249,72 +251,73 @@ def get_activation(activation):
         return F.prelu
 
 def get_model(config):
-    #Dimensions of the autencoder
-    config['edge_pred_features'] = int((math.log2(get_config('preprocessing').FEATURES.num_polar_bins) + config['node_classes'])*2)
-    activation = get_activation(config['activation'])
-
-    if config['model_name'] == 'SAGE':
-        model = GSage_AE(config['layers_dimensions'] ).to(device)
-    elif config['model_name'] == 'GAE':
-        model = GAE(config['layers_dimensions'] ).to(device)
-    elif config['model_name'] == 'GIN':
-        model = GIN_AE(config['layers_dimensions'] ).to(device)
-    elif config['model_name'] == 'GAT':
-        model = GAT_masking(dimensions_layers           = config['layers_dimensions'] ,
-                            edge_classes                = config['edge_classes'],
-                            dropout                     = config['dropout'],
-                            edge_pred_features          = config['edge_pred_features'],
-                            node_classes    = config['node_classes'],
-                            concat_hidden   = config['concat_hidden'],
-                            mask_rate       = config['mask_rate'],
-                    ).to(device)
-        
-    elif config['model_name'] == 'SELF':
-        model = SELF_supervised(dimensions_layers           = config['layers_dimensions'],
-                                edge_classes                = config['edge_classes'],
-                                dropout                     = config['dropout'],
-                                edge_pred_features          = config['edge_pred_features'],
-                                node_classes    = config['node_classes'],
-                                concat_hidden   = config['concat_hidden'],
-                                mask_rate       = config['mask_rate'],
-                    ).to(device)
-        
-    elif config['model_name'] == 'E2E':
-        model = E2E(node_classes        = config['node_classes'], 
-                    edge_classes        = config['edge_classes'], 
-                    dimensions_layers   = config['layers_dimensions'], 
-                    dropout             = config['dropout'], 
-                    edge_pred_features  = config['edge_pred_features'],
-                    drop_rate           = config['drop_edge'],
-                    discrete_pos        = config['relative_position_classification'],
-                    bounding_box        = config['bounding_box_classification']
-                    ).to(device)
-        
-    elif config['model_name'] == 'AUTOENCODER_MASK_MODF_SAGE':
-        model = AUTOENCODER_MASK_MODF_SAGE( dimensions_layers           = config['layers_dimensions'],
-                                            dropout                     = config['dropout'],
-                                            Tresh_distance              = config['Tresh_distance'],
-                                            node_classes                = config['node_classes'],
-                                            added_features              = config['added_features'],
-                                            concat_hidden               = config['concat_hidden'],
-                                            mask_rate                   = config['mask_rate'],
-                                            ).to(device)
-        
-    elif config['model_name'] == 'V2_AUTOENCODER_MASK_MODF_SAGE':
-        model = V2_AUTOENCODER_MASK_MODF_SAGE( dimensions_layers           = config['layers_dimensions'],
-                                               dropout                     = config['dropout'],
-                                               node_classes                = config['node_classes'],
-                                               concat_hidden               = config['concat_hidden'],
-                                               mask_rate                   = config['mask_rate'],
-                                               activation                  = activation
-                                               ).to(device)
-    
-    elif config['model_name'] == 'Contrastive_nodes':
-        raise NotImplementedError
-        #model = AUTOENCODER_MASK_MODF_SAGE_CONTRASTIVE(**config).to(device)
-    else:
-        raise NotImplementedError
-    
-    return model
-
-
+    raise NotImplementedError
+#    #Dimensions of the autencoder
+#    config['edge_pred_features'] = int((math.log2(get_config('preprocessing').FEATURES.num_polar_bins) + config['node_classes'])*2)
+#    activation = get_activation(config['activation'])
+#
+#    if config['model_name'] == 'SAGE':
+#        model = GSage_AE(config['layers_dimensions'] ).to(device)
+#    elif config['model_name'] == 'GAE':
+#        model = GAE(config['layers_dimensions'] ).to(device)
+#    elif config['model_name'] == 'GIN':
+#        model = GIN_AE(config['layers_dimensions'] ).to(device)
+#    elif config['model_name'] == 'GAT':
+#        model = GAT_masking(dimensions_layers           = config['layers_dimensions'] ,
+#                            edge_classes                = config['edge_classes'],
+#                            dropout                     = config['dropout'],
+#                            edge_pred_features          = config['edge_pred_features'],
+#                            node_classes    = config['node_classes'],
+#                            concat_hidden   = config['concat_hidden'],
+#                            mask_rate       = config['mask_rate'],
+#                    ).to(device)
+#        
+#    elif config['model_name'] == 'SELF':
+#        model = SELF_supervised(dimensions_layers           = config['layers_dimensions'],
+#                                edge_classes                = config['edge_classes'],
+#                                dropout                     = config['dropout'],
+#                                edge_pred_features          = config['edge_pred_features'],
+#                                node_classes    = config['node_classes'],
+#                                concat_hidden   = config['concat_hidden'],
+#                                mask_rate       = config['mask_rate'],
+#                    ).to(device)
+#        
+#    elif config['model_name'] == 'E2E':
+#        model = E2E(node_classes        = config['node_classes'], 
+#                    edge_classes        = config['edge_classes'], 
+#                    dimensions_layers   = config['layers_dimensions'], 
+#                    dropout             = config['dropout'], 
+#                    edge_pred_features  = config['edge_pred_features'],
+#                    drop_rate           = config['drop_edge'],
+#                    discrete_pos        = config['relative_position_classification'],
+#                    bounding_box        = config['bounding_box_classification']
+#                    ).to(device)
+#        
+#    elif config['model_name'] == 'AUTOENCODER_MASK_MODF_SAGE':
+#        model = AUTOENCODER_MASK_MODF_SAGE( dimensions_layers           = config['layers_dimensions'],
+#                                            dropout                     = config['dropout'],
+#                                            Tresh_distance              = config['Tresh_distance'],
+#                                            node_classes                = config['node_classes'],
+#                                            added_features              = config['added_features'],
+#                                            concat_hidden               = config['concat_hidden'],
+#                                            mask_rate                   = config['mask_rate'],
+#                                            ).to(device)
+#        
+#    elif config['model_name'] == 'V2_AUTOENCODER_MASK_MODF_SAGE':
+#        model = V2_AUTOENCODER_MASK_MODF_SAGE( dimensions_layers           = config['layers_dimensions'],
+#                                               dropout                     = config['dropout'],
+#                                               node_classes                = config['node_classes'],
+#                                               concat_hidden               = config['concat_hidden'],
+#                                               mask_rate                   = config['mask_rate'],
+#                                               activation                  = activation
+#                                               ).to(device)
+#    
+#    elif config['model_name'] == 'Contrastive_nodes':
+#        raise NotImplementedError
+#        #model = AUTOENCODER_MASK_MODF_SAGE_CONTRASTIVE(**config).to(device)
+#    else:
+#        raise NotImplementedError
+#    
+#    return model
+#
+#
