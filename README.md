@@ -1,4 +1,6 @@
-# CVC_internship
+# GeoContrastNet
+This repor contains the code for the paper GeoContrastNet. The model is divided in two stages, so you can train or test one of the two stages.
+To perform the name entity and link predicition tasks you will need to use stage-2
 
 
 # Setup
