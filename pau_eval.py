@@ -9,21 +9,31 @@ from src.evaluation import *
 from PIL import Image
 from statistics import mean
 from sklearn.metrics import accuracy_score
-
+import argparse 
 import xml.etree.ElementTree as ET
 from src.data.doc2_graph.data.preprocessing import match_pred_w_gt
 
 from src.data.doc2_graph.data.dataloader import Document2Graph
 from src.data.doc2_graph.paths import TEST_SAMPLES
 from src.data.doc2_graph.paths import PAU_TEST
+from src.models import get_model_2
 
 import pickle 
-def pau_eval():
-    device = 'cuda:0'
-    test_data_path = '/data2/users/sbiswas/nil_biescas/PKL_Graphs/GT_PAU/pau_test_gt_geom_UNET.bin'
+def pau_eval(args):
+    test_data_path = args.test_data_path
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    weights = args.checkpoint
+    config = LoadConfig(args.run_name)
+
+    model = get_model_2(config['model_name'], config)
+    model.load_state_dict(torch.load(weights))
+    model.eval()
+
+    imgs = pickle.load(open('/data2/users/sbiswas/nil_biescas/PKL_Graphs/GT_PAU/pau_imgs_test.pkl', 'rb'))
+    test_graph.imgs = imgs
+    
     test_data = Document2Graph(name='PAU TEST', src_path=PAU_TEST, device = device, output_dir=TEST_SAMPLES)
-    #test_data.get_info()
-    #model = sm.get_model(test_data.node_num_classes, test_data.edge_num_classes, test_data.get_chunks())
+    
     best_model = ''
     nodes_micro = []
     edges_f1 = []
@@ -33,17 +43,7 @@ def pau_eval():
     all_recalls = []
     all_f1 = []
 
-    #model.load_state_dict(torch.load(CHECKPOINTS / m))
     # Load the model
-    weights = '/data2/users/sbiswas/nil_biescas/runs/runUNETV4_PAU_gt/weights/epoch_233.pth'
-    config = LoadConfig('runUNETV4_PAU_gt')
-    config['activation'] = get_activation(config['activation'])
-    model = UNET_MaskedGat_contrastive_UNET(**config)
-    model.load_state_dict(torch.load(weights))
-    model = model.to('cuda:0')
-    model.eval()
-    imgs = pickle.load(open('/data2/users/sbiswas/nil_biescas/PKL_Graphs/GT_PAU/pau_imgs_test.pkl', 'rb'))
-    test_graph.imgs = imgs
     with torch.no_grad():
 
         n, e = model(test_graph, test_graph.ndata['feat'].to(device))
@@ -153,4 +153,10 @@ def pau_eval():
     print("F1s [MAX, MEAN, STD]:", max(all_f1), mean(all_f1), np.std(all_f1))
 
 if __name__ == '__main__':
-    pau_eval()
+    parser = argparse.ArgumentParser(description='Evaluation')
+    
+    parser.add_argument('--run-name', type=str, default=None)
+    parser.add_argument('--checkpoint', type=str, default=None)
+    parser.add_argument('--test_data_path', type=str, default=None)
+    args = parser.parse_args()
+    pau_eval(args = args)
