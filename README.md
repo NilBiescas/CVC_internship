@@ -63,6 +63,7 @@ This repository provides the implementation of GeoContrastNet, as detailed in ou
   ```
 
 ## Additional Resources
+- **CHEKPOINTS**: https://drive.google.com/drive/folders/1UlbQZPdrphr-qdF64EveORM31zBWTMuj?usp=drive_link
 - **Stage 1 YAML files**: Located in `setups_stage1` folder.
 - **Stage 2 YAML files**: Located in `setups_stage2` folder.
 - **Stage 1 Graphs**: Located in `graphs_stage1` folder.
