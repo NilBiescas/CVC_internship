@@ -680,7 +680,8 @@ def contrastiv_node_edge_training(config):
             print("Loading model from checkpoint")
             best_model = get_model_2(config['model_name'], config)
             state_dict = torch.load(config['network']['checkpoint'])
-            state_dict["gat_layers.0.bias"] = state_dict.pop("gat_layers.0.res_fc.bias")
+            #state_dict["gat_layers.0.bias"] = state_dict.pop("gat_layers.0.res_fc.bias")
+            #state_dict["gat_layers.0.res_fc.bias"] = state_dict.pop("gat_layers.0.bias")
             best_model.load_state_dict(state_dict)
             best_model = best_model.to(device)
     except KeyboardInterrupt:
