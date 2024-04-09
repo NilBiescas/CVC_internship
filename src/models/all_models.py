@@ -5,7 +5,7 @@ from dgl.nn.pytorch import GATConv
 import torch.nn as nn
 from pathlib import Path
 
-from src.data.doc2_graph.models.unet.model import Unet
+from src.models.unet import Unet
 from PIL import Image
 import torchvision
 import torchvision.transforms.functional as tvF

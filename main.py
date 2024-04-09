@@ -1,6 +1,5 @@
 from pathlib import Path
 import torch
-import wandb
 import argparse
 import pprint
 import numpy as np
@@ -16,9 +15,8 @@ np.random.seed(42)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 if __name__ == '__main__':
 
-    wandb.login()
     parser = argparse.ArgumentParser(description='Training')
-    parser.add_argument('--run-name', type=str, default='run144')
+    parser.add_argument('--run-name', type=str, help='Name of the run', required=True)
     parser.add_argument('--checkpoint', type=str, default=None)
     args = parser.parse_args()
 
@@ -28,11 +26,10 @@ if __name__ == '__main__':
     print(f"\n{'- '*10}CONFIGURATION{' -'*10}\n")
     pprint.pprint(config, indent=10, width=1)
     print("\n\n")
-    with wandb.init(project="experiments_finals", config = config, name = config['run_name']):
+    
+    # We should firts do stage-1 if the graphs are not already created with the feat features
         
-        # We should firts do stage-1 if the graphs are not already created with the feat features
-        
-        orchestration_func = get_orchestration_func(config['train_method']) # Load orchestration function
-        model = orchestration_func(config)
+    orchestration_func = get_orchestration_func(config['train_method']) # Load orchestration function
+    model = orchestration_func(config)
 
-        print("Ja s'ha acabat")
+    print("Ja s'ha acabat")

@@ -1,6 +1,5 @@
 import torch
 import pickle
-import wandb
 import dgl
 import os
 import matplotlib.pyplot as plt
@@ -116,110 +115,104 @@ if __name__ == '__main__':
     config = LoadConfig(dir = SETUPS_STAGE1, args_name = args.run_name)
     config['pretrainedWeights'] = args.checkpoint
 
-    with wandb.init(project="experiments_finals", config = config):
-        wandb.run.name = config['run_name']
-        device = 'cuda' if torch.cuda.is_available() else "cpu"
+    device = 'cuda' if torch.cuda.is_available() else "cpu"
 
-        print("Distance metric {}".format(config['contrastive_learning']['distance_metric']))
+    print("Distance metric {}".format(config['contrastive_learning']['distance_metric']))
 
-        distance = getattr(distances, config['contrastive_learning']['distance_metric'])()
+    distance = getattr(distances, config['contrastive_learning']['distance_metric'])()
 
-        mining_func = miners.TripletMarginMiner(margin = config['contrastive_learning']['margin'],
+    mining_func = miners.TripletMarginMiner(margin = config['contrastive_learning']['margin'],
                                                 distance = distance,
                                                 type_of_triplets=config['contrastive_learning']['type_of_triplets'])
 
-        loss_func = losses.TripletMarginLoss(margin=config['contrastive_learning']['margin'],
+    loss_func = losses.TripletMarginLoss(margin=config['contrastive_learning']['margin'],
                                              distance = distance,
                                              triplets_per_anchor=config['contrastive_learning']['type_of_triplets'])
 
-        accuracy_calculator = AccuracyCalculator(include=("precision_at_1",), k = 1)
+    accuracy_calculator = AccuracyCalculator(include=("precision_at_1",), k = 1)
 
-        if config['pickle_path_train_kmeans'].endswith(".bin"):
-            train_graphs, _ = dgl.load_graphs(config['pickle_path_train_kmeans'])
-            val_graphs, _   = dgl.load_graphs(config['pickle_path_val_kmeans'])
-            test_graphs, _  = dgl.load_graphs(config['pickle_path_test_kmeans'])
-        else:
-            with open(config['pickle_path_train_kmeans'], 'rb') as kmeans_train,\
-                 open(config['pickle_path_val_kmeans'], 'rb')   as kmeans_val,\
-                 open(config['pickle_path_test_kmeans'], 'rb')  as kmeans_test:
-                 train_graphs = pickle.load(kmeans_train)
-                 val_graphs = pickle.load(kmeans_val)
-                 test_graphs = pickle.load(kmeans_test)
+    if config['pickle_path_train_kmeans'].endswith(".bin"):
+        train_graphs, _ = dgl.load_graphs(config['pickle_path_train_kmeans'])
+        val_graphs, _   = dgl.load_graphs(config['pickle_path_val_kmeans'])
+        test_graphs, _  = dgl.load_graphs(config['pickle_path_test_kmeans'])
+    else:
+        with open(config['pickle_path_train_kmeans'], 'rb') as kmeans_train,\
+             open(config['pickle_path_val_kmeans'], 'rb')   as kmeans_val,\
+             open(config['pickle_path_test_kmeans'], 'rb')  as kmeans_test:
+             train_graphs = pickle.load(kmeans_train)
+             val_graphs = pickle.load(kmeans_val)
+             test_graphs = pickle.load(kmeans_test)
+             
+    vector_func_partial = partial(vector_func, config) # Partial function to use with apply_edges
+    def update_features(graphs: dgl.graph):
+        batch = dgl.batch(graphs)
+        batch.apply_edges(vector_func_partial)
+        graphs = dgl.unbatch(batch)
+        return graphs
 
-        vector_func_partial = partial(vector_func, config) # Partial function to use with apply_edges
-        def update_features(graphs: dgl.graph):
-            batch = dgl.batch(graphs)
-            batch.apply_edges(vector_func_partial)
-            graphs = dgl.unbatch(batch)
-            return graphs
-
-        train_graphs = update_features(train_graphs)
-        val_graphs   = update_features(val_graphs)
-        test_graphs  = update_features(test_graphs)
+    train_graphs = update_features(train_graphs)
+    val_graphs   = update_features(val_graphs)
+    test_graphs  = update_features(test_graphs)
 
         # Datasets
-        train_dataset = Dataset_Kmeans_Graphs(train_graphs) # Train
-        val_dataset = Dataset_Kmeans_Graphs(val_graphs)     # Val
-        test_dataset = Dataset_Kmeans_Graphs(test_graphs)   # Test
+    train_dataset = Dataset_Kmeans_Graphs(train_graphs) # Train
+    val_dataset = Dataset_Kmeans_Graphs(val_graphs)     # Val
+    test_dataset = Dataset_Kmeans_Graphs(test_graphs)   # Test
 
-        # Loaders
-        train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=config['batch_size'], collate_fn = collate, shuffle=True)
-        val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=config['batch_size'], collate_fn = collate, shuffle=False)
-        test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=config['batch_size'], collate_fn = collate, shuffle=False)
+    # Loaders
+    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=config['batch_size'], collate_fn = collate, shuffle=True)
+    val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=config['batch_size'], collate_fn = collate, shuffle=False)
+    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=config['batch_size'], collate_fn = collate, shuffle=False)
 
-        config['activation'] = get_activation(config['activation'])
-        model = get_model_2(config['model_name'], config).to(device)
+    config['activation'] = get_activation(config['activation'])
+    model = get_model_2(config['model_name'], config).to(device)
 
-        optimizer = optim.AdamW(model.parameters(), lr=config['lr'])
-        loss_evolution = []
-        precision_evolution = []
+    optimizer = optim.AdamW(model.parameters(), lr=config['lr'])
+    loss_evolution = []
+    precision_evolution = []
 
-        # Scheduler
-        scheduler = get_scheduler(optimizer, config)
-        max_precision = 0
+    # Scheduler
+    scheduler = get_scheduler(optimizer, config)
+    max_precision = 0
 
-        if config['pretrainedWeights'] == None:
-            for epoch in range(config['epochs']):
-                loss = train(model, loss_func, mining_func, train_loader, optimizer, epoch)
-                precision = accuracy_at_1(train_dataset, val_dataset, model, accuracy_calculator)
-                
-                precision_evolution.append(precision)   
-                loss_evolution.append(loss)
-                wandb.log({"train loss": loss, "validation precision": precision})
+    if config['pretrainedWeights'] == None:
+        for epoch in range(config['epochs']):
+            loss = train(model, loss_func, mining_func, train_loader, optimizer, epoch)
+            precision = accuracy_at_1(train_dataset, val_dataset, model, accuracy_calculator)
+            
+            precision_evolution.append(precision)   
+            loss_evolution.append(loss)
+            if precision > max_precision:
+                print("Saving model")
+                max_precision = precision
+                torch.save(model, config["weights_dir"] / f'model_{epoch}.pth')
 
-                if precision > max_precision:
-                    print("Saving model")
-                    max_precision = precision
-                    torch.save(model, config["weights_dir"] / f'model_{epoch}.pth')
+            scheduler.step()
 
-                scheduler.step()
-
-            wandb.log({'max_precision validation': max_precision})
-            plt.plot(loss_evolution)
-            plt.savefig(config['root_dir'] / 'loss.png')
-            plt.close()
-            plt.plot(precision_evolution)
-            plt.savefig(config['root_dir'] / 'precision.png')
-            plt.close()
-            # Load the best model
-            model = torch.load(os.path.join(config["weights_dir"], os.listdir(config["weights_dir"])[-1]))
-        else:
-            statedict = torch.load(config['pretrainedWeights'])
-            model.load_state_dict(statedict)
-            #model = torch.load(os.path.join(config["weights_dir"], os.listdir(config["weights_dir"])[-1]))
-            print("Skipping training")
+        plt.plot(loss_evolution)
+        plt.savefig(config['root_dir'] / 'loss.png')
+        plt.close()
+        plt.plot(precision_evolution)
+        plt.savefig(config['root_dir'] / 'precision.png')
+        plt.close()
+        # Load the best model
+        model = torch.load(os.path.join(config["weights_dir"], os.listdir(config["weights_dir"])[-1]))
+    else:
+        statedict = torch.load(config['pretrainedWeights'])
+        model.load_state_dict(statedict)
+        #model = torch.load(os.path.join(config["weights_dir"], os.listdir(config["weights_dir"])[-1]))
+        print("Skipping training")
         # Compute the test accuracy
-        print("!!! Computing test accuracy !!!")
-        precision = accuracy_at_1(train_dataset, test_dataset, model, accuracy_calculator)
-        print("Test precision {}".format(precision))
-        wandb.log({"test precision": precision})
-        model.eval()
-        # T-SNE Visualization
-        createDir(config['root_dir'] / 'train_and_test_embeddings')
-        createDir(config['root_dir'] / 'train_embeddings')
-        createDir(config['root_dir'] / 'test_embeddings')
+    print("!!! Computing test accuracy !!!")
+    precision = accuracy_at_1(train_dataset, test_dataset, model, accuracy_calculator)
+    print("Test precision {}".format(precision))
+    model.eval()
+    # T-SNE Visualization
+    createDir(config['root_dir'] / 'train_and_test_embeddings')
+    createDir(config['root_dir'] / 'train_embeddings')
+    createDir(config['root_dir'] / 'test_embeddings')
 
-        train_loader.shuffle = False
-        contrastive_features(train_loader, model, config, 'train_contrastive.bin')
-        contrastive_features(test_loader, model, config, 'test_contrastive.bin')
-        contrastive_features(val_loader, model, config, 'val_contrastive.bin')
+    train_loader.shuffle = False
+    contrastive_features(train_loader, model, config, 'train_contrastive.bin')
+    contrastive_features(test_loader, model, config, 'test_contrastive.bin')
+    contrastive_features(val_loader, model, config, 'val_contrastive.bin')

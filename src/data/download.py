@@ -3,8 +3,12 @@ import shutil
 import requests
 import zipfile
 import wget
+from pathlib import Path
+import sys
+sys.path.append('../../')
+from utils import createDir
 
-from paths import DATA
+DATA = Path('datasets')
 
 def download_url(url, save_path, chunk_size=128):
     r = requests.get(url, stream=True)
@@ -52,5 +56,46 @@ def funsd():
 
     return
 
+def pau():
+
+    print("Downloading PAU")
+
+    PAU = DATA / 'PAU'
+    spl = os.path.join(DATA, 'pau_split.zip')
+    wget.download(url="https://docs.google.com/uc?export=download&id=1NKlME13tRIDraSid7r3v_huTqFdHgo-G", out=spl)
+    with zipfile.ZipFile(spl, 'r') as zip_ref:
+        zip_ref.extractall(PAU)
+
+    dlz = DATA / 'pau.zip'
+    download_url("https://zenodo.org/record/3257319/files/dataset.zip", dlz)
+    with zipfile.ZipFile(dlz, 'r') as zip_ref:
+        zip_ref.extractall(PAU)
+    
+    createDir(PAU / 'train')
+    createDir(PAU / 'test')
+    createDir(PAU / 'outliers')
+
+    for split in ['train.txt', 'test.txt', 'outliers.txt']:
+        with open(PAU / split, mode='r') as f:
+            folder = split.split(".")[0]
+            lines = f.readlines()
+            for l in lines:
+                l = l.rstrip('\n')
+                src = PAU / l
+                dst = PAU / '{}/{}'.format(folder, l)
+                shutil.move(src, dst)
+            
+    os.remove(spl)
+    os.remove(dlz)
+    return
+
 def get_data():
     funsd()
+    pau()
+    return
+
+if '__main__' == __name__:
+    createDir('datasets')
+    print("Hello World!")
+    get_data()
+

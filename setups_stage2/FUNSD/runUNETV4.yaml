@@ -1,11 +1,11 @@
 run_name: "run118_featuresContrastive_run109"
 
 epochs: 1000 #1200
-batch_size: 18
+batch_size: 4
 loader: True
 
 model_name: "UNET_MaskedGat_contrastive_UNET" 
-optimizer: "ADAM"
+optimizer: "ADAMW"
 lr: 0.001
 val_size: 0.1
 
@@ -25,13 +25,13 @@ reduce: "mean"
 train_method: "contrastiv_node_edge_training"
 kmeans_partition: True
 
-train_graphs :     '/home/nbiescas/Desktop/CVC/FINAL_WORK/graphs_stage2/UNET_GRAPHS/train_geom_UNET.bin'
-validation_graphs: '/home/nbiescas/Desktop/CVC/FINAL_WORK/graphs_stage2/UNET_GRAPHS/val_geom_UNET.bin'
-test_graphs:       '/home/nbiescas/Desktop/CVC/FINAL_WORK/graphs_stage2/UNET_GRAPHS/test_geom_UNET.bin'
+train_graphs :     'graphs_stage2/FUNSD/UNET_GRAPHS/train_geom_UNET.bin'
+validation_graphs: 'graphs_stage2/FUNSD/UNET_GRAPHS/val_geom_UNET.bin'
+test_graphs:       'graphs_stage2/FUNSD/UNET_GRAPHS/test_geom_UNET.bin'
 
-train_img: '/home/nbiescas/Desktop/CVC/FINAL_WORK/graphs_stage2/UNET_GRAPHS/imgs_train.pkl'
-val_img:   '/home/nbiescas/Desktop/CVC/FINAL_WORK/graphs_stage2/UNET_GRAPHS/imgs_val.pkl'
-test_img:  '/home/nbiescas/Desktop/CVC/FINAL_WORK/graphs_stage2/UNET_GRAPHS/imgs_test.pkl'
+train_img: 'graphs_stage2/FUNSD/UNET_GRAPHS/imgs_train.pkl'
+val_img:   'graphs_stage2/FUNSD/UNET_GRAPHS/imgs_val.pkl'
+test_img:  'graphs_stage2/FUNSD/UNET_GRAPHS/imgs_test.pkl'
 
 Dataset_partitions:
   n: 5

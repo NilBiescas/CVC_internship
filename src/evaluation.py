@@ -1,5 +1,4 @@
 import torch
-import wandb
 import PIL
 import json
 import pandas as pd
@@ -88,8 +87,6 @@ def conf_matrix(y_true, y_pred, path, title, columns = ['answer', 'header', 'oth
     plt.savefig(path / f'{title}.png')
     #plt.show()
     plt.close()
-    wandb.log({f'Confussion Matrix {title}':wandb.Image(PIL.Image.open(path / f'{title}.png').convert('RGB')
-                                               , caption=f'Confusion Matrix {title}')})
 
 def kmeans_classifier(model, train_graph, test_graph, config):
     from sklearn.cluster import KMeans
@@ -137,7 +134,6 @@ def kmeans_classifier(model, train_graph, test_graph, config):
             json.dump(data, f)
 
         print("Accuracy kmeans: {:.4f} | F1 Score kmeans: {:.4f} | Precision kmeans: {:.4f} | Recall kmeans: {:.4f}".format(accuracy, f1, precision, recall))
-        wandb.log({"Accuracy kmeans": accuracy, "F1 Score kmeans": f1, "Precision kmeans": precision, "Recall kmeans": recall})
         conf_matrix(labels_test, pred, config['output_kmeans'], config['run_name'] + "_kmeans")
         return pred
 
@@ -189,6 +185,5 @@ def SVM_classifier(model, train_graph, test_graph, config):
             json.dump(data, f)
 
         print("Accuracy SVM: {:.4f} | F1 Score SVM: {:.4f} | Precision SVM: {:.4f} | Recall SVM: {:.4f}".format(accuracy, f1, precision, recall))
-        wandb.log({"Accuracy SVM": accuracy, "F1 Score SVM": f1, "Precision SVM": precision, "Recall SVM": recall})
         conf_matrix(labels_test, pred, config['output_svm'], config['run_name'] + "_SVM")
         return pred

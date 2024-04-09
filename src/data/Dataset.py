@@ -14,7 +14,7 @@ class Unet_Dataset(Dataset):
         with open(path, 'rb') as file:
             self.imgs_paths = pickle.load(file)
         
-        self.imgs_paths = [path.replace('/data2/users/sbiswas/nil_biescas', HERE.__str__()) 
+        self.imgs_paths = [path.replace('/data2/users/sbiswas/nil_biescas', HERE.__str__()).replace('data/doc2_graph/DATA', 'data/datasets') 
                            for path in self.imgs_paths] 
 
     def __len__(self):
@@ -204,10 +204,10 @@ def dataloaders_funsd(train, config):
         test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=False)
         return test_loader
 
-from .doc2_graph.data.dataloader import Document2Graph
-from .doc2_graph.paths import FUNSD_TRAIN, FUNSD_TEST, TRAIN_SAMPLES, TEST_SAMPLES
-from .doc2_graph.paths import PAU_TRAIN, PAU_TEST
-from .doc2_graph.utils import get_config
+#from .doc2_graph.data.dataloader import Document2Graph
+#from .doc2_graph.paths import FUNSD_TRAIN, FUNSD_TEST, TRAIN_SAMPLES, TEST_SAMPLES
+#from .doc2_graph.paths import PAU_TRAIN, PAU_TEST
+#from .doc2_graph.utils import get_config
 
 def FUNSD_loader(train = True, name = 'FUNSD'):
     config = get_config('preprocessing')

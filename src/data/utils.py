@@ -1,5 +1,12 @@
 from math import log
 import torch
+import os
+
+def createDir(dir_name):
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name)
+    return
+
 
 def paragraph2graph_edges(geom1, geom2):
 

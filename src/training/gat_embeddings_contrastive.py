@@ -1,5 +1,4 @@
 import torch
-import wandb
 import sys
 import dgl
 import torch.nn.functional as F
@@ -7,6 +6,7 @@ from sklearn.model_selection import train_test_split
 import random
 import numpy as np
 import json
+from paths import HERE
 
 sys.path.append("..") 
 
@@ -54,8 +54,7 @@ def train_funsd(model, optimizer, train_loader, config):
         x_pred = model(train_graph, feat, mask_rate = config['mask_rate']).to(device)
 
         train_loss = compute_crossentropy_loss(x_pred, labels)
-        #Reconstruction lossç
-        wandb.log({'classification loss': train_loss.item()})
+        #Reconstruction loss
         total_train_loss += train_loss
         optimizer.zero_grad()
         train_loss.backward()
@@ -98,10 +97,6 @@ def validation_funsd(model, val_loader):
 
         
         macro_f1, micro_f1, precision_macro, recall_macro = get_f1(nodes_predictions, nodes_ground_truth)
-        wandb.log({"validation macro f1": macro_f1, 
-                   "validation micro f1": micro_f1,
-                   "precision macro": precision_macro, 
-                   "recall macro": recall_macro})
         
         auc = compute_auc_mc(nodes_predictions, nodes_ground_truth)
         accuracy = get_accuracy(nodes_predictions, nodes_ground_truth)
@@ -158,8 +153,6 @@ def test_funsd(model, test_loader, config):
             "Test recall macro": recall_macro,
             "Test auc": auc
     }
-
-    wandb.log(data)
     
     print("Saving metrics.json")
     with open(config['output_dir'] / 'metrics_nodes.json', 'w') as f:
@@ -205,8 +198,7 @@ def contrastive_training_embeddings(config):
             model = get_model_2(config['model_name'], config).to(device)
             optimizer = get_optimizer(model, config)
             scheduler = get_scheduler(optimizer, config)
- 
-            wandb.watch(model)
+
 
             total_train_loss = 0
             total_validation_loss = 0
@@ -224,15 +216,6 @@ def contrastive_training_embeddings(config):
                     torch.save(model.state_dict(), config['weights_dir'] / f"epoch_{epoch}.pth")
                     best_val_auc = val_auc
                     best_model = model
-
-                wandb.log({"Train loss": train_loss.item(), 
-                           "Train node macro": macro, 
-                           "Train node auc": auc,
-                           "Validation loss": val_tot_loss.item(), 
-                           "Validation node macro": val_macro,
-                           "Validation node auc": val_auc,
-                           "Validation node accuracy": accuracy_val,
-                           "Train node accuracy": accuracy_train})
                 
                 print("Epoch {:05d} | TrainLoss {:.4f} | TrainF1-MACRO-node {:.4f} | TrainAUC-PR-node {:.4f} | ValLoss {:.4f} | ValF1-MACRO-node {:.4f} | ValAUC-PR-node {:.4f} |"
                         .format(epoch, train_loss.item(), macro, auc, val_tot_loss.item(), val_macro, val_auc))
@@ -269,7 +252,6 @@ def train_edges(model, optimizer, train_loader, config):
 
         train_loss = compute_crossentropy_loss(edges_pred, labels_edges)
         #Reconstruction lossç
-        wandb.log({'classification loss': train_loss.item()})
         total_train_loss += train_loss
         optimizer.zero_grad()
         train_loss.backward()
@@ -313,7 +295,6 @@ def validation_edges(model, val_loader):
 
         
         macro, micro, precision_macro, recall_macro = get_f1(nodes_predictions, nodes_ground_truth)
-        wandb.log({"precision macro": precision_macro, "recall macro": recall_macro})
         auc = compute_auc_mc(nodes_predictions, nodes_ground_truth)
         accuracy = get_accuracy(nodes_predictions, nodes_ground_truth)
 
@@ -362,7 +343,6 @@ def test_edges(model, test_loader, config):
     print("AUC edges: {:.4f}".format(auc))
     print("F1 edges: Macro {:.4f} - Micro {:.4f}".format(macro_f1, micro))
     
-    wandb.log({"Test precision macro": precision, "Test recall macro": recall, "Test accuracy": accuracy, "Test AUC": auc, "Test F1 macro": macro_f1})
     data = {    
             "accuracy": accuracy,
             "f1": macro_f1,
@@ -400,8 +380,6 @@ def predic_edges(config):
     optimizer = get_optimizer(model, config)
     scheduler = get_scheduler(optimizer, config)
 
-    wandb.watch(model)
-
     total_train_loss = 0
     total_validation_loss = 0
     best_val_auc = 0
@@ -423,14 +401,6 @@ def predic_edges(config):
             best_val_auc = val_auc
             best_model = model
 
-        wandb.log({"Train loss": train_loss.item(), 
-                   "Train edge macro": macro, 
-                   "Train edge auc": auc,
-                   "Validation loss": val_tot_loss.item(), 
-                   "Validation edge macro": val_macro,
-                   "Validation edge auc": val_auc,
-                   "Validation edge accuracy": accuracy_val,
-                   "Train edge accuracy": accuracy_train})
                 
         print("Epoch {:05d} | TrainLoss {:.4f} | TrainF1-MACRO-edge {:.4f} | TrainAUC-PR-edge {:.4f} | ValLoss {:.4f} | ValF1-MACRO-edge {:.4f} | ValAUC-PR-edge {:.4f} |"
                .format(epoch, train_loss.item(), macro, auc, val_tot_loss.item(), val_macro, val_auc))
@@ -473,10 +443,6 @@ def train_edges_nodes(model, optimizer, train_loader, config):
         train_loss_nodes = compute_crossentropy_loss(x_pred_nodes, labels_nodes)
         train_loss_edges = compute_crossentropy_loss(x_pred_edges, labels_edges)
         train_loss = train_loss_nodes + train_loss_edges
-        #Reconstruction loss
-        wandb.log({'train loss nodes': train_loss_nodes.item(), 
-                   'train loss edges': train_loss_edges.item(),
-                   'train loss': train_loss.item()})
 
         total_train_loss += train_loss
         optimizer.zero_grad()
@@ -529,9 +495,6 @@ def validation_edges_nodes(model, val_loader):
             val_n_loss = val_n_loss_nodes + val_n_loss_edges
             total_validation_loss += val_n_loss
 
-            wandb.log({'validation loss nodes': val_n_loss_nodes.item(), 
-                       'validation loss edges': val_n_loss_edges.item(),
-                       'validation loss': val_n_loss.item()})
             nodes_predictions.append(x_pred_nodes)
             nodes_ground_truth.append(x_true_nodes)
             edges_predicitons.append(x_pred_edges)
@@ -668,19 +631,18 @@ def collate(samples):
 
 def contrastiv_node_edge_training(config):
     # Load the learned embeddings
-
-    train_graphs, _ = dgl.load_graphs(config['train_graphs'])
-    validation_graphs, _ = dgl.load_graphs(config['validation_graphs'])
-    test_graphs, _ = dgl.load_graphs(config['test_graphs'])
+    train_graphs, _      = dgl.load_graphs((HERE / config['train_graphs']).__str__())
+    validation_graphs, _ = dgl.load_graphs((HERE / config['validation_graphs']).__str__())
+    test_graphs, _       = dgl.load_graphs((HERE / config['test_graphs']).__str__())
     
-    dataset_train = Unet_Dataset(train_graphs, config['train_img'])
-    dataset_val   = Unet_Dataset(validation_graphs, config['val_img'])
-    dataset_train = Unet_Dataset(test_graphs, config['test_img'])
+    dataset_train = Unet_Dataset(train_graphs, (HERE /config['train_img'].__str__()))
+    dataset_val   = Unet_Dataset(validation_graphs, (HERE /config['val_img'].__str__()))
+    dataset_train = Unet_Dataset(test_graphs, (HERE /config['test_img']).__str__())
 #
     train_loader        = torch.utils.data.DataLoader(dataset_train, batch_size=config['batch_size'], collate_fn = collate, shuffle=True)
     validation_loader   = torch.utils.data.DataLoader(dataset_val, batch_size=config['batch_size'],  collate_fn = collate, shuffle=False)
     test_loader         = torch.utils.data.DataLoader(dataset_train, batch_size=config['batch_size'], collate_fn = collate, shuffle=False)
-   
+
     #train_loader        = torch.utils.data.DataLoader(train_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=True)
     #validation_loader   = torch.utils.data.DataLoader(validation_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=False)
     #test_loader         = torch.utils.data.DataLoader(test_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=False)
@@ -691,8 +653,6 @@ def contrastiv_node_edge_training(config):
             model = get_model_2(config['model_name'], config).to(device)
             optimizer = get_optimizer(model, config)
             scheduler = get_scheduler(optimizer, config)
- 
-            wandb.watch(model)
 
             total_train_loss = 0
             total_validation_loss = 0
@@ -711,24 +671,6 @@ def contrastiv_node_edge_training(config):
                     best_val_f1_micro_key_value = classes_f1[1]
                     best_model = model
 
-                wandb.log({"Train loss": train_loss.item(), 
-                           "Train node macro": macro_f1, 
-                           "Train node auc": auc,
-                           "Validation loss": val_tot_loss.item(),
-                           "Validation node f1 micro": micro_f1_nodes,
-                           "Validation node macro": val_macro,
-                           "Validation node auc": val_auc,
-                           "Validation node accuracy": accuracy_val,
-                           "Train node accuracy": accuracy_train,
-                           "Validation edge macro": macro_f1_edges,
-                            "Validation edge auc": auc_edges,
-                            "Validation edge precision": precision_edges,
-                            "Validation edge accuracy": accuracy_edges,
-                            "Validation edge f1_micro": f1_micro_edges,
-                            "Validation f1_key_value": classes_f1[1],
-                            "Validation f1_none": classes_f1[0],
-                           })
-                
                 print("Epoch {:05d} | TrainLoss {:.4f} | TrainF1-MACRO-node {:.4f} | Val-f1-key-val {:.4f} | ValLoss {:.4f} | ValF1-MACRO-node {:.4f} | ValAUC-PR-node {:.4f} |"
                         .format(epoch, train_loss.item(), macro_f1, classes_f1[1], val_tot_loss.item(), val_macro, val_auc))
 
