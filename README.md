@@ -34,8 +34,10 @@ This repository provides the implementation of GeoContrastNet, as detailed in ou
    pip install pandas segmentation-models-pytorch scikit-learn seaborn wget torchdata pydantic
    ```
 6. **Download the datasets**
-   You need to enter to src/data and from THERE execute:
    ```
+   #Enter to src/data
+   cd src/data
+   # And exectue download.py
    python download.py
    ```
 
