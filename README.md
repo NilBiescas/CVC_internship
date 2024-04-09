@@ -72,5 +72,4 @@ This repository provides the implementation of GeoContrastNet, as detailed in ou
 - **Stage 1 Graphs**: Located in `graphs_stage1` folder.
 - **Stage 2 Graphs**: Located in `graphs_stage2` folder.
 
-## Contribution
-To contribute to the GeoContrastNet project, please follow the standard GitHub pull request process. Ensure your changes are well-documented and tested.
+## Authors
