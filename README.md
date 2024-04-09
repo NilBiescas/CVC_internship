@@ -21,22 +21,23 @@ This repository provides the implementation of GeoContrastNet, as detailed in ou
    git clone https://github.com/NilBiescas/CVC_internship.git
    ```
 
-2. **Optional: For Custom Graph Construction. Not necessary if you want to use the grahps that we provide.**
-   ```
-   git clone https://github.com/andreagemelli/doc2graph.git
-   ```
-
 4. **Create and Activate a Conda Environment**
    ```
-   conda create --name doc2graph python=3.9.18
-   conda activate doc2graph
+   conda create --name GeoNet python=3.9
+   conda activate GeoNet
    ```
 
-5. **Install Requirements**
+5. **Install the dependencies**
    ```
-   pip install -r requirements.txt
+   conda install pytorch==2.2.1 torchvision==0.17.1 torchaudio==2.2.1 pytorch-cuda=11.8 -c pytorch -c nvidia
+   conda install -c dglteam/label/cu118 dgl
+   pip install pandas segmentation-models-pytorch scikit-learn seaborn wget torchdata pydantic
    ```
-6. Enter in paths.py and modify
+6. **Download the datasets**
+   You need to enter to src/data and from THERE execute:
+   ```
+   python download.py
+   ```
 
 ### Configuration Files
 - YAML configuration files for all experiments are provided. You may use these directly or as templates for custom experiments.
