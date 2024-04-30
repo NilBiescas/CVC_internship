@@ -637,11 +637,11 @@ def contrastiv_node_edge_training(config):
     
     dataset_train = Unet_Dataset(train_graphs, (HERE /config['train_img'].__str__()))
     dataset_val   = Unet_Dataset(validation_graphs, (HERE /config['val_img'].__str__()))
-    dataset_train = Unet_Dataset(test_graphs, (HERE /config['test_img']).__str__())
+    dataset_test = Unet_Dataset(test_graphs, (HERE /config['test_img']).__str__())
 #
     train_loader        = torch.utils.data.DataLoader(dataset_train, batch_size=config['batch_size'], collate_fn = collate, shuffle=True)
     validation_loader   = torch.utils.data.DataLoader(dataset_val, batch_size=config['batch_size'],  collate_fn = collate, shuffle=False)
-    test_loader         = torch.utils.data.DataLoader(dataset_train, batch_size=config['batch_size'], collate_fn = collate, shuffle=False)
+    test_loader         = torch.utils.data.DataLoader(dataset_test, batch_size=config['batch_size'], collate_fn = collate, shuffle=False)
 
     #train_loader        = torch.utils.data.DataLoader(train_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=True)
     #validation_loader   = torch.utils.data.DataLoader(validation_graphs, batch_size=config['batch_size'], collate_fn = dgl.batch, shuffle=False)
