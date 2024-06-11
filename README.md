@@ -13,6 +13,7 @@ This repository provides the implementation of GeoContrastNet, as detailed in ou
 ### Prerequisites
 - Git
 - Conda
+- Python
 
 ### Setup Instructions
 
